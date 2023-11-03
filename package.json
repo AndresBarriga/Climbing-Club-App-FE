@@ -3,13 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@date-io/date-fns": "^2.17.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.8",
+    "@mui/icons-material": "^5.14.15",
+    "@mui/lab": "^5.0.0-alpha.148",
+    "@mui/material": "^5.14.15",
+    "@mui/system": "^5.14.15",
+    "@mui/x-date-pickers": "^6.17.0",
+    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.10",
+    "framer-motion": "^10.16.4",
+    "lodash-es": "^4.17.21",
     "react": "^18.2.0",
+    "react-countup": "^6.4.2",
     "react-dom": "^18.2.0",
+    "react-material-ui-form": "^1.1.7",
+    "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "proxy": "http://localhost:3001"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.5"
   }
 }
