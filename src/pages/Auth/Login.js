@@ -7,6 +7,8 @@ import TextField from '@mui/material/TextField';
 import PropTypes from "prop-types";
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import AppHeader from "../../components/Header";
 
 
 async function validate(refs, form) {
@@ -31,6 +33,7 @@ export default function Login(props) {
     remember: false,
   });
   const [showPassword, setShowPassword] = useState();
+  const [redirectToPrivate, setRedirectToPrivate] = useState(false);
 
   const refs = useRef({});
 
@@ -60,116 +63,121 @@ export default function Login(props) {
        form
       }),
     })
-    .then(res => {
-        if (res.status === 401) {
-            return res.json().then(data => {
-                console.log(data); // Log the error message
-            });
-        } else {
-            return res.json(); // Parse JSON response
-        }
-    })
+    .then(res => res.json())
     .then(data => {
         // Now you can access the "Authorized" or "Invalid email or password" messages
-        if (data === "Authorized") {
+        if (data.message === "Authorized") {
             console.log("User is authorized");
+            localStorage.setItem('token', data.token);
+            setRedirectToPrivate(true);
         } else {
-            console.log("Invalid email or password");
+            console.log("Invalid email or passwordjhj");
         }
     })
     .catch(err => console.error("Error:", err));
   };
 
- 
+  const logout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem('token');
 
- 
+    // You may also want to redirect the user to the login page
+    setRedirectToPrivate(false);
+  };
+
   return (
-    <Box sx={{ width: "50%", margin: "0 auto", marginTop: "50px" }}>
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <div style={{ width: "60%" }}>
-        <form onSubmit={handleSubmit}>
+    <div>
+
+      {redirectToPrivate ? (
+        <Navigate to="/private" />
+      ) : (
+        <Box sx={{ width: "50%", margin: "0 auto", marginTop: "50px" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Avatar style={{ backgroundColor: green[800], color: "white" }}>
-              <LockOutlined />
-            </Avatar>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>Log In</h2>
-          </div>
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            required
-            value={form.email}
-            onChange={(e) => updateForm("email", e.target.value)}
-          />
-          <div className="my-6">
-            
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            type={showPassword ? "text" : "password"}
-            required
-            value={form.password}
-            onChange={(e) => updateForm("password", e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={() => setShowPassword(!showPassword)}
+            <div style={{ width: "60%" }}>
+              <form onSubmit={handleSubmit}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Avatar style={{ backgroundColor: green[800], color: "white" }}>
+                    <LockOutlined />
+                  </Avatar>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <h2 style={{ fontSize: "20px", fontWeight: "bold" }}>Log In</h2>
+                </div>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  fullWidth
+                  required
+                  value={form.email}
+                  onChange={(e) => updateForm("email", e.target.value)}
+                />
+                <div className="my-6">
+                  <TextField
+                    label="Password"
+                    variant="outlined"
+                    fullWidth
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={form.password}
+                    onChange={(e) => updateForm("password", e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        paddingRight: 0,
+                      },
+                    }}
+                  />
+                </div>
+                <div style={{ display: "flex", justifyContent: "center", marginTop: "8px" }}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
                   >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-              style: {
-                paddingRight: 0,
-              },
-            }}
-          />
+                    Log In
+                  </Button>
+                </div>
+              </form>
+              <div style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}>
+                <Button
+                  onClick={() => console.log("Forgot Password")}
+                  style={{
+                    textTransform: "initial",
+                    color: indigo[500],
+                  }}
+                >
+                  Forgot Password?
+                </Button>
+              </div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Link to="/registration">
+                  <Button
+                    style={{
+                      textTransform: "initial",
+                      color: indigo[500],
+                    }}
+                  >
+                    Don't have an account?
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "8px" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
-              Log In
-            </Button>
-          </div>
-        </form>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}>
-          <Button
-            onClick={() => console.log("Forgot Password")}
-            style={{
-              textTransform: "initial",
-              color: indigo[500],
-            }}
-          >
-            Forgot Password?
-          </Button>
-        </div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-        <Link to="/registration">
-          <Button
-            style={{
-              textTransform: "initial",
-              color: indigo[500],
-            }}
-          >
-            Don't have an account?
-          </Button>
-          </Link>
-        </div>
-   
-      </div>
+        </Box>
+      )}
     </div>
-    </Box>
   );
-}
+                  }
+  
 
 Login.propTypes = {
   setAuthType: PropTypes.func,

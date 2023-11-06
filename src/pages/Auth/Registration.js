@@ -12,6 +12,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox'
 import PasswordValidator from "../../components/validatePassword";
 import { Link } from 'react-router-dom';
+import AppHeader from "../../components/Header";
 
 
 
@@ -124,7 +125,9 @@ export default function Registration(props) {
 
  
   return (
+    
     <LocalizationProvider dateAdapter={AdapterDayjs}>
+ 
     <Box sx={{ width: "50%", margin: "0 auto", marginTop: "50px" }}>
     {registrationSuccess && <div className="modal">
       <div className="modal-content">

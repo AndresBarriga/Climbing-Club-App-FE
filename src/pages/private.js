@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import  Box  from '@mui/material/Box';
+import LogoutButton from '../components/reusable/LogoutButton';
 
 export default function Private() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,6 +10,9 @@ export default function Private() {
     fetch('http://localhost:3001/check-auth', {
       method: 'GET',
       credentials: 'include',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
     })
       .then((response) => {
         if (response.status === 200) {
@@ -19,8 +22,8 @@ export default function Private() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
-
+  },  []);
+  
   if (!isAuthenticated) {
     return (
         
@@ -44,6 +47,7 @@ export default function Private() {
   return (
     <div>
       <h2>Private Route</h2>
+      <LogoutButton />
     </div>
   );
 }
