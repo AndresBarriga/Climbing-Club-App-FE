@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -9,9 +9,10 @@ import {logout} from "../pages/Auth/logout.js"
 import { useAuth } from '../hooks/check-authHook';
 
 const AppHeader = () => {
-	const isAuthenticated = useAuth();
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	const [showMenu, setShowMenu] = useState(false);
+	
 
 	function toggleMenu() {
 		if (!showMenu) {
@@ -20,6 +21,18 @@ const AppHeader = () => {
 			setShowMenu(false);
 		}
 	}
+    
+	useEffect(() => {
+		// Check if a token exists in local storage
+		const token = localStorage.getItem('token');
+		if (token) {
+		  // If a token exists, the user is authenticated
+		  setIsAuthenticated(true);
+		} else {
+		  // If no token exists, the user is not authenticated
+		  setIsAuthenticated(false);
+		}
+	  }, []); 
 
 	const handleLogout = () => {
 		fetch('http://localhost:3001/logout', {

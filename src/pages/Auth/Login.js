@@ -34,6 +34,7 @@ export default function Login(props) {
   });
   const [showPassword, setShowPassword] = useState();
   const [redirectToPrivate, setRedirectToPrivate] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const refs = useRef({});
 
@@ -69,21 +70,16 @@ export default function Login(props) {
         if (data.message === "Authorized") {
             console.log("User is authorized");
             localStorage.setItem('token', data.token);
+            window.location.href = "/private";
             setRedirectToPrivate(true);
         } else {
-            console.log("Invalid email or passwordjhj");
+          setErrorMessage("Sorry, we couldn't find an account with this email and password.");
         }
     })
     .catch(err => console.error("Error:", err));
   };
 
-  const logout = () => {
-    // Remove the token from localStorage
-    localStorage.removeItem('token');
 
-    // You may also want to redirect the user to the login page
-    setRedirectToPrivate(false);
-  };
 
   return (
     <div>
@@ -136,7 +132,9 @@ export default function Login(props) {
                       },
                     }}
                   />
-                </div>
+                </div> {errorMessage && (
+                <div style={{ color: "red", textAlign: "center" }}>{errorMessage}</div>
+              )}
                 <div style={{ display: "flex", justifyContent: "center", marginTop: "8px" }}>
                   <Button
                     type="submit"
