@@ -13,6 +13,7 @@ import Checkbox from '@mui/material/Checkbox'
 import PasswordValidator from "../../components/validatePassword";
 import { Link } from 'react-router-dom';
 import AppHeader from "../../components/Header";
+import EmailValidator from "../../components/validateEmail";
 
 
 
@@ -44,18 +45,15 @@ export default function Registration(props) {
     lastName: "",
   });
 
-
  //registration success message
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   //to Hide the password
   const [showPassword, setShowPassword] = useState(false);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-
-
   
   const refs = useRef({});
   
@@ -78,6 +76,7 @@ export default function Registration(props) {
   //Control submit of the form.
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     // Check if the checkbox is checked
     if (!checked) {
         console.log("You must agree to the terms and conditions.");
@@ -163,6 +162,7 @@ export default function Registration(props) {
             value={form.email}
             onChange={(e) => updateForm("email", e.target.value)}
           />
+          <EmailValidator email={form.email} />
           <div className="my-6">
             
           <TextField

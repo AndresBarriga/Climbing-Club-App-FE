@@ -70,7 +70,12 @@ export default function Login(props) {
         if (data.message === "Authorized") {
             console.log("User is authorized");
             localStorage.setItem('token', data.token);
-            window.location.href = "/private";
+            if (data.initial_preferences) {
+              window.location.href = "/dashboard";
+            } else {
+              console.log("user is redirected")
+              window.location.href = "/initial-preferences";
+            }
             setRedirectToPrivate(true);
         } else {
           setErrorMessage("Sorry, we couldn't find an account with this email and password.");
@@ -85,7 +90,7 @@ export default function Login(props) {
     <div>
 
       {redirectToPrivate ? (
-        <Navigate to="/private" />
+        <Navigate to="/initial-preferences" />
       ) : (
         <Box sx={{ width: "50%", margin: "0 auto", marginTop: "50px" }}>
           <div style={{ display: "flex", justifyContent: "center" }}>

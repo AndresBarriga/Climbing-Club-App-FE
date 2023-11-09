@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoutButton from '../components/reusable/LogoutButton';
+import { ProfileWizard } from '../components/stepper/container/profile';
 
 export default function Private() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,8 +47,7 @@ export default function Private() {
 
   return (
     <div>
-      <h2>Private Route</h2>
-      <LogoutButton />
+      <ProfileWizard />
     </div>
   );
 }

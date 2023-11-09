@@ -28,6 +28,12 @@
   color: white;
 }
 
+.material-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -65,6 +71,22 @@
   background-color: #f7f9eb  !important;
 }
 
+.custom-paper2 {
+  background-color: #f9f9f5  !important;
+}
+.icon-sm-font {
+  font-size: 50px;
+}
+
+/* Medium Screens (md): 768px and up */
+.icon-md-font {
+  font-size: 100px;
+}
+
+/* Large Screens (lg): 1024px and up */
+.icon-lg-font {
+  font-size: 150px;
+}
 /* Visible overlay with a semi-transparent background */
 .overlay-visible {
   position: fixed;

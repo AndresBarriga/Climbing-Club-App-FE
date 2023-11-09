@@ -7,9 +7,11 @@ import { motion } from 'framer-motion';
 import Button from './reusable/button';
 import {logout} from "../pages/Auth/logout.js"
 import { useAuth } from '../hooks/check-authHook';
+import LogoutButton from './reusable/LogoutButton';
 
 const AppHeader = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	
 
 	const [showMenu, setShowMenu] = useState(false);
 	
@@ -179,13 +181,7 @@ const AppHeader = () => {
 
 				<div className="hidden sm:flex justify-end items-center md:flex-row ml-auto">
 					{isAuthenticated ? (
-						<span
-						className="block w-full rounded bg-white text-sm mr-20 font-medium text-green-700 hover:bg-green-800 hover:text-white focus:outline-none focus:ring active:bg-white sm:w-auto px-5 py-2.5 duration-300 "
-						aria-label="Log In"
-						onClick={handleLogout}
-					>
-							<Button  title="Log Out" />
-							</span>
+						<LogoutButton/>
 					) : ( 
 						<Link to="/auth">
 							<span
