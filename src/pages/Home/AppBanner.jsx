@@ -16,7 +16,7 @@ const AppBanner = () => {
                 <section className="relative bg-contain bg-no-repeat bg-right">
                     <div
                         style={{
-                            backgroundImage: 'url(https://i.ibb.co/HFq96xZ/98f0f774-8685-43b4-a3c2-ac84d681c882.jpg)',
+                            backgroundImage: 'url(https://i.ibb.co/LSRTBJs/f8596fee-f2af-4da3-a85a-d50fb5bd96cc.jpg)',
                             opacity: '0.6',
 
                         }}
@@ -30,17 +30,20 @@ const AppBanner = () => {
                     <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
                         <div className="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
                             <Paper className="bg-black opacity-15 custom-paper">
-                            <h1 className="text-3xl font-extrabold sm:text-5xl">
+                            
+                            <h1 className="text-3xl font-extrabold sm:text-5xl p-6">
                                 Elevate your 
                                 <strong className="block font-extrabold text-green-800">
                                     Climbing Experience
                                 </strong>
                                 any time, anywhere
                             </h1>
+                            
 
-                            <p className="mt-4 max-w-lg sm:text-xl/relaxed">
+                            <p className="mt-4 max-w-lg sm:text-xl/relaxed ">
                             Are you ready to <strong className="font-extrabold text-green-700">take your climbing journey </strong> to new heights? Our climbing app is your key to reaching the summit of your <strong className="font-bold text-green-700">climbing goals.</strong> We offer the most comprehensive and flexible climbing experience, <strong className="font-bold text-green-700">all in one convenient membership.</strong>
                             </p>
+                            
                             </Paper>
                             <div className="mt-8 flex flex-wrap justify-center gap-6 text-center">
 
@@ -57,7 +60,7 @@ const AppBanner = () => {
                                 >
                                     LEARN MORE 
                                 </a>
-                            </div>
+                                 </div>
                         </div>
                     </div>
                 </section>

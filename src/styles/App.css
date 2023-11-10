@@ -60,7 +60,7 @@
 }
 
 .secondary-color{
-  color: #FAFEE3;
+  color: #f2f9ce;
 }
 
 .secondary-color-background{
@@ -128,4 +128,23 @@
   text-align: center;
   border-radius: 4px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
