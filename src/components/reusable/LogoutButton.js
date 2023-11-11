@@ -1,5 +1,3 @@
-import react from "react";
-import {logout} from "../../pages/Auth/logout.js"
 
 
 function LogoutButton() {
@@ -10,9 +8,8 @@ function LogoutButton() {
         })
         .then((response) => {
           if (response.ok) {
-            // Remove the token from localStorage
+            // Remove the token from localStora
             localStorage.removeItem('token');
-    
             // Redirect to the login page or home page
             window.location.href = "/";
           } else {

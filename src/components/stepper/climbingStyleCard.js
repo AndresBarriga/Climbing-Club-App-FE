@@ -6,6 +6,7 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 
 
+
 function ClimbingStyleCard({ image, text, onClick, isSelected }) {
     const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
 

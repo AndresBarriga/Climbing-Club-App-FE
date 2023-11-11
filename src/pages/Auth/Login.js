@@ -70,6 +70,7 @@ export default function Login(props) {
         if (data.message === "Authorized") {
             console.log("User is authorized");
             localStorage.setItem('token', data.token);
+            console.log("this is data token", data.token)
             if (data.initial_preferences) {
               window.location.href = "/dashboard";
             } else {

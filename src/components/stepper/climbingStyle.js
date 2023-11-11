@@ -50,7 +50,7 @@ export function ClimbingStyleForm({ setActiveStep, formData, onFormDataChange })
             <ClimbingStyleCard image={climbingindoors} text="Climb Indoors" onClick={handleCardClick}  isSelected={climbingStyle.includes("Climb Indoors")}/>
             <ClimbingStyleCard image={iconboulder} text="Boulder Indoors" onClick={handleCardClick} isSelected={climbingStyle.includes("Boulder Indoors")} />  
             <ClimbingStyleCard image={quickdraw} text="Sports Climbing" onClick={handleCardClick}  isSelected={climbingStyle.includes("Sports Climbing")}/>
-            <ClimbingStyleCard image={tradi} text="Traditional Climbing" onClick={handleCardClick} isSelected={climbingStyle.includes("Traditional Climbing")}/>
+            <ClimbingStyleCard image={tradi} text="Climb Indoors" onClick={handleCardClick} isSelected={climbingStyle.includes("Traditional Climbing")}/>
             <ClimbingStyleCard image={psicobloc} text="Deep water solo" onClick={handleCardClick} isSelected={climbingStyle.includes("Deep water solo")}/>
             <ClimbingStyleCard image={boulderoutdoors} text="Boulder outdoors" onClick={handleCardClick} isSelected={climbingStyle.includes("Boulder outdoors")}/>
             </div>

@@ -11,7 +11,6 @@ import LogoutButton from './reusable/LogoutButton';
 
 const AppHeader = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	
 
 	const [showMenu, setShowMenu] = useState(false);
 	
@@ -36,24 +35,6 @@ const AppHeader = () => {
 		}
 	  }, []); 
 
-	const handleLogout = () => {
-		fetch('http://localhost:3001/logout', {
-		  method: 'GET',
-		  headers: {
-			Accept: "application/json, text/plain, */*",
-			"Content-Type": "application/json",
-		  }
-		})
-		  .then((response) => {
-			console.log('Response:', response); // Log the response from the server
-			if (response.status === 200) {
-			  window.location.href = '/auth'; 
-			}
-		  })
-		  .catch((error) => {
-			console.error('Log Out Error:', error);
-		  });
-	  };
 
 	return (
 

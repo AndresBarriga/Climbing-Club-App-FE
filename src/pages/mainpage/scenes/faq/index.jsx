@@ -6,11 +6,25 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { green } from "@mui/material/colors";
+import { useCheckAuthentication, loginMessage } from "../../../Auth/auth";
+import SideBar from "../global/SideBar";
+import TopBar from "../global/Topbar";
 
 
 const FAQ = () => {
+  const { isAuthenticated, loginMessage } = useCheckAuthentication();
+
+  
+  if (!isAuthenticated) {
+    return loginMessage;
+  }
+
   
   return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+   <TopBar />
+   <div style={{ display: 'flex', height: '100%' }}>
+     <SideBar />
     <Box m="20px">
       <HeaderComp title="FAQ" subtitle="Frequently Asked Questions Page" />
 
@@ -80,6 +94,8 @@ const FAQ = () => {
         </AccordionDetails>
       </Accordion>
     </Box>
+    </div>
+ </div>
   );
 };
 

@@ -23,31 +23,34 @@ import EducationAndContent from './pages/mainpage/EducationAndContent'; */
 function App() {
   const [token, setToken] = useState(null);
   const [isSidebar, setIsSidebar] = useState(true);
-  const location = useLocation();
-  return (
-    <ThemeProvider theme={theme}>
-      {['/', '/auth', '/registration', '/initial-preferences'].includes(location.pathname) ? 
-        <AppHeader /> 
-        : 
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-          <Topbar setIsSidebar={setIsSidebar} />
-          <div style={{ display: 'flex', height: '100%' }}>
-            {isSidebar && <SideBar />}
-            <div className='custom-paper2' style={{ flex: 1, overflow: 'auto' }}> {/* This div will take up the remaining space */}
-              <Routes>
-                <Route path="/" element={<HomePage />}  /> 
-                <Route path="/auth" element={<Login setToken={setToken}/>}  />
-                <Route path="/registration" element={<Registration/>}  />
-                <Route path="/initial-preferences" element={<Private token={token} />}  />
-                <Route path="/dashboard" element={<Dashboard token={token} />}  />
-                <Route path="/faq" element={<FAQ />} />
-              </Routes>
-            </div>
-          </div>
-        </div>
-      }
-    </ThemeProvider>
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
+  return(
+  <ThemeProvider theme={theme}>
+  <Routes>
+    <Route path="/" element={<><AppHeader /> <HomePage /></>}  /> 
+    <Route path="/auth" element={<><AppHeader /><Login setToken={setToken}/></>}  />
+    <Route path="/registration" element={<><AppHeader /><Registration/></>}  />
+    <Route path="/initial-preferences" element={<><AppHeader /><Private token={token} /></>}  />
+    <Route path="/dashboard" element={<Dashboard token={token} />}  />
+              <Route path="/faq" element={<FAQ />} />
+    {/* <Route path="/*" element={
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <Topbar setIsSidebar={setIsSidebar} />
+        <div style={{ display: 'flex', height: '100%' }}>
+          {isSidebar && <SideBar />}
+          <div className='custom-paper2' style={{ flex: 1, overflow: 'auto' }}>
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard token={token} />}  />
+              <Route path="/faq" element={<FAQ />} />
+            </Routes> </div> </div>v</div>}/>*/}
+          
+        
+      
+    
+  </Routes>
+</ThemeProvider>
+);
 }
 
 export default App;
