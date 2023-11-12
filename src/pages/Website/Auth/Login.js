@@ -8,25 +8,29 @@ import PropTypes from "prop-types";
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import AppHeader from "../../components/Header";
+import AppHeader from "../../../components/reusable/HeaderWebsite";
 
-
+// Function to validate form fields
 async function validate(refs, form) {
   for (const [attribute, ref] of Object.entries(refs.current)) {
     var errors;
+    // If a validate function is provided, use it to validate the form field
     if (ref.validate) {
       errors = await ref.validate(get(form, attribute));
     }
+    // If there are any errors, log them and return false
     if (!isEmpty(errors)) {
       console.log(errors);
       return false;
     }
   }
+  // If there are no errors, return true
   return true;
 }
 
 export default function Login(props) {
   
+  // State for form fields and other variables
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -36,8 +40,10 @@ export default function Login(props) {
   const [redirectToPrivate, setRedirectToPrivate] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Refs for form fields
   const refs = useRef({});
 
+  // Function to update form state
   const updateForm = (attribute, value) => {
     setForm((prevForm) => ({
       ...prevForm,
@@ -46,7 +52,7 @@ export default function Login(props) {
     console.log("Form State:", form);
   };
 
-
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const ok = await validate(refs, form);
@@ -54,39 +60,40 @@ export default function Login(props) {
       return;
     }
 
+    // Send login request to the server
     fetch("http://localhost:3001/auth", {
-    method: "POST",
-    headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    body: JSON.stringify({
-       form
-      }),
-    })
-    .then(res => res.json())
-    .then(data => {
-        // Now you can access the "Authorized" or "Invalid email or password" messages
-        if (data.message === "Authorized") {
-            console.log("User is authorized");
-            localStorage.setItem('token', data.token);
-            console.log("this is data token", data.token)
-            if (data.initial_preferences) {
-              window.location.href = "/dashboard";
-            } else {
-              console.log("user is redirected")
-              window.location.href = "/initial-preferences";
-            }
-            setRedirectToPrivate(true);
-        } else {
-          setErrorMessage("Sorry, we couldn't find an account with this email and password.");
-        }
-    })
-    .catch(err => console.error("Error:", err));
+      method: "POST",
+      headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      body: JSON.stringify({
+         form
+        }),
+      })
+      .then(res => res.json())
+      .then(data => {
+          // If the user is authorized, redirect them to the dashboard or initial preferences page
+          if (data.message === "Authorized") {
+              console.log("User is authorized");
+              localStorage.setItem('token', data.token);
+              console.log("this is data token", data.token)
+              if (data.initial_preferences) {
+                window.location.href = "/dashboard";
+              } else {
+                console.log("user is redirected")
+                window.location.href = "/initial-preferences";
+              }
+              setRedirectToPrivate(true);
+          } else {
+            // If the user is not authorized, show an error message
+            setErrorMessage("Sorry, we couldn't find an account with this email and password.");
+          }
+      })
+      .catch(err => console.error("Error:", err));
   };
 
-
-
+  // Render the login form
   return (
     <div>
 

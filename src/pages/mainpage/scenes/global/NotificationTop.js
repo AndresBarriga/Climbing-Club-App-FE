@@ -3,8 +3,12 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from "@mui/icons-material/Close";
 import { format, differenceInMinutes } from 'date-fns';
 
+
+
+// COMPONENT Rendered within TopBar is a menu with option to see the notifications
+
 const NotificationTop = ({ setOpen }) => {
-  // This is a placeholder for your actual data
+  // This is a placeholder for actual data
   const notifications = [
     { icon: <NotificationsIcon />, text: "Notification 1", timestamp: new Date() },
     { icon: <NotificationsIcon />, text: "Notification 2", timestamp: new Date() },

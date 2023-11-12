@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import AppHeader from '../../../components/reusable/HeaderWebsite';
 
+// This hook checks if the user is authenticated
 export const useCheckAuthentication = () => {
+  // State variable for storing the authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   
-
+  // Effect hook for checking the authentication status
   useEffect(() => {
+    // Send a request to the check-auth endpoint
     fetch('http://localhost:3001/check-auth', {
       method: 'GET',
       credentials: 'include',
@@ -14,17 +18,21 @@ export const useCheckAuthentication = () => {
       },
     })
       .then((response) => {
+        // If the response status is 200, the user is authenticated
         if (response.status === 200) {
           setIsAuthenticated(true); 
         }
       })
       .catch((error) => {
+        // Log any errors
         console.error(error);
       });
   }, []);
 
+  // Message to display when the user is not authenticated
   const loginMessage = (
     <div className="modal-content">
+      <AppHeader />
       <h2>Please Log in to see the page</h2>
       <p>This page is just for people who is signed in, please log in to continue.</p>
       <div className="my-6"></div>
@@ -39,5 +47,6 @@ export const useCheckAuthentication = () => {
     </div>
   );
 
+  // Return the authentication status and the login message
   return { isAuthenticated, loginMessage };
 };

@@ -1,5 +1,6 @@
 import React from "react";
 
+// This function validates the user's password based on certain rules
 export default function PasswordValidator({ password, password2 }) {
   const validatePassword = () => {
     // Reset password error message
@@ -22,7 +23,9 @@ export default function PasswordValidator({ password, password2 }) {
     return passwordError;
   };
 
+  // Call the validatePassword function
   const passwordError = validatePassword();
 
+  // Display the error message
   return <p style={{ color: "red" }}>{passwordError}</p>;
 }

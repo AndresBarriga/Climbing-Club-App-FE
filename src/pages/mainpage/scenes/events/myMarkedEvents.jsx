@@ -3,6 +3,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+
+// THIS IS A HARDCODED ELEMTN FOR THE DASHBOARD TO BE SHOWN; WILL CHANGE
+
 function MyMarkedEvents({ events }) {
   return (
     <Box>
@@ -39,18 +42,18 @@ function MyMarkedEvents({ events }) {
           </Table>
         </TableContainer>
         <Box display="flex" justifyContent="flex-end" >
-        <Box m="10px">
-     <Button 
-       component={Link} 
-       to="/add-event"
-       variant="contained" 
-       startIcon={<AddCircleOutlineIcon />}
-       className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
-       >
-       Add new
-     </Button>
-     </Box>
-   </Box>
+          <Box m="10px">
+            <Button
+              component={Link}
+              to="/add-event"
+              variant="contained"
+              startIcon={<AddCircleOutlineIcon />}
+              className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+            >
+              Add new
+            </Button>
+          </Box>
+        </Box>
       </Paper>
     </Box>
   );

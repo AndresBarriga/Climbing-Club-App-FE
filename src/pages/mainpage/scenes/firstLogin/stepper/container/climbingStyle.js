@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Box } from '@mui/material';
 import ClimbingStyleCard from './climbingStyleCard';
-import psicobloc from "../../styles/images/logos/Deep Soloing.jpeg"
-import iconboulder from "../../styles/images/logos/icon-boulder.png"
-import climbingindoors from "../../styles/images/logos/indoors.png"
-import quickdraw from "../../styles/images/logos/quickdraw.png"
-import tradi from "../../styles/images/logos/tradi.png"
-import boulderoutdoors from "../../styles/images/logos/boulderoutdoiors.png"
+import psicobloc from '../../../../../../styles/images/Deep Soloing.jpeg'
+import iconboulder from "../../../../../../styles/images/icon-boulder.png"
+import climbingindoors from "../../../../../../styles/images/indoors.png"
+import quickdraw from "../../../../../../styles/images/quickdraw.png"
+import tradi from "../../../../../../styles/images/tradi.png"
+import boulderoutdoors from "../../../../../../styles/images/boulderoutdoiors.png"
 
+// Step of the wizard to choose climbing style, it render cards with img as buttons for user to select.
 
 export function ClimbingStyleForm({ setActiveStep, formData, onFormDataChange }) {
     const [climbingStyle, setClimbingStyle] = useState([]);
-
-
-
     
+    // Function to handle card click (add border etc)
     const handleCardClick = (text) => {
         setClimbingStyle(prevStyles => {
             let newStyles;
@@ -29,6 +28,8 @@ export function ClimbingStyleForm({ setActiveStep, formData, onFormDataChange })
             return newStyles;
         });
     };
+    
+    // Function to handle next step
     const handleNext = () => {
         // Validation check
         if (!climbingStyle) {
@@ -40,7 +41,7 @@ export function ClimbingStyleForm({ setActiveStep, formData, onFormDataChange })
     };
 
 
-
+     // Render the climbing style form
     return (
         <Box sx={{ width: '100%' }}>
         <div>

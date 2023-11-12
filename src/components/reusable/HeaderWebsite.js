@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import { motion } from 'framer-motion';
-import Button from './reusable/button';
-import {logout} from "../pages/Auth/logout.js"
-import { useAuth } from '../hooks/check-authHook';
-import LogoutButton from './reusable/LogoutButton';
+import Button from './button';
+import {logout} from "../../pages/Website/Auth/logout.js"
+import LogoutButton from './LogoutButton';
 
 const AppHeader = () => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);

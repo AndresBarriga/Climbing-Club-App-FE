@@ -1,14 +1,11 @@
 import { Box } from "@mui/material";
 import HeaderComp from "../../components/headerComp";
-import Typography from "@mui/material/Typography";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { green } from "@mui/material/colors";
-import { useCheckAuthentication, loginMessage } from "../../../Auth/auth";
+import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth";
 import SideBar from "../global/SideBar";
 import TopBar from "../global/Topbar";
 import UserProfileCard from "./profileCard";
 
-
+//Component related to /view-profile page
 const ViewProfile = () => {
     const { isAuthenticated, loginMessage } = useCheckAuthentication();
   

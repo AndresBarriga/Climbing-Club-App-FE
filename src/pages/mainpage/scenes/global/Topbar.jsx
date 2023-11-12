@@ -9,23 +9,27 @@ import NotificationTop from "./NotificationTop";
 import ProfileDropdown from "./ProfileDropdown";
 import SettingsDropdown from "./SettingsDropdown";
 
+
+// All pages within the app has a Topbar, this is displayed always on top and offer search, settings, profile , notifications.
 const Topbar = () => {
     const [openNotifications, setOpenNotifications] = useState(false);
     const [openProfile, setOpenProfile] = useState(false);
     const [openSettings, setOpenSettings] = useState(false);
-
+    
+ // Function to handle notifications toggle
     const handleToggleNotifications = () => {
         setOpenNotifications((prevOpen) => !prevOpen);
         setOpenProfile(false);
         setOpenSettings(false);
     };
-
+ // Function to handle profile toggle
     const handleToggleProfile = () => {
         setOpenProfile((prevOpen) => !prevOpen);
         setOpenNotifications(false);
         setOpenSettings(false);
     };
-
+    
+     // Function to handle settings toggle
     const handleToggleSettings = () => {
         setOpenSettings((prevOpen) => !prevOpen);
         setOpenNotifications(false);

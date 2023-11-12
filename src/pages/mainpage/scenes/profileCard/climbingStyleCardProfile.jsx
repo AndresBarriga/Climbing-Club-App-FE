@@ -1,11 +1,13 @@
 import { Card, CardContent, CardMedia, Typography} from "@mui/material";
-import psicobloc from "../../../../styles/images/logos/Deep Soloing.jpeg"
-import iconboulder from "../../../../styles/images/logos/icon-boulder.png";
-import climbingindoors from "../../../../styles/images/logos/indoors.png";
-import quickdraw from "../../../../styles/images/logos/quickdraw.png";
-import tradi from "../../../../styles/images/logos/tradi.png";
-import boulderoutdoors from "../../../../styles/images/logos/boulderoutdoiors.png";
+import psicobloc from "../../../../styles/images/Deep Soloing.jpeg"
+import iconboulder from '../../../../styles/images/icon-boulder.png'
+import climbingindoors from "../../../../styles/images/indoors.png";
+import quickdraw from "../../../../styles/images/quickdraw.png";
+import tradi from "../../../../styles/images/tradi.png";
+import boulderoutdoors from "../../../../styles/images/boulderoutdoiors.png";
 
+
+// Mapping of climbing styles to images
 const climbingStyleImages = {
     "Deep water solo": psicobloc,
     "Boulder Indoors": iconboulder,
@@ -14,9 +16,11 @@ const climbingStyleImages = {
     "Traditional Climbing": tradi,
     "Boulder outdoors": boulderoutdoors,
   };
-
+// ClimbingStyleCardProfile component
 function ClimbingStyleCardProfile({ climbingStyle }) {
+  // Get the image for the climbing style
     const image = climbingStyleImages[climbingStyle];
+     // Render the climbing style card
     return (
       image && (
         <Card sx={{ maxWidth: 90, margin: '10px auto' }}>

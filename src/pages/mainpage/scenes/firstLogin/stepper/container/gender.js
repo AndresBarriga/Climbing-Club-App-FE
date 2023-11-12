@@ -6,15 +6,20 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 
+// Second step of the wizard. It get information about gender and age.
+
 export function GenderForm({setActiveStep, forData, onFormDataChange }) {
+    // State for gender and date
     const [gender, setGender] = useState('');
     const [date, setDate] = useState(null);
 
+    // Function to handle gender change
     const handleGenderChange = (event) => {
         setGender(event.target.value);
         onFormDataChange('gender', event.target.value)
     };
 
+    // Function to handle date change and format the date to fit DB requirements
     const handleDateChange = (newDate) => {
         if (newDate instanceof dayjs) {
             const formattedDate = dayjs(newDate).format('YYYY-MM-DD'); 
@@ -23,6 +28,7 @@ export function GenderForm({setActiveStep, forData, onFormDataChange }) {
         }
     };
     
+     // Function to handle next step
     const handleNext = () => {
         // Validation check
         if (!gender) {

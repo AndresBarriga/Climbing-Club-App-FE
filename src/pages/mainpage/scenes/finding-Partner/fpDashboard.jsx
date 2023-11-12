@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Link } from "react-router-dom";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-
+//THIS IS THE ELEMENT RENDERED ON THE DASHBOARD AND RELATED TO FINDPARTNERS FUNCTIONALITY; NOW IS HARDCODED AND NEEDS TO CHANGE
 function fpDashboard({ inquiries }) {
   return (
     <Box>

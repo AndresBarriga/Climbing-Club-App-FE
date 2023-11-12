@@ -13,6 +13,9 @@ import SchoolIcon from '@mui/icons-material/School';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { green, grey } from "@mui/material/colors";
 
+
+
+// Item component for the sidebar
 const Item = ({ title, to, icon, selected, setSelected }) => {
  
     return (
@@ -31,8 +34,12 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       );
     };
 
-const SideBar = () => {
 
+// Every page in the app has a Sidebar
+// Side component helps the user to navigate thorugh the website.
+
+const SideBar = () => {
+  // State for sidebar collapse and selected item
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 

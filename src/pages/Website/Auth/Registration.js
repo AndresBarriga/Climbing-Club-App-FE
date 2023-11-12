@@ -1,25 +1,20 @@
 import React, { useRef, useState } from "react";
-import { get, isEmpty, set } from "lodash-es";
+import { get, isEmpty} from "lodash-es";
 import { Avatar, Button, IconButton, InputAdornment } from "@mui/material";
 import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { indigo, green } from "@mui/material/colors";
+import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import PropTypes from "prop-types";
 import Box from '@mui/material/Box';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox'
-import PasswordValidator from "../../components/validatePassword";
-import { Link } from 'react-router-dom';
-import AppHeader from "../../components/Header";
-import EmailValidator from "../../components/validateEmail";
-
-
-
-
+import PasswordValidator from "../Auth/functions/validatePassword";
+import EmailValidator from "../Auth/functions/validateEmail";
+// Function to validate form fields
 async function validate(refs, form) {
-
   for (const [attribute, ref] of Object.entries(refs.current)) {
     var errors;
     if (ref.validate) {
@@ -33,10 +28,10 @@ async function validate(refs, form) {
   return true;
 }
 
-
+// Registration component
 export default function Registration(props) {
   
-    //Sets the form 
+  // State for form fields
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -45,19 +40,21 @@ export default function Registration(props) {
     lastName: "",
   });
 
- //registration success message
+  // State for registration success message
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-  //to Hide the password
+  // State for password visibility
   const [showPassword, setShowPassword] = useState(false);
 
+  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   
+  // Refs for form fields
   const refs = useRef({});
   
-  //Manage the whole form
+  // Function to update form state
   const updateForm = (attribute, value) => {
     setForm((prevForm) => ({
       ...prevForm,
@@ -66,14 +63,13 @@ export default function Registration(props) {
     console.log("Form State:", form);
   };
 
-  // Control checkbox
+  // State for checkbox
   const [checked, setChecked] = React.useState(false);
-    const handleChangeBox = (event) => {
+  const handleChangeBox = (event) => {
     setChecked(event.target.checked);
   };
 
-
-  //Control submit of the form.
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -81,48 +77,46 @@ export default function Registration(props) {
     if (!checked) {
         console.log("You must agree to the terms and conditions.");
         return;
-      }
+    }
 
-      
+    // Validate form fields
     const ok = await validate(refs, form);
     if (!ok) {
       return;
     }
 
+    // Send registration request to the server
     fetch("http://localhost:3001/registration", {
-    method: "POST",
-    headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    body: JSON.stringify({
-       form,
-      }),
-    })
-    .then(res => {
-        if (res.status === 401) {
-            return res.json().then(data => {
-                console.log(data); // Log the error message
-            });
-        } else {
-            return res.json(); // Parse JSON response
-        }
-    })
-    .then(data => {
-  
+      method: "POST",
+      headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      body: JSON.stringify({
+         form,
+        }),
+      })
+      .then(res => {
+          if (res.status === 401) {
+              return res.json().then(data => {
+                  console.log(data); // Log the error message
+              });
+          } else {
+              return res.json(); // Parse JSON response
+          }
+      })
+      .then(data => {
         if (data.message === "User registered successfully") {
             setRegistrationSuccess(true);
             console.log("User registered successfully");
         } else {
             console.log("Error");
         }
-    })
-    .catch(err => console.error("Error:", err));
+      })
+      .catch(err => console.error("Error:", err));
   };
 
- 
-
- 
+  // Render the registration form
   return (
     
     <LocalizationProvider dateAdapter={AdapterDayjs}>
