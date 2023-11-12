@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const useCheckAuthentication = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  
 
   useEffect(() => {
     fetch('http://localhost:3001/check-auth', {

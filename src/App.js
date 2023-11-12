@@ -14,6 +14,7 @@ import { useLocation } from 'react-router-dom';
 import Topbar from './pages/mainpage/scenes/global/Topbar';
 import SideBar from './pages/mainpage/scenes/global/SideBar';
 import FAQ from './pages/mainpage/scenes/faq';
+import ViewProfile from './pages/mainpage/scenes/profileCard/viewProfile';
 /*  import FindParners from './pages/mainpage/FindParners';
 import ClimbingLocations from './pages/mainpage/ClimbingLocations';
 import Events from './pages/mainpage/Events';
@@ -33,6 +34,7 @@ function App() {
     <Route path="/registration" element={<><AppHeader /><Registration/></>}  />
     <Route path="/initial-preferences" element={<><AppHeader /><Private token={token} /></>}  />
     <Route path="/dashboard" element={<Dashboard token={token} />}  />
+    <Route path="/view-profile" element={<ViewProfile token={token} />}  />
               <Route path="/faq" element={<FAQ />} />
     {/* <Route path="/*" element={
       <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>

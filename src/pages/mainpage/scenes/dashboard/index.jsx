@@ -4,25 +4,15 @@ import UserProfileCard from "../profileCard/profileCard";
 import FpDashboard from "../finding-Partner/fpDashboard";
 import MyMarkedLocations from "../MarkedLocations/myMarkedLocations";
 import MyMarkedEvents from "../events/myMarkedEvents";
-import React ,{ useEffect, useState} from "react";
-import { Link } from 'react-router-dom';
+
 import SideBar from "../global/SideBar";
 import TopBar from "../global/Topbar";
-import { useCheckAuthentication, loginMessage } from "../../../Auth/auth";
+
 
 
 const Dashboard = () => {
-  const [user, setUser] = React.useState(null);
-  const { isAuthenticated, loginMessage } = useCheckAuthentication();
-
   
-  if (!isAuthenticated) {
-    return loginMessage;
-  }
 
-
-
-  // ...
  
     const inquiries = [
         {
