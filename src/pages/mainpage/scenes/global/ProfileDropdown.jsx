@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 import LogoutButton from "../../../../components/reusable/LogoutButton";
 
+// COMPONENT Rendered within TopBar is a menu with option to navigate to profile
 const ProfileDropdown = ({ setOpen }) => {
   return (
     <Card style={{ position: 'absolute', zIndex: 1, top: '100%', right: 0, width: '300px', marginTop: '10px' }}>

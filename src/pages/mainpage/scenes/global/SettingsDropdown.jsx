@@ -6,6 +6,7 @@ import FeedbackIcon from "@mui/icons-material/Feedback";
 import CloseIcon from "@mui/icons-material/Close";
 import { Link } from "react-router-dom";
 
+// COMPONENT Rendered within TopBar is a menu with option to navigate to settings
 const SettingsDropdown = ({ setOpen }) => {
   return (
     <Card style={{ position: 'absolute', zIndex: 1, top: '100%', right: 0, width: '300px', marginTop: '10px' }}>

@@ -15,7 +15,8 @@ import ViewProfile from './pages/mainpage/scenes/profileCard/viewProfile';
 
 
 
-function App() {
+function App() { 
+   // State for storing the user token
   const [token, setToken] = useState(null);
   return(
   <ThemeProvider theme={theme}>
