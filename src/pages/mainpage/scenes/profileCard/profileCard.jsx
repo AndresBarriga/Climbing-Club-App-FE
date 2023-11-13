@@ -112,7 +112,7 @@ const UserProfileCard = () => {
           <span className="font-bold "> Preferred Location:  </span> {preferences.location} 📌
         </Typography>
         <Typography variant="body" component="p">
-          <span className="font-bold  ">  Age:  </span>{userAge} 🎂
+          <span className="font-bold">  Age:  </span>{userAge} 🎂
         </Typography>
         <Typography variant="body" component="p" sx={{ mb: 2 }}>
           <span className="font-bold  ">  Gender:  </span>{preferences.gender} ⚥

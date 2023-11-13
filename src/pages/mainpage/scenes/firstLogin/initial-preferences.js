@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ProfileWizard } from './stepper/profile';
+import { ProfileWizard } from './stepper/profile.js';
 
 
 // InitialPreferences component - This will be a wizard displayed after first login.

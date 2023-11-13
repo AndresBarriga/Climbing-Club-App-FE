@@ -1,7 +1,7 @@
 import { Stepper, Step, StepLabel, LinearProgress, Paper, Box } from '@mui/material';
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import { LocationForm } from './container/location';
+import { LocationForm } from './container/location.js';
 import { GenderForm } from './container/gender.js';
 import { ClimbingStyleForm } from './container/climbingStyle.js';
 import { ClimberEquipmentForm } from './container/climberEquipment.js';
