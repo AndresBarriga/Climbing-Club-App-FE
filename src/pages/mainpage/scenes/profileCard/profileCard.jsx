@@ -90,6 +90,7 @@ const UserProfileCard = () => {
             }}
           />
         </Box>
+        <Box>
         <Typography variant="h5" component="h2">
           {user.name} {user.last_name}
         </Typography>
@@ -162,7 +163,7 @@ const UserProfileCard = () => {
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
             <span className="font-bold"> Level - Climbing Grades:  </span> {preferences.climbing_grades_boulder}{preferences.climbing_grades_climbing}
             {preferences.climbing_grades_boulder ? preferences.climbing_grades_boulder : 'No information yet. Where do you love to climb? '}
-            {preferences.climbing_grades_boulder ? preferences.climbing_grades_boulder : 'No information yet. Where do you love to climb? '}
+            {preferences.climbing_grades_climbing ? preferences.climbing_grades_climbing : 'No information yet. Where do you love to climb? '}
             🤯 📈 </Typography>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
             <span className="font-bold"> Favorite Climbing destinations:  </span> {
@@ -177,7 +178,7 @@ const UserProfileCard = () => {
             <span className="font-bold"> Climbing philosophy:   </span>  {preferences.climbing_philosophy ? preferences.climbing_philosophy : 'No information yet. Add information about your Climbing Philosphy '}
             🤔💭 </Typography>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-            <span className="font-bold"> Route Whislist:  </span>  {preferences.route_whis_list ? preferences.route_whis_list : 'No information yet. Add some routes to your wishlist! '}
+            <span className="font-bold"> Route Whislist:  </span>  {preferences.route_whish_list ? preferences.route_whish_list : 'No information yet. Add some routes to your wishlist! '}
             ✍️✨ </Typography>
         </Paper>
 
@@ -190,6 +191,7 @@ const UserProfileCard = () => {
           >
             Edit Profile
           </Button>
+        </Box>
         </Box>
       </CardContent>
     </Card>

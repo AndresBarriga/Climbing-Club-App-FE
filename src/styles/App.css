@@ -148,3 +148,28 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.primaryButton {
+  block: none !important;
+  border-radius: 1 !important;
+  background-color: #007f3c !important;
+  padding: 1.0rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.primaryButton:hover {
+  background-color: #ffffff !important;
+  color: #007f3c !important;
+}
+
+.primaryButton:focus {
+  outline: none !important;
+  ring: 2px solid #007f3c !important;
+}
+
+.primaryButton:active {
+  background-color: #005f2c !important;
+}

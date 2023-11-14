@@ -47,7 +47,7 @@ export default function Login(props) {
   const updateForm = (attribute, value) => {
     setForm((prevForm) => ({
       ...prevForm,
-      [attribute]: value,
+      [attribute]: attribute === "email" ? value.toLowerCase() : value,
     }));
     console.log("Form State:", form);
   };

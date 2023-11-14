@@ -12,6 +12,7 @@ import InitialPreferences from "./pages/mainpage/scenes/firstLogin/initial-prefe
 import Dashboard from './pages/mainpage/scenes/dashboard/index';
 import FAQ from './pages/mainpage/scenes/faq/index';
 import ViewProfile from './pages/mainpage/scenes/profileCard/viewProfile';
+import EditProfile from "./pages/mainpage/scenes/profileCard/editProfile";
 
 
 
@@ -27,6 +28,7 @@ function App() {
     <Route path="/initial-preferences" element={<><AppHeader /><InitialPreferences token={token} /></>}  />
     <Route path="/dashboard" element={<Dashboard token={token} />}  />
     <Route path="/view-profile" element={<ViewProfile token={token} />}  />
+    <Route path="/edit-profile" element={<EditProfile token={token} />} />
     <Route path="/faq" element={<FAQ />} />
   </Routes>
 </ThemeProvider>

@@ -58,7 +58,7 @@ export default function Registration(props) {
   const updateForm = (attribute, value) => {
     setForm((prevForm) => ({
       ...prevForm,
-      [attribute]: value,
+      [attribute]: attribute === "email" ? value.toLowerCase() : value, // email will be stored in lowercases
     }));
     console.log("Form State:", form);
   };

@@ -99,6 +99,7 @@ const SideBar = () => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center" >
+              <Link to="/dashboard">
                 <img
                   alt="profile-user"
                   width="150px"
@@ -109,6 +110,7 @@ const SideBar = () => {
                     transform: "scale(1.1)"}
                 }}
                 />
+                 </Link>
               </Box>
               <Box textAlign="center">
                 <Typography
