@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, Avatar } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { Link } from "react-router-dom";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -12,6 +12,7 @@ import MapIcon from '@mui/icons-material/Map';
 import SchoolIcon from '@mui/icons-material/School';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { green, grey } from "@mui/material/colors";
+import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth";
 
 
 
@@ -39,9 +40,46 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 // Side component helps the user to navigate thorugh the website.
 
 const SideBar = () => {
+
+
   // State for sidebar collapse and selected item
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [firstRender, setFirstRender] = useState(true)
+  const { isAuthenticated, loginMessage } = useCheckAuthentication();
+  const [user, setUser] = useState({});
+
+
+  useEffect(() => {
+    if (firstRender) {
+      if (isAuthenticated) {
+        fetch("http://localhost:3001/show-profile", {
+          method: "GET",
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        })
+          .then(res => {
+            const contentType = res.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+              return res.json();
+            } else {
+              throw new Error('Server response is not JSON');
+            }
+          })
+          .then(data => {
+            console.log('Data received from server:', data);
+            setUser(data.user);
+            setFirstRender(false) // In order to avoid infinite renders
+
+          })
+          .catch(err => {
+            console.error("Error:", err);
+          });
+      }
+    }
+    
+  }, [isAuthenticated, firstRender]);
 
   return (
 
@@ -95,21 +133,20 @@ const SideBar = () => {
               </Box>
             )}
           </MenuItem>
-
+          
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center" >
               <Link to="/dashboard">
-                <img
-                  alt="profile-user"
-                  width="150px"
-                  height="80px"
-                  src="https://i.ibb.co/6BM48Gb/profile-picture.jpg"
-                  style={{ cursor: "pointer", borderRadius: "50%", transition: "transform 0.3s ease-in-out", 
-                  '&:hover': {
-                    transform: "scale(1.1)"}
-                }}
-                />
+              <Avatar
+            alt="User"
+            src={user.profile_picture}
+            sx={{
+              width: 150,
+              height: 150,
+              bgcolor: 'grey.300'
+            }}
+          />
                  </Link>
               </Box>
               <Box textAlign="center">
@@ -118,7 +155,7 @@ const SideBar = () => {
                   color={grey}
                   fontWeight="bold"
                 >
-                  Andrés Barriga
+                  {user.name} {user.last_name}
                 </Typography>
                 <Typography variant="h5" color={green}>
                   Passionate climber

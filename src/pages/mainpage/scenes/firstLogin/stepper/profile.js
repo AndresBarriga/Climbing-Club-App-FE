@@ -1,17 +1,19 @@
 import { Stepper, Step, StepLabel, LinearProgress, Paper, Box } from '@mui/material';
-import React, { useState } from "react";
+import React, { useState, useCallback  } from "react";
 import { Link } from 'react-router-dom';
 import { LocationForm } from './container/location.js';
 import { GenderForm } from './container/gender.js';
 import { ClimbingStyleForm } from './container/climbingStyle.js';
 import { ClimberEquipmentForm } from './container/climberEquipment.js';
+import { ProfilePictureForm } from './container/pictureUpload.js';
+
 
 // THIS COMPONENT IS THE PARENT OF THE WIZARD; will render the different pages and put together all info into a formulary that will be sent to DB
 
 // ProfileWizard component
 export function ProfileWizard() {
   // Steps for the profile wizard
-  const steps = ['Location', 'Gender & Age', 'Climbing Style', 'Climber Equipment'];
+  const steps = ['Location', 'Gender & Age', 'Climbing Style', 'Climber Equipment', 'Picture Upload'];
   // State for changing between pages
   const [activeStep, setActiveStep] = React.useState(0);
   // State for gathering info from formulary
@@ -19,14 +21,16 @@ export function ProfileWizard() {
   // State for the success message after DB entry is created
   const [successMessage, setSuccessMessage] = useState(null);
 
+  
+
   // Function to handle form data change
-  function handleFormDataChange(name, value) {
+  const handleFormDataChange = useCallback((name, value) => {
     setFormData(prevFormData => ({
-      ...prevFormData,
-      [name]: value
+        ...prevFormData,
+        [name]: value
     }));
     console.log(formData)
-  }
+}, []);
 
   // Function to handle form submission to DB
   const handleFormSubmit = async (formData) => {
@@ -75,13 +79,11 @@ export function ProfileWizard() {
           ))}
         </Stepper>
         {activeStep === 0 && <LocationForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
-        {activeStep === 1 && <GenderForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
-        {activeStep === 2 && <ClimbingStyleForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
-        {activeStep === 3 && <ClimberEquipmentForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} onSubmit={handleFormSubmit} />}
+        {activeStep === 1 && <ProfilePictureForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
+        {activeStep === 2 && <GenderForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
+        {activeStep === 3 && <ClimbingStyleForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
+        {activeStep === 4 && <ClimberEquipmentForm setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange}  onSubmit={handleFormSubmit}/>}
       </Paper>
     </Box>
   );
 }
-
-
-

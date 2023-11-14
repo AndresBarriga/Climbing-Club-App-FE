@@ -1,10 +1,13 @@
 import {Tooltip, RadioGroup, Chip, FormControlLabel, Radio, FormControl, FormGroup, Checkbox, Card, CardContent, Box, Button, Avatar, TextField, Typography, Paper, Select, MenuItem, Divider } from "@mui/material";
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useRef} from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { useNavigate } from 'react-router-dom';
 import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
+import { IconButton } from '@mui/material';
+
 
 
 const EditProfileCard = () => {
@@ -161,6 +164,48 @@ const EditProfileCard = () => {
       alert('There was an error submitting the form');
     }
   };
+
+
+const fileInputRef = useRef();
+
+const handleEditButtonClick = () => {
+  fileInputRef.current.click();
+};
+
+const handleFileChange = async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const uploadData = new FormData();
+    uploadData.append('file', file);
+
+    // Get the public_id of the current profile picture from the user state
+    const currentProfilePictureId = user.profile_picture.split('/').pop().split('.')[0];
+    uploadData.append('currentProfilePictureId', currentProfilePictureId);
+
+    try {
+      const res = await fetch('http://localhost:3001/edit-profile/profile-picture', {
+        method: 'PUT',
+        body: uploadData,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error('Error uploading image');
+      }
+
+      const data = await res.json();
+      setUser(prevUser => ({ ...prevUser, profile_picture: data.profile_picture }));
+
+      // Reload the page
+      window.location.reload();
+
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
   
   if (loading) {
     return <div>Loading...</div>;
@@ -181,19 +226,43 @@ const EditProfileCard = () => {
     </div>}
       <CardContent>
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit', alignSelf: 'flex-start', marginLeft: '-15px' }}>
-            <ArrowBackIcon style={{ fontSize: 40, cursor: 'pointer' }} />
+          <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit', alignSelf: 'flex-start', marginLeft: '15px' }}>
+            <Button
+              type="submit"
+              className="primaryButton primaryButton:hover primaryButton:focus primaryButton:active"
+            >
+              <ArrowBackIcon style={{ fontSize: 30, cursor: 'pointer' }} />
+              Back
+            </Button>
           </Link>
-          <Avatar
-            alt="User"
-            src={"https://i.ibb.co/6BM48Gb/profile-picture.jpg"}
-            sx={{
-              width: 150,
-              height: 150,
-              bgcolor: 'grey.300',
-              margin: "10px"
-            }}
-          />
+          <Box sx={{ position: 'relative', width: 150, height: 150, margin: "10px" }}>
+  <Avatar
+    alt="User"
+    src={user.profile_picture}
+    sx={{
+      width: 150,
+      height: 150,
+      bgcolor: 'grey.300',
+    }}
+  />
+  <IconButton
+    aria-label="edit"
+    onClick={handleEditButtonClick}
+    sx={{
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'white',
+      border: 1,
+      '&:hover': {
+        backgroundColor: '#007f3c !important',
+      },
+    }}
+  >
+    <EditIcon />
+  </IconButton>
+  <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+</Box>
         </Box>
         <Box component="form" onSubmit={handleSubmit} >
           <Divider />
@@ -447,7 +516,7 @@ const EditProfileCard = () => {
 </div>
           </Paper>
       
-          <Button type="submit" className="primaryButton primaryButton:hover primaryButton:focus primaryButton:active ">Submit</Button>
+          <Button type="submit" className="primaryButton primaryButton:hover primaryButton:focus primaryButton:active ">SAVE DETAILS</Button>
         
         </Box>
 

@@ -82,7 +82,7 @@ const UserProfileCard = () => {
         <Box display="flex" justifyContent="center" alignItems="center">
           <Avatar
             alt="User"
-            src={"https://i.ibb.co/6BM48Gb/profile-picture.jpg"}
+            src={user.profile_picture}
             sx={{
               width: 150,
               height: 150,
@@ -161,15 +161,14 @@ const UserProfileCard = () => {
         </Typography>
         <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-            <span className="font-bold"> Level - Climbing Grades:  </span> {preferences.climbing_grades_boulder}{preferences.climbing_grades_climbing}
+            <span className="font-bold"> Level - Climbing Grades:  </span> 
             {preferences.climbing_grades_boulder ? preferences.climbing_grades_boulder : 'No information yet. Where do you love to climb? '}
             {preferences.climbing_grades_climbing ? preferences.climbing_grades_climbing : 'No information yet. Where do you love to climb? '}
             🤯 📈 </Typography>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-            <span className="font-bold"> Favorite Climbing destinations:  </span> {
-              (preferences.climbing_grades_boulder || preferences.climbing_grades_climbing)
-                ? `${preferences.climbing_grades_boulder}${preferences.climbing_grades_climbing}`
-                : 'There is no information about which grades you climb. Start adding one!'
+            <span className="font-bold"> Favorite Climbing destinations:  </span> 
+              {preferences.favorite_climbing_destinations ? preferences.favorite_climbing_destinations 
+                : 'Share your favorite Climbing Destinations'
             }🏔️</Typography>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
             <span className="font-bold"> Route Preferences:  </span>  {preferences.route_preferences ? preferences.route_preferences : 'No information yet. Add which routes you enjoy the most! '}
