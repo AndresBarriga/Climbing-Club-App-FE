@@ -103,7 +103,7 @@ const UserProfileCard = () => {
         </Typography>
         {preferences.bio ? preferences.bio : 'Add a bio so people can get to know you better!'}
         <Typography variant="body2" component="p">
-          {preferences.climbing_grades_boulder}{preferences.climbing_grades_climbing}
+          
         </Typography>
         <Divider />
         <Typography variant="h6" component="h3" className="font-bold text-green-900 ">
@@ -162,8 +162,8 @@ const UserProfileCard = () => {
         <Paper variant="outlined" sx={{ p: 2, mb: 2 }}>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
             <span className="font-bold"> Level - Climbing Grades:  </span> 
-            {preferences.climbing_grades_boulder ? preferences.climbing_grades_boulder : 'No information yet. Where do you love to climb? '}
-            {preferences.climbing_grades_climbing ? preferences.climbing_grades_climbing : 'No information yet. Where do you love to climb? '}
+            Boulder grades: {preferences.climbing_grades_boulder ? preferences.climbing_grades_boulder : 'No information yet. Where do you love to climb? '}
+              ││  Climbing grades:{preferences.climbing_grades_climbing ? preferences.climbing_grades_climbing : 'No information yet. Where do you love to climb? '}
             🤯 📈 </Typography>
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
             <span className="font-bold"> Favorite Climbing destinations:  </span> 

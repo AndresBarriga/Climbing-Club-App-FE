@@ -6,7 +6,7 @@ const HeaderComp = ({ title, subtitle }) => {
   return (
     <Box mb="30px">
       <Typography
-        variant="h2"
+        variant="h3"
         color={grey}
         fontWeight="bold"
         sx={{ m: "0 0 5px 0" }}

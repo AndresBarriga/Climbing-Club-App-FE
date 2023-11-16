@@ -87,7 +87,7 @@ const SideBar = () => {
       sx={{
         height: '100vh !important',
         "& .pro-sidebar": {
-            height: '100vh !important',
+            height: '100% !important',
           },
         "& .pro-sidebar-inner": {
           background: `#739072 !important`,

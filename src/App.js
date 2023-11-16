@@ -13,6 +13,10 @@ import Dashboard from './pages/mainpage/scenes/dashboard/index';
 import FAQ from './pages/mainpage/scenes/faq/index';
 import ViewProfile from './pages/mainpage/scenes/profileCard/viewProfile';
 import EditProfile from "./pages/mainpage/scenes/profileCard/editProfile";
+import CountryIndex from "./pages/mainpage/scenes/climbingPlaces/countries/countriesIndex";
+import RegionsIndex from "./pages/mainpage/scenes/climbingPlaces/regions/regionsIndex";
+import AreasIndex from "./pages/mainpage/scenes/climbingPlaces/areas/areasIndex";
+
 
 
 
@@ -30,6 +34,9 @@ function App() {
     <Route path="/view-profile" element={<ViewProfile token={token} />}  />
     <Route path="/edit-profile" element={<EditProfile token={token} />} />
     <Route path="/faq" element={<FAQ />} />
+    <Route path="/climbing-locations" element={<CountryIndex />} />
+    <Route path="/climbing-locations/:country" element={<RegionsIndex />} />
+    <Route path="/climbing-locations/:country/:region" element={<AreasIndex />} />
   </Routes>
 </ThemeProvider>
 );
