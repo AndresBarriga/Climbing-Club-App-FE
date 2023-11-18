@@ -16,7 +16,7 @@ import EditProfile from "./pages/mainpage/scenes/profileCard/editProfile";
 import CountryIndex from "./pages/mainpage/scenes/climbingPlaces/countries/countriesIndex";
 import RegionsIndex from "./pages/mainpage/scenes/climbingPlaces/regions/regionsIndex";
 import AreasIndex from "./pages/mainpage/scenes/climbingPlaces/areas/areasIndex";
-
+import RoutesIndex from "./pages/mainpage/scenes/climbingPlaces/routes/routesIndex";
 
 
 
@@ -37,6 +37,7 @@ function App() {
     <Route path="/climbing-locations" element={<CountryIndex />} />
     <Route path="/climbing-locations/:country" element={<RegionsIndex />} />
     <Route path="/climbing-locations/:country/:region" element={<AreasIndex />} />
+    <Route path="/climbing-locations/:country/:region/:area" element={<RoutesIndex />} />
   </Routes>
 </ThemeProvider>
 );

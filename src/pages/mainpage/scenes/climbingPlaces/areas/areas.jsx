@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Box, Typography, Paper } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Box, Typography, Paper, Button } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';import { useNavigate, useParams } from "react-router-dom";
+import IconButton from '@mui/material/IconButton';
+import { useNavigate, useParams, Link } from "react-router-dom";
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import europe from "../../../../../styles/images/europe.jpg"
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Areas = () => {
 const [searchTerm, setSearchTerm] = useState('');
@@ -14,9 +16,7 @@ const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const { country, region } = useParams();
 
-  const handleFavorite = (area) => {
-    setAreas(areas.map((a) => a.id === area.id ? { ...a, isFavorite: !a.isFavorite } : a));
-  };
+
 
   useEffect(() => {
     if (firstRender){
@@ -68,9 +68,28 @@ const [searchTerm, setSearchTerm] = useState('');
           ),
         }}
       />
-      <Paper>
+      <Paper> <Button
+  onClick={() => navigate(-1)}
+  style={{
+    margin: '10px', 
+    border: '2px solid green',
+    borderRadius: '5px', 
+    padding: '5px 10px'
+  }}
+>
+  <ArrowBackIcon style={{ fontSize: 30, cursor: 'pointer' }} />
+  Back
+</Button>
         <Box m="20px">
-          <Typography variant="h6" className="font-bold text-green-900">Countries</Typography>
+        <Link to={`/climbing-locations/`} style={{ textDecoration: 'underline',  color: "blue" , cursor: 'pointer' }}>All climbing Locations /</Link>
+        <span>&nbsp;&nbsp;</span>
+          <Link to={`/climbing-locations/${country}`} style={{ textDecoration: 'underline',  color: "blue" , cursor: 'pointer' }}>{country}/</Link>
+          <span>&nbsp;&nbsp;</span>
+      <Link to={`/climbing-locations/${country}/${region}`} style={{ textDecoration: 'underline',  color: "blue" , cursor: 'pointer' }}>{region}/</Link>
+      <span>&nbsp;&nbsp;</span>
+     
+
+          <Typography variant="h6" className="font-bold text-green-900" style={{paddingTop: 14 }}>Areas within {region}</Typography>
         </Box>
     <TableContainer>
       <Table>
@@ -78,9 +97,8 @@ const [searchTerm, setSearchTerm] = useState('');
           <TableRow>
           <TableCell>ID</TableCell>
             <TableCell>Area Name</TableCell>
-            <TableCell>Style</TableCell>
-            <TableCell>Amount of Routes</TableCell>
-            <TableCell>Action</TableCell>
+          
+            
           </TableRow>
         </TableHead>
         <TableBody>
@@ -97,13 +115,7 @@ const [searchTerm, setSearchTerm] = useState('');
                   >
                     <TableCell>{area.id}</TableCell>
                     <TableCell onClick={() => navigate(`/climbing-locations/${country}/${region}/${area.name}`)}>{area.name}</TableCell>
-                    <TableCell onClick={() => navigate(`/climbing-locations/${country}/${region}/${area.name}`)}>{area.style}</TableCell>
-                    <TableCell onClick={() => navigate(`/climbing-locations/${country}/${region}/${area.name}`)} >{area.amount_of_routes}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleFavorite(area)}>
-                        {area.isFavorite ? <StarIcon /> : <StarBorderIcon />}
-                      </IconButton>
-                    </TableCell>
+                  
                   </TableRow>
 
           ))}
