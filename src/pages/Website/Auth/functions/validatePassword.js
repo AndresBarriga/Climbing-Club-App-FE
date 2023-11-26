@@ -8,7 +8,7 @@ export default function PasswordValidator({ password, password2 }) {
 
     if (password.length < 8) {
       passwordError = "Password must be at least 8 characters long";
-    } else if (!/[!@#$%^&*.,]/.test(password)) {
+    } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?\\/-]/.test(password)) {
       passwordError = "Password must contain at least 1 symbol";
     } else if (!/[A-Z]/.test(password)) {
       passwordError = "Password must contain at least 1 uppercase letter";

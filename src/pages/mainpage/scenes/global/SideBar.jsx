@@ -85,7 +85,7 @@ const SideBar = () => {
 
     <Box className="mySidebar"  
       sx={{
-        height: '100vh !important',
+        height: '100% ',
         "& .pro-sidebar": {
             height: '100% !important',
           },

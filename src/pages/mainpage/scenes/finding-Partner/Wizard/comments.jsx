@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Chip, Button, Divider, FormControlLabel, Checkbox, Typography } from '@mui/material';
+import { Box, Chip, Button, Divider } from '@mui/material';
 //Last Step of the wizard component, get information about climbing style, belay device and climbing equipment
 
-export function ClimberEquipmentForm({ setActiveStep, formData, onFormDataChange, onSubmit }) {
+export function CommentsStep({ setActiveStep, formData, onFormDataChange, onSubmit }) {
     // State for climber type, belayer device, and material
     const [climberType, setClimberType] = useState('');
     const [belayerDevice, setBelayerDevice] = useState('');
     const [material, setMaterial] = useState([]);
-    const [noSafetyEquipment, setNoSafetyEquipment] = useState(false);
 
     // Function to handle climber type change
     const handleClimberTypeChange = (type) => {
@@ -43,7 +42,7 @@ export function ClimberEquipmentForm({ setActiveStep, formData, onFormDataChange
             return;
         } if (!belayerDevice) {
             alert('Please select a prefered belayer Device');
-            return; 
+            return;
         }
         // If all checks pass, submit the form
         onSubmit(formData);
@@ -56,6 +55,7 @@ export function ClimberEquipmentForm({ setActiveStep, formData, onFormDataChange
             <h2 className=" text-base sm:text-lg  font-semibold text-gray-700  sm:mx-4 mb-2 sm:py-2"> We're almost there! Fine-tune your climbing profile to find like-minded climbers who share your passion and style</h2>
             <Divider></Divider>
             <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Tell us your climbing style </h2>
+            <h2 className=" text-sm sm:text-base  font-semibold text-gray-700  sm:mx-4 mb-2 sm:py-2"> Climbing it's a journey, and it's unique for every climber. Let us in on your climbing spirit. <span className='text-green-700 font-extrabold'>choosing the style </span> that best defines your adventure. </h2>
 
             <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', listStyle: 'none', padding: 0, margin: 0 }}>
                 <Chip
@@ -81,40 +81,11 @@ export function ClimberEquipmentForm({ setActiveStep, formData, onFormDataChange
             </Box>
             <div className='mt-4'>
                 <Divider></Divider>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-  <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Climbing Equipment</h2>
-  <FormControlLabel
-    control={
-      <Checkbox
-        checked={noSafetyEquipment}
-        onChange={() => {
-          setNoSafetyEquipment(!noSafetyEquipment);
-          if (!noSafetyEquipment) {
-            setBelayerDevice('Not applicable');
-            setMaterial(['Not applicable']);
-          } else {
-            setBelayerDevice('');
-            setMaterial([]);
-          }
-        }}
-      />
-    }
-    label={
-      <Typography variant="body1" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.600' }}>
-        I do not use any safety equipment, I just boulder / do deep water solo
-      </Typography>
-    }
-  />
-</Box>
-</div>
-{!noSafetyEquipment && (
-  <>
-    
-    <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Select Your Preferred Belay Device</h2>
+                <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Select Your Preferred Belay Device</h2>
+                <h2 className=" text-sm sm:text-base  font-semibold text-gray-700  sm:mx-4 mb-2 sm:py-2"> Your climbing, your choice. Pick the belay device that matches your style, experience, and comfort level. Your belay buddy is waiting. What's your pick?</h2>
 
-    <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', listStyle: 'none', padding: 0, margin: 0 }}>
-      <Divider></Divider>  
-       <Chip
+                <Box sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', listStyle: 'none', padding: 0, margin: 0 }}>
+                    <Divider></Divider>  <Chip
                         label="Assisted-Braking Belay Devices"
                         clickable
                         color={belayerDevice === "Assisted-Braking Belay Devices" ? "primary" : "default"}
@@ -139,32 +110,30 @@ export function ClimberEquipmentForm({ setActiveStep, formData, onFormDataChange
                         onClick={() => handleBelayerDeviceChange("Figure 8 Belay Device")}
                     />
                 </Box>
-            
+            </div>
 
-                <div className='mt-4'>
-      <Divider></Divider>
-      <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Climbing Together: Share Your Available Gear and Conquer the Heights</h2>
-   
-      {[
-        ["Harness", "Belay Device", "Carabiners", "Safety Line"],
-        ["Quickdraws", "Helmets", "Rope", "Slings",],
-        ["Webbing", "Cams", "Nuts", "Crash pad"]
-      ].map((rowItems, rowIndex) => (
-        <Box key={rowIndex} sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', listStyle: 'none', padding: 0, marginTop: 2 }}>
-          {rowItems.map(item => (
-            <Chip
-              key={item}
-              label={item}
-              clickable
-              color={material.includes(item) ? "primary" : "default"}
-              onClick={() => handleMaterialChange(item)}
-            />
-          ))}
-        </Box>
-      ))}
-    </div>
-  </>
-)}
+            <div className='mt-4'>
+                <Divider></Divider>
+                <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Climbing Together: Share Your Gear and Conquer the Heights</h2>
+                <h2 className=" text-sm sm:text-base  font-semibold text-gray-700  sm:mx-4 mb-2 sm:py-2"> Embrace the spirit of sharing and connect with fellow climbers to enhance your climbing experience. Share your gear and explore new routes together!</h2>
+                {[
+                    ["Harness", "Belay Device", "Carabiners", "Safety Line"],
+                    ["Quickdraws", "Helmets", "Rope", "Slings",],
+                    ["Webbing", "Cams", "Nuts", "Crash pad"]
+                ].map((rowItems, rowIndex) => (
+                    <Box key={rowIndex} sx={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', listStyle: 'none', padding: 0, marginTop: 2 }}>
+                        {rowItems.map(item => (
+                            <Chip
+                                key={item}
+                                label={item}
+                                clickable
+                                color={material.includes(item) ? "primary" : "default"}
+                                onClick={() => handleMaterialChange(item)}
+                            />
+                        ))}
+                    </Box>
+                ))}
+            </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
                 <Button variant="contained" color="primary" onClick={() => setActiveStep((prevStep) => prevStep - 1)}>Back</Button>
