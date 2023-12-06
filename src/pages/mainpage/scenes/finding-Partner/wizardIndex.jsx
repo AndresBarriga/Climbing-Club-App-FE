@@ -5,6 +5,8 @@ import { DateAndTimeStep } from './Wizard/date&time.jsx';
 import { EquipmentStep } from './Wizard/equiment.jsx';
 import { CommentsStep } from './Wizard/comments.jsx';
 import { LocationStep } from './Wizard/place.jsx';
+import ReviewStep from './Wizard/review.jsx';
+import moment from 'moment';
 
 
 // THIS COMPONENT IS THE PARENT OF THE WIZARD; will render the different pages and put together all info into a formulary that will be sent to DB
@@ -12,7 +14,7 @@ import { LocationStep } from './Wizard/place.jsx';
 // ProfileWizard component
 export function FindPartnerWizard() {
   // Steps for the profile wizard
-  const steps = ['Location', 'Date and Time', 'Climbing Style and Equipment', 'Other comments'];
+  const steps = ['Location', 'Date and Time', 'Climbing Style and Equipment', 'Other comments', "Review"];
   // State for changing between pages
   const [activeStep, setActiveStep] = React.useState(0);
   // State for gathering info from formulary
@@ -37,41 +39,53 @@ useEffect(() => {
 
   // Function to handle form submission to DB
   const handleFormSubmit = async (formData) => {
-      console.log(formData)
-      const response = await fetch("http://localhost:3001/initial-preferences", {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-          },
-          body: JSON.stringify(formData)
-      });
-      if (response.ok) {
-        setSuccessMessage("Your initial preferences are set up!");
-      } else {
-          alert('There was an error submitting the form');
-      }
+    console.log(formData)
+    let expiration_date;
+  
+    if (formData.timeData.endDate) {
+      // If there's an end date, use it as the expiration date
+      expiration_date = formData.timeData.endDate.endOf('day').toISOString();
+    } else if (formData.timeData.startDate) {
+      // If there's no end date but there's a start date, use the start date as the expiration date
+      expiration_date = formData.timeData.startDate.endOf('day').toISOString();
+    } else if (formData.timeData.isCompletelyFlexible || Object.keys(formData.timeData).some(day => formData.timeData[day])) {
+      // If there's no end date or start date but isCompletelyFlexible is true or there's a day, set the expiration date to 1 month after the current date
+      expiration_date = moment().add(1, 'months').endOf('day').toISOString();
+    }
+    console.log(expiration_date)
+    const response = await fetch('http://localhost:3001/api/create_request', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({
+        ...formData,
+        timestamp: new Date().toISOString(),
+        expiration_date
+      })
+    });
+    if (response.ok) {
+      setSuccessMessage("Your request have been made! Let's wait for a buddy to contact you! 📩 📬");
+      setTimeout(() => setSuccessMessage(''), 2000);
+      setTimeout(() => window.location.href = "/dashboard", 1500);
+    } else {
+      console.error('There was an error submitting the form');
+    }
   };
 
   // Render the profile wizard
   return (
     <Box  maxWidth="1100px" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: { xs: 1, sm: 1, md: 2 } }}>
+     {successMessage && <div className="modal">
+      <div className="modal-content">
+        <h2>Congratulations, {successMessage}!</h2>
 
-      {successMessage && <div className="modal">
-        <div className="modal-content">
-          <h2>{successMessage}</h2>
-          <p> Your request have been made! Let's wait for a buddy to contact you</p>
-          <div className="my-6"></div>
-          <Link to="/dashboard">
-            <span
-              className="mx-6 text-white rounded bg-green-800 text-sm font-medium hover:bg-white hover:text-green-800 hover:border-green focus:outline-none focus:ring active:bg-green-800 sm:w-auto px-5 py-2.5 duration-300 border border-transparent hover:border-green-800"
-              aria-label="Next"
-            >
-              To my Dashboard
-            </span>
-          </Link>
-        </div>
-      </div>}
+        <div className="my-6"></div>
+
+      </div>
+    </div>}
+    
       <Paper className="custom-paper2" sx={{ padding: '20px', width: { xs: '100%', md: '75%' } }} elevation={6}>
         <LinearProgress variant="determinate" value={(activeStep / (steps.length - 1)) * 100} />
         <Stepper activeStep={3}>
@@ -85,6 +99,7 @@ useEffect(() => {
         {activeStep === 1 && <DateAndTimeStep setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
         {activeStep === 2 && <EquipmentStep setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
         {activeStep === 3 && <CommentsStep setActiveStep={setActiveStep} formData={formData} onFormDataChange={handleFormDataChange} />}
+        {activeStep === 4 && <ReviewStep setActiveStep={setActiveStep} formData={formData} handleFormSubmit={handleFormSubmit}/>}
       </Paper>
     </Box>
   );

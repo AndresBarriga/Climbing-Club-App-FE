@@ -125,7 +125,7 @@ const SideBar = () => {
                 ml="15px"
               >
                 <Typography variant="h3" className="font-bold" style={{ color: 'black' }}> 
-                  My Profile     
+                  ......
                 </Typography>
                 <IconButton className="mx-6"onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -151,15 +151,13 @@ const SideBar = () => {
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h3"
+                  variant="h5"
                   color={grey}
                   fontWeight="bold"
                 >
                   {user.name} {user.last_name}
                 </Typography>
-                <Typography variant="h5" color={green}>
-                  Passionate climber
-                </Typography>
+              
               </Box>
             </Box>
           )}
@@ -190,7 +188,7 @@ const SideBar = () => {
             />
             <Item
               title="Find a Climbing Partner"
-              to="/find-parter"
+              to="/find-a-buddy"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}

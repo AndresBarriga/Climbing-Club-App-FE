@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { Box } from "@mui/material";
 import HeaderComp from "../../components/headerComp";
 import UserProfileCard from "../profileCard/profileCard";
-import FpDashboard from "../finding-Partner/fpDashboard";
-import MyMarkedLocations from "../MarkedLocations/myMarkedLocations";
+import MyActiveRequestDash from '../finding-Partner/ActiveRequests/myActiveRequestDash';
+import MyFavLocations from "../MarkedLocations/myFavLocations";
 import MyMarkedEvents from "../events/myMarkedEvents";
 import SideBar from "../global/SideBar";
 import TopBar from "../global/Topbar";
@@ -81,19 +81,7 @@ const Dashboard = () => {
         // add more inquiries as needed...
       ];
 
-    const locations = [
-        {
-          place: "LiebenthalerGrund",
-          location: "Dresden, Germany",
-          type: "Mountain",
-        },
-        {
-          place: "Der Kegel",
-          location: "Berlin, Germany",
-          type: "Climbing Gym",
-        },
-        // add more locations as needed...
-      ];
+
 
       const events = [
         {
@@ -118,13 +106,13 @@ const Dashboard = () => {
             <SideBar />
             <div className='custom-paper2' style={{ flex: 1, overflow: 'auto' }}>
               <Box m="20px" display="flex">
-                <Box flex={2}>
+                <Box flex={3}>
                   <HeaderComp title="DASHBOARD" subtitle="Welcome to your dashboard" />
-                  <FpDashboard inquiries={inquiries} />
-                  <MyMarkedLocations locations={locations} />
+                  <MyActiveRequestDash />
+                  <MyFavLocations></MyFavLocations>
                   <MyMarkedEvents events={events} />
                 </Box>
-                <Box flex={3} ml="20px">
+                <Box flex={2} ml="20px">
                   <UserProfileCard />
                 </Box>
               </Box>

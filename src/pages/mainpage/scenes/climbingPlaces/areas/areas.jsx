@@ -9,7 +9,7 @@ import europe from "../../../../../styles/images/europe.jpg"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Areas = () => {
-const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [firstRender, setFirstRender] = useState(true)
@@ -19,22 +19,22 @@ const [searchTerm, setSearchTerm] = useState('');
 
 
   useEffect(() => {
-    if (firstRender){
-    fetch(`http://localhost:3001/climbing-locations/${country}/${region}`, {
-      method: "GET",
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setAreas(data);
-        setLoading(false);
+    if (firstRender) {
+      fetch(`http://localhost:3001/climbing-locations/${country}/${region}`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
       })
-      .catch(err => {
-        console.error("Error:", err);
-        setLoading(false);
-      });
+        .then(res => res.json())
+        .then(data => {
+          setAreas(data);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          setLoading(false);
+        });
     }
   }, [region, country, firstRender]);
 
@@ -44,20 +44,20 @@ const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <Box>
-    <div style={{ width: '95%', height: '300px', overflow: 'hidden', margin: 20, borderRadius: '10px', position: 'relative' }}>
-  <img
-    src={europe}
-    alt="description of image"
-    style={{
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      objectPosition: 'center 30%',
-      borderRadius: 'inherit', 
-    }}
-  />
-</div>
-<TextField
+      <div style={{ width: '95%', height: '300px', overflow: 'hidden', margin: 20, borderRadius: '10px', position: 'relative' }}>
+        <img
+          src={europe}
+          alt="description of image"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center 30%',
+            borderRadius: 'inherit',
+          }}
+        />
+      </div>
+      <TextField
         label="Search"
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
@@ -69,61 +69,61 @@ const [searchTerm, setSearchTerm] = useState('');
         }}
       />
       <Paper> <Button
-  onClick={() => navigate(-1)}
-  style={{
-    margin: '10px', 
-    border: '2px solid green',
-    borderRadius: '5px', 
-    padding: '5px 10px'
-  }}
->
-  <ArrowBackIcon style={{ fontSize: 30, cursor: 'pointer' }} />
-  Back
-</Button>
+        onClick={() => navigate(-1)}
+        style={{
+          margin: '10px',
+          border: '2px solid green',
+          borderRadius: '5px',
+          padding: '5px 10px'
+        }}
+      >
+        <ArrowBackIcon style={{ fontSize: 30, cursor: 'pointer' }} />
+        Back
+      </Button>
         <Box m="20px">
-        <Link to={`/climbing-locations/`} style={{ textDecoration: 'underline',  color: "blue" , cursor: 'pointer' }}>All climbing Locations /</Link>
-        <span>&nbsp;&nbsp;</span>
-          <Link to={`/climbing-locations/${country}`} style={{ textDecoration: 'underline',  color: "blue" , cursor: 'pointer' }}>{country}/</Link>
+          <Link to={`/climbing-locations/`} style={{ textDecoration: 'underline', color: "blue", cursor: 'pointer' }}>All climbing Locations /</Link>
           <span>&nbsp;&nbsp;</span>
-      <Link to={`/climbing-locations/${country}/${region}`} style={{ textDecoration: 'underline',  color: "blue" , cursor: 'pointer' }}>{region}/</Link>
-      <span>&nbsp;&nbsp;</span>
-     
+          <Link to={`/climbing-locations/${country}`} style={{ textDecoration: 'underline', color: "blue", cursor: 'pointer' }}>{country}/</Link>
+          <span>&nbsp;&nbsp;</span>
+          <Link to={`/climbing-locations/${country}/${region}`} style={{ textDecoration: 'underline', color: "blue", cursor: 'pointer' }}>{region}/</Link>
+          <span>&nbsp;&nbsp;</span>
 
-          <Typography variant="h6" className="font-bold text-green-900" style={{paddingTop: 14 }}>Areas within {region}</Typography>
+
+          <Typography variant="h6" className="font-bold text-green-900" style={{ paddingTop: 14 }}>Areas within {region}</Typography>
         </Box>
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-          <TableCell>ID</TableCell>
-            <TableCell>Area Name</TableCell>
-          
-            
-          </TableRow>
-        </TableHead>
-        <TableBody>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Area Name</TableCell>
 
-        {areas.map((area, index) => (
-        <TableRow
-                    key={index}
-                    sx={{
-                      '&:hover': {
-                        backgroundColor: '#9EC69B',
-                        cursor: 'pointer',
-                      },
-                    }}
-                  >
-                    <TableCell>{area.id}</TableCell>
-                    <TableCell onClick={() => navigate(`/climbing-locations/${country}/${region}/${area.name}`)}>{area.name}</TableCell>
-                  
-                  </TableRow>
 
-          ))}
-          
-        </TableBody>
-      </Table>
-    </TableContainer>
-    </Paper>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+
+              {areas.map((area, index) => (
+                <TableRow
+                  key={index}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: '#9EC69B',
+                      cursor: 'pointer',
+                    },
+                  }}
+                >
+                  <TableCell>{area.id}</TableCell>
+                  <TableCell onClick={() => navigate(`/climbing-locations/${country}/${region}/${area.name}`)}>{area.name}</TableCell>
+
+                </TableRow>
+
+              ))}
+
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </Box>
   );
 };

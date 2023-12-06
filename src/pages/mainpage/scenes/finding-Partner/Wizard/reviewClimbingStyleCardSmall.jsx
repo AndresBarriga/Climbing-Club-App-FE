@@ -7,26 +7,24 @@ import Typography from '@mui/material/Typography';
 
 
 //Each of the cards presentent on the parent component are created here (ClimbingStyle.js)
-function ClimbingStyleCard({ image, text, onClick, isSelected }) {
+function ReviewClimbingStyleCardSmall({ image, text, onClick, isSelected }) {
     // Screen responsivenbess
     const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });
     
     const cardStyle = {
-        width: '30%',
-        height: '300px',
-        position: 'relative',
+        flex: '1 0 auto', // make the width flexible
+        height: '100px',
+        maxWidth: '30%', // set a maximum width
         margin: isSmallScreen ? '10px 0' : '10px', 
     }
-    const cardStyle2 = {
-        border: isSelected ? '4px solid green' : 'none'
-    };
+  
 
 
     return (
-        <div style={cardStyle} onClick={() => onClick(text)}>
-          <Card style={cardStyle2}sx={{ maxWidth: 150 }}>
+        <div style={cardStyle}>
+          <Card sx={{ maxWidth: 75 }}>
             <CardMedia
-              sx={{ height: 140, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              sx={{ height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <img
                 src={image}
@@ -34,8 +32,8 @@ function ClimbingStyleCard({ image, text, onClick, isSelected }) {
                 style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'cover' }}
               />
             </CardMedia>
-            <CardContent>
-              <Typography  variant="h6" >
+            <CardContent style={{ padding: 1 }}>
+              <Typography  variant="body2" >
                 {text}
               </Typography>
             </CardContent>
@@ -46,4 +44,4 @@ function ClimbingStyleCard({ image, text, onClick, isSelected }) {
 
 
 
-export default ClimbingStyleCard;
+export default ReviewClimbingStyleCardSmall;
