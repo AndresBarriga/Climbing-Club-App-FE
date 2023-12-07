@@ -42,11 +42,9 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const SideBar = () => {
 
 
-  // State for sidebar collapse and selected item
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [firstRender, setFirstRender] = useState(true)
-  const { isAuthenticated, loginMessage } = useCheckAuthentication();
+  const [firstRender, setFirstRender] = useState(true);
+  const { isAuthenticated } = useCheckAuthentication();
   const [user, setUser] = useState({});
 
 
@@ -83,71 +81,50 @@ const SideBar = () => {
 
   return (
 
-    <Box className="mySidebar"  
-      sx={{
-        height: '100% ',
-        "& .pro-sidebar": {
-            height: '100% !important',
+      <Box className="mySidebar"  
+        sx={{
+          height: '100vh',
+          "& .pro-sidebar": {
+              height: '100vh !important',
           },
-        "& .pro-sidebar-inner": {
-          background: `#739072 !important`,
-        },
-        "& .pro-icon-wrapper": {
-          backgroundColor: "transparent !important",
-        },
-        "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
-        },
-        "& .pro-inner-item:hover": {
-          color: "#B6BA45 !important",
-        },
-        "& .pro-menu-item.active": {
-          color: "#E0E399 !important",
-        },
-      }}
-    >
-      <ProSidebar collapsed={isCollapsed} >
-        <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
-          <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-            style={{
-              margin: "0px 0 20px 0",
-              color: grey,
-            }}
-          >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
-              >
-                <Typography variant="h3" className="font-bold" style={{ color: 'black' }}> 
-                  ......
-                </Typography>
-                <IconButton className="mx-6"onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
-          </MenuItem>
+          "& .pro-sidebar-inner": {
+            height: '100vh !important', 
+            background: `#739072 !important`,
+            flexDirection: "column",
+          },
+          "& .pro-icon-wrapper": {
           
-          {!isCollapsed && (
-            <Box mb="25px">
+            backgroundColor: "transparent !important",
+          },
+          "& .pro-inner-item": {
+       
+            padding: "5px 35px 5px 20px !important",
+          },
+          "& .pro-inner-item:hover": {
+            color: "#B6BA45 !important",
+          },
+          "& .pro-menu-item.active": {
+            color: "#E0E399 !important",
+          },
+        }}
+      >
+        <ProSidebar collapsed={true} > {/* Always collapsed */}
+          <Menu iconShape="square">
+            {/* Avatar */}
+            <Box mb="25px" margin="3">
               <Box display="flex" justifyContent="center" alignItems="center" >
-              <Link to="/dashboard">
-              <Avatar
-            alt="User"
-            src={user.profile_picture}
-            sx={{
-              width: 150,
-              height: 150,
-              bgcolor: 'grey.300'
-            }}
-          />
-                 </Link>
+                <Link to="/dashboard">
+                  <Avatar
+                    alt="User"
+                    src={user.profile_picture}
+                    sx={{
+                      width: 100, 
+                      height: 100,
+                      bgcolor: 'grey.300',
+                      marginTop: '20px' 
+                    }}
+                  />
+                </Link>
               </Box>
               <Box textAlign="center">
                 <Typography
@@ -157,12 +134,11 @@ const SideBar = () => {
                 >
                   {user.name} {user.last_name}
                 </Typography>
-              
               </Box>
             </Box>
-          )}
+  
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box paddingLeft={ "10%"}>
             <Item
               title="Dashboard"
               to="/dashboard"
@@ -187,14 +163,14 @@ const SideBar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Find a Climbing Partner"
+              title="Create a climbing Request"
               to="/find-a-buddy"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Events"
+              title="Join other climbers"
               to="/events"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
@@ -229,8 +205,8 @@ const SideBar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {!isCollapsed && <div style={{ height:100, background: '#739072' }} />}
-             {isCollapsed && <div style={{ height:350, background: '#739072' }} />}
+            
+        
           </Box>
         </Menu>
       </ProSidebar>

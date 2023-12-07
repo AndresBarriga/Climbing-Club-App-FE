@@ -10,6 +10,7 @@ import ReviewClimbingStyleCardSmall from './reviewClimbingStyleCardSmall';
 
 
 
+
 function ReviewStep({ formData, setActiveStep , handleFormSubmit}) {
 
   const handleNext = () => {

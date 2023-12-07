@@ -15,6 +15,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LaunchIcon from '@mui/icons-material/Launch';
 
 
 const RoutesList = () => {
@@ -201,6 +202,7 @@ const RoutesList = () => {
                 </TableHead>
                 <TableBody>
                   {filteredRoute.routes.map((route, index) => (
+                     
                     <TableRow
                       key={index}
                       sx={{
@@ -210,12 +212,28 @@ const RoutesList = () => {
                         },
                       }}
                     >
-                      <TableCell >{route.id}</TableCell>
-                      <TableCell>{route.name}</TableCell>
-                      <TableCell>{route.style}</TableCell>
-                      {filteredRoute.title !== "Climbing / Boulder Gyms" && <TableCell>{route.number_routes}</TableCell>}
-                      <TableCell>{route.height_avg}</TableCell>
-                      <TableCell style={{ width: '150px' }}>
+<TableCell>
+  <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+    {route.id}
+  </Link>
+</TableCell>
+<TableCell>
+  <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+    {route.name}
+  </Link>
+</TableCell>
+<TableCell>
+  <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+    {route.style}
+  </Link>
+</TableCell>
+{filteredRoute.title !== "Climbing / Boulder Gyms" && <TableCell>{route.number_routes}</TableCell>}
+<TableCell>
+  <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+    {route.height_avg}
+  </Link>
+</TableCell>
+                      <TableCell style={{ width: '150px' }}> 
                         <Tooltip title="Open website">
                           <IconButton onClick={() => window.open(route.link_site, "_blank")}>
                             <PublicIcon />
@@ -229,17 +247,24 @@ const RoutesList = () => {
                         
                       </TableCell>
                       <TableCell style={{ width: '150px' }}>
-                      <Tooltip title="Marking as favourite will notify you about request to climb, events happening & more">
-                        <IconButton onClick={() => handleFavorite(route)}>
-                          {route.isFavorite ? <StarIcon /> : <StarBorderIcon />}
-                        </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Find here people to climb with">
-                          <IconButton>
-                            <Diversity1Icon/>
-                          </IconButton>
-                        </Tooltip>
-                      </TableCell>
+  <Box display="flex">
+    <Tooltip title="Marking as favourite will notify you about request to climb, events happening & more">
+      <IconButton onClick={() => handleFavorite(route)}>
+        {route.isFavorite ? <StarIcon /> : <StarBorderIcon />}
+      </IconButton>
+    </Tooltip>
+    <Tooltip title="Find here people to climb with">
+      <IconButton>
+        <Diversity1Icon/>
+      </IconButton>
+    </Tooltip>
+    <Tooltip title="Open route details">
+      <IconButton component={Link} to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+        <LaunchIcon />
+      </IconButton>
+    </Tooltip>
+  </Box>
+</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -23,7 +23,7 @@ const FAQ = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <TopBar />
-      <div style={{ display: 'flex', height: '100%' }}>
+      <div style={{ display: 'flex', height: '100vh' }}>
         <SideBar />
         <Box m="20px">
           <HeaderComp title="FAQ" subtitle="Frequently Asked Questions Page" />

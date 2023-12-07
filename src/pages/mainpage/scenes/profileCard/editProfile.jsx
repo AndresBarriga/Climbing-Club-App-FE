@@ -16,7 +16,7 @@ const EditProfile = () => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <TopBar />
-        <div style={{ display: 'flex', height: '100%' }}>
+        <div style={{ display: 'flex', height: '100vh' }}>
           <SideBar />
           <Box m="auto" p="20px" textAlign="center" sx={{ width: '100%' }}>
   <HeaderComp title="Edit Profile" subtitle="Add or change your profile information" />

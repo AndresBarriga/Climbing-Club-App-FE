@@ -61,26 +61,6 @@ const Dashboard = () => {
   }
 
  
-    const inquiries = [
-        {
-          date: "2023-11-11",
-          place: "Place 1",
-          comments: "Comment 1",
-          handleDelete: () => {
-            // handle deletion of the inquiry
-          },
-        },
-        {
-          date: "2023-11-12",
-          place: "Place 2",
-          comments: "Comment 2",
-          handleDelete: () => {
-            // handle deletion of the inquiry
-          },
-        },
-        // add more inquiries as needed...
-      ];
-
 
 
       const events = [
@@ -100,9 +80,9 @@ const Dashboard = () => {
       ];
     
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <TopBar />
-          <div style={{ display: 'flex', height: '100%' }}>
+          <div style={{ display: 'flex', height: '100vh' }}>
             <SideBar />
             <div className='custom-paper2' style={{ flex: 1, overflow: 'auto' }}>
               <Box m="20px" display="flex">

@@ -19,7 +19,7 @@ import AreasIndex from "./pages/mainpage/scenes/climbingPlaces/areas/areasIndex"
 import RoutesIndex from "./pages/mainpage/scenes/climbingPlaces/routes/routesIndex";
 import FindPartnerIndex from "./pages/mainpage/scenes/finding-Partner/find-partnerIndex";
 import ActiveRequestIndex from "./pages/mainpage/scenes/finding-Partner/ActiveRequests/activeRequestIndex";
-
+import RoutesDetailsIndex from "./pages/mainpage/scenes/climbingPlaces/routes/routeDetailsIndex";
 
 
 function App() { 
@@ -40,6 +40,7 @@ function App() {
     <Route path="/climbing-locations/:country" element={<RegionsIndex />} />
     <Route path="/climbing-locations/:country/:region" element={<AreasIndex />} />
     <Route path="/climbing-locations/:country/:region/:area" element={<RoutesIndex />} />
+    <Route path="/climbing-locations/:country/:region/:area/:routeName" element={<RoutesDetailsIndex />} />
     <Route path="/find-a-buddy" element={<FindPartnerIndex />} />
     <Route path="/showActiveRequest/:request" element={<ActiveRequestIndex />} />
   </Routes>
