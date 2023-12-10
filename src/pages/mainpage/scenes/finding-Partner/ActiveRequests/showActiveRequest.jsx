@@ -166,8 +166,30 @@ const RequestDetails = () => {
           {user.name} {user.last_name}
         </Typography>
         <Box sx={{ marginTop: 2 }}>
-          <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" >📌 I want to climb in: <span className="text-gray-700">{requestInfo.area}, {requestInfo.region} </span></Typography>
-
+          <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" >📌 Wants to climb in: <span className="text-gray-700">{requestInfo.area}, {requestInfo.region} </span></Typography>
+          {requestInfo.selected_routes && requestInfo.selected_routes.length > 0 ? (
+    <>
+      <Typography variant="h6" sx={{ fontWeight: 'fontWeightBold' }}>Selected Routes:</Typography>
+      <ul>
+        {requestInfo.selected_routes.map((routeString, index) => {
+          try {
+            // Parse the JSON string into an object
+            const route = JSON.parse(routeString);
+            return (
+              <li key={index}>
+                <Typography variant="body1">
+                • {route.name} ({route.route_style})
+                </Typography>
+              </li>
+            );
+          } catch (error) {
+            console.error('Error parsing JSON string:', error);
+            return null; // Return null or some fallback UI if parsing fails
+          }
+        })}
+      </ul>
+    </>
+  ) : null}
           <Divider />
 
 

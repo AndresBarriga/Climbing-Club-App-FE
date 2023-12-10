@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate, useParams, Link } from "react-router-dom";
 import europe from "../../../../../styles/images/europe.jpg"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchBar from '../../../../../components/reusable/searchBar';
 
 const Regions = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,16 +53,7 @@ const Regions = () => {
           }}
         />
       </div>
-      <TextField
-        label="Search"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        style={{ width: '80%', marginRight: '10px' }}
-        InputProps={{
-          endAdornment: (
-            <SearchIcon />
-          ),
-        }}
+      <SearchBar
       />
       <Paper><Button
         onClick={() => navigate(-1)}

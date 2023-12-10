@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, Button, TableRo
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate, Link } from "react-router-dom";
 import europe from "../../../../../styles/images/europe.jpg"
+import SearchBar from '../../../../../components/reusable/searchBar';
 
 
 
@@ -61,16 +62,7 @@ const CountryList = () => {
         />
       </div>
 
-      <TextField
-        label="Search"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        style={{ width: '80%', marginRight: '10px' }}
-        InputProps={{
-          endAdornment: (
-            <SearchIcon />
-          ),
-        }}
+      <SearchBar
       />
       <Paper>
         <div style={{

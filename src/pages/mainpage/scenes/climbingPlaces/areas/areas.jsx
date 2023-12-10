@@ -7,6 +7,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import europe from "../../../../../styles/images/europe.jpg"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchBar from '../../../../../components/reusable/searchBar';
 
 const Areas = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -57,17 +58,7 @@ const Areas = () => {
           }}
         />
       </div>
-      <TextField
-        label="Search"
-        value={searchTerm}
-        onChange={(event) => setSearchTerm(event.target.value)}
-        style={{ width: '80%', marginRight: '10px' }}
-        InputProps={{
-          endAdornment: (
-            <SearchIcon />
-          ),
-        }}
-      />
+      <div> <SearchBar /> </div>
       <Paper> <Button
         onClick={() => navigate(-1)}
         style={{

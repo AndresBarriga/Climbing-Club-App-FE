@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import moment from "moment";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import RequestDetails from "./showActiveRequest"
+import LaunchIcon from '@mui/icons-material/Launch';
 
 
 
@@ -14,7 +14,7 @@ function MyActiveRequestDash() {
   const [requestInfo, setRequestInfo] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [selectedRequest, setSelectedRequest]= useState([]);
+  const [selectedRequest, setSelectedRequest] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -38,9 +38,9 @@ function MyActiveRequestDash() {
     fetchRequestInfo();
   }, [])
 
-  
 
-  function handleNavigate(request){
+
+  function handleNavigate(request) {
     navigate(`/showActiveRequest/${request.uid}`)
   }
   function handleDelete(event, request) {
@@ -55,59 +55,59 @@ function MyActiveRequestDash() {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Data received from server:', data);
-      // Remove the deleted request from the requestInfo state variable
-      setRequestInfo(requestInfo.filter(r => r.uid !== selectedRequest.uid));
-      // Close the modal
-      setShowModal(false);
-    })
-    .catch(err => {
-      console.error("Error:", err);
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Data received from server:', data);
+        // Remove the deleted request from the requestInfo state variable
+        setRequestInfo(requestInfo.filter(r => r.uid !== selectedRequest.uid));
+        // Close the modal
+        setShowModal(false);
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      });
   }
-  
+
 
 
   return (
     <Box>
       <Paper>
         <Box m="20px">
-        {showModal && (
-  <div className="modal">
-    <div className="modal-content">
-      <h2>Are you sure you want to delete your active request?</h2>
-      <div className="my-6"></div>
-      <Box display="flex" justifyContent="space-between" width="100%" >
-      <Button
-        variant="contained"
-        className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
-        onClick={() => setShowModal(false)}
-      >
-        Back
-      </Button>
-      <Button
-        variant="contained"
-        className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
-        onClick={handleConfirmDelete}
-      >
-        DELETE
-      </Button>
-      
-      </Box>
-    </div>
-  </div>
-)}
+          {showModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <h2>Are you sure you want to delete your active request?</h2>
+                <div className="my-6"></div>
+                <Box display="flex" justifyContent="space-between" width="100%" >
+                  <Button
+                    variant="contained"
+                    className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+                    onClick={() => setShowModal(false)}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+                    onClick={handleConfirmDelete}
+                  >
+                    DELETE
+                  </Button>
+
+                </Box>
+              </div>
+            </div>
+          )}
           <Typography variant="h6" className="font-bold text-green-900">My Active Requests 🔄 📋</Typography>
-          
+
         </Box>
-        
+
         <TableContainer>
           <Table>
             <TableHead>
@@ -153,9 +153,12 @@ function MyActiveRequestDash() {
 
                     <TableCell>{request.climbing_style.join(', ')}</TableCell>
                     <TableCell>
-                    <IconButton onClick={(event) => handleDelete(event, request)}>
-  <DeleteIcon />
-</IconButton>
+                    <IconButton onClick={() => handleNavigate(request)}>
+          <LaunchIcon />
+        </IconButton>
+                      <IconButton onClick={(event) => handleDelete(event, request)}>
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
@@ -163,7 +166,7 @@ function MyActiveRequestDash() {
             </TableBody>
           </Table>
         </TableContainer>
-      
+
         <Box display="flex" justifyContent="space-between" width="100%" padding={2} >
 
 

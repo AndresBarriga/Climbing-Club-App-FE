@@ -10,7 +10,6 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MapIcon from '@mui/icons-material/Map';
 import SchoolIcon from '@mui/icons-material/School';
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { green, grey } from "@mui/material/colors";
 import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth";
 
@@ -171,7 +170,7 @@ const SideBar = () => {
             />
             <Item
               title="Join other climbers"
-              to="/events"
+              to="/allRequests"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
