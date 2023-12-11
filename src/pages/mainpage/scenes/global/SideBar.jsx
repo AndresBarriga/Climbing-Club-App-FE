@@ -85,11 +85,13 @@ const SideBar = () => {
           height: '100vh',
           "& .pro-sidebar": {
               height: '100vh !important',
+              
           },
           "& .pro-sidebar-inner": {
             height: '100vh !important', 
             background: `#739072 !important`,
             flexDirection: "column",
+            
           },
           "& .pro-icon-wrapper": {
           

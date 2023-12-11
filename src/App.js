@@ -23,6 +23,7 @@ import RoutesDetailsIndex from "./pages/mainpage/scenes/climbingPlaces/routes/ro
 import SeeRequestIndex from "./pages/mainpage/scenes/finding-Partner/SeeRequest/seeRequestIndex";
 
 
+
 function App() { 
    // State for storing the user token
   const [token, setToken] = useState(null);

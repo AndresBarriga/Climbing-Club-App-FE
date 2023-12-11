@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import RequestCard from '../../../components/requestCard';
 import { useSwipeable } from 'react-swipeable';
@@ -7,17 +9,159 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 import ReplayIcon from '@mui/icons-material/Replay';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import { SendAMessage } from '../sendAMessage/sendAMessage';
+import moment from "moment";
+import { styled } from '@mui/system';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+
+
+
+
 
 const SeeRequests = () => {
     const [requests, setRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [dismissedRequests, setDismissedRequests] = useState([]);
     const [connectedCards, setConnectedCards] = useState([]);
+    const [connectedUser, setConnectedUser] = useState(null);
     const currentIndexRef = useRef(0);
     const [notificationType, setNotificationType] = useState(null);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [cardPosition, setCardPosition] = useState(0);
+
+
+
+
+    //Const for the filters
+    const [filterArea, setFilterArea] = useState(["All areas"]);
+    const [filterCountry, setFilterCountry] = useState('');
+    const [filterRegion, setFilterRegion] = useState(['All regions']);
+    const [filterRoutes, setFilterRoutes] = useState(['All routes']);
+    const [filterStartDate, setFilterStartDate] = useState(null);
+    const [filterEndDate, setFilterEndDate] = useState(null);
+    const [filterClimbingStyle, setFilterClimbingStyle] = useState('')
+
+    //Managing what to show in filters selection
+    const [uniqueAreas, setUniqueAreas] = useState([]);
+    const [uniqueRegions, setUniqueRegions] = useState([]);
+    const [uniqueRoutes, setUniqueRoutes] = useState([]);
+     //Passing filters to create new array
+    const [requestsWithFilters, setRequestsWithFilters] = useState([]);
+
+    const getUniqueAreas = (requests) => {
+        const areas = requests.map(request => request.area);
+        const uniqueAreas = [...new Set(areas)];
+        setUniqueAreas(uniqueAreas);
+    };
+
+    useEffect(() => {
+        const getUniqueRegions = () => {
+          const regions = requestsWithFilters.map(request => request.region);
+          const uniqueRegions = ['All regions', ...new Set(regions)];
+          setUniqueRegions(uniqueRegions);
+        };
+      
+        getUniqueRegions();
+      }, [requestsWithFilters]);
+
+    useEffect(() => {
+        const getUniqueRoutes = () => {
+            const routes = requestsWithFilters.flatMap(request => request.selected_routes ? request.selected_routes.map(routeString => {
+              try {
+                const route = JSON.parse(routeString);
+                return route.name;
+              } catch (error) {
+                console.error('Error parsing JSON string:', error);
+                return null;
+              }
+            }) : []);
+            const uniqueRoutes = ['All routes', ...new Set(routes)];
+            setUniqueRoutes(uniqueRoutes);
+          };
+      
+        getUniqueRoutes();
+      }, [requestsWithFilters]);
+
+
+    const handleChange = (event) => {
+        const newSelectedAreas = event.target.value;
+        if (newSelectedAreas.length === 1 && newSelectedAreas[0] === 'All areas') {
+          // If 'All areas' is the only selected area, deselect all other areas
+          setFilterArea(['All areas']);
+        } else if (newSelectedAreas.includes('All areas')) {
+          // If another area is selected and 'All areas' is also selected, deselect 'All areas'
+          setFilterArea(newSelectedAreas.filter(area => area !== 'All areas'));
+        } else {
+          // Otherwise, update the selected areas
+          setFilterArea(newSelectedAreas);
+        }
+      };
+
+      const handleRegionChange = (event) => {
+        const newSelectedRegions = event.target.value;
+        if (newSelectedRegions.length === 1 && newSelectedRegions[0] === 'All regions') {
+          setFilterRegion(['All regions']);
+        } else if (newSelectedRegions.includes('All regions')) {
+          setFilterRegion(newSelectedRegions.filter(region => region !== 'All regions'));
+        } else {
+          setFilterRegion(newSelectedRegions);
+        }
+      };
+
+
+      const handleRouteChange = (event) => {
+        const newSelectedRoutes = event.target.value;
+        if (newSelectedRoutes.length === 1 && newSelectedRoutes[0] === 'All routes') {
+          // If 'All routes' is the only selected route, deselect all other routes
+          setFilterRoutes(['All routes']);
+        } else if (newSelectedRoutes.includes('All routes')) {
+          // If another route is selected and 'All routes' is also selected, deselect 'All routes'
+          setFilterRoutes(newSelectedRoutes.filter(route => route !== 'All routes'));
+        } else {
+          // Otherwise, update the selected routes
+          setFilterRoutes(newSelectedRoutes);
+        }
+      };
+
+      const clearFilters = () => {
+        setFilterArea(['All areas']);
+        setFilterRegion(['All regions']);
+        setFilterRoutes(['All routes']);
+        setFilterStartDate(null);
+        setFilterEndDate(null);
+        setFilterClimbingStyle('');
+      };
+
+    useEffect(() => {
+        if (requests.length > 0) {
+            const filteredRequests = requests.filter(request =>
+              (filterArea.length > 0 && !filterArea.includes('All areas') ? filterArea.includes(request.area) : true) &&
+              (filterRegion.length > 0 && !filterRegion.includes('All regions') ? filterRegion.includes(request.region) : true) &&
+              (filterRoutes.length > 0 && !filterRoutes.includes('All routes') ? request.selected_routes && request.selected_routes.some(routeString => {
+                try {
+                  const route = JSON.parse(routeString);
+                  return filterRoutes.includes(route.name);
+                } catch (error) {
+                  console.error('Error parsing JSON string:', error);
+                  return false;
+                }
+              }) : true) &&
+                (filterStartDate !== null ? moment(request.time_data.startDate).format('DD-MM-YYYY') === moment(filterStartDate).format('DD-MM-YYYY') : true) &&
+                (filterEndDate !== null ? moment(request.time_data.endDate).format('DD-MM-YYYY') === moment(filterEndDate).format('DD-MM-YYYY') : true) &&
+                (filterClimbingStyle !== "" ? request.climbingStyle === filterClimbingStyle : true)
+
+            );
+            setRequestsWithFilters(filteredRequests);
+        }
+    }, [requests, filterArea, filterRegion, filterRoutes, filterStartDate, filterEndDate, filterClimbingStyle]);
+
+    console.log("request....", requests)
+    console.log("request with filters...", requestsWithFilters)
 
     // Create the swipe handlers
     const swipeHandlers = useSwipeable({
@@ -33,7 +177,7 @@ const SeeRequests = () => {
         delta: 100,
     });
 
-
+    const handleClose = () => setIsModalOpen(false);
 
     const dismissCard = () => {
         const [firstCard, ...remainingCards] = requests;
@@ -56,9 +200,11 @@ const SeeRequests = () => {
     const connectCard = () => {
         const [firstCard, ...remainingCards] = requests;
         setConnectedCards(prevConnectedCards => [...prevConnectedCards, firstCard]);
+        setConnectedUser(firstCard.user);
         setRequests(remainingCards);
         setNotificationType('connect');
         setTimeout(() => setNotificationType(null), 1000); // Set timeout for the notification to disappear
+        setIsModalOpen(true);
     };
 
 
@@ -74,6 +220,7 @@ const SeeRequests = () => {
         })
             .then(response => response.json())
             .then(requestsData => {
+
                 const userRequestsPromises = requestsData.map(request => {
                     return fetch(`http://localhost:3001/api/showOtherProfile/onlyProfile?userId=${request.user_id}`, {
                         method: "GET",
@@ -90,6 +237,27 @@ const SeeRequests = () => {
                 Promise.all(userRequestsPromises)
                     .then(completeRequests => {
                         setRequests(completeRequests);
+                        getUniqueAreas(completeRequests);
+                        const getInitialUniqueRegions = () => {
+                            const regions = completeRequests.map(request => request.region);
+                            const uniqueRegions = ['All regions', ...new Set(regions)];
+                            setUniqueRegions(uniqueRegions);
+                          };
+                          getInitialUniqueRegions();
+                          const getInitialUniqueRoutes = () => {
+                            const routes = completeRequests.flatMap(request => request.selected_routes.map(routeString => {
+                              try {
+                                const route = JSON.parse(routeString);
+                                return route.name;
+                              } catch (error) {
+                                console.error('Error parsing JSON string:', error);
+                                return null;
+                              }
+                            }));
+                            const uniqueRoutes = ['All routes', ...new Set(routes)];
+                            setUniqueRoutes(uniqueRoutes);
+                          };
+                          getInitialUniqueRoutes();
                         setIsLoading(false);
                     })
                     .catch(err => {
@@ -109,42 +277,106 @@ const SeeRequests = () => {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                <div style={{ display: 'grid', gridTemplateRows: '1fr auto', height: '100vh', marginTop: "4rem" }}>
-                    <div {...swipeHandlers} style={{ position: 'relative' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Button onClick={clearFilters}>Clear all filters</Button>
 
-                        {[...requests].reverse().map((request, index) => {
-                            currentIndexRef.current = index;
-                            const even = index % 2 === 0;
-                            const rotation = even ? index * 1 : -index * 1; // degrees
-                            const translateY = index * 4; // pixels
-
-
-                            // Apply the swipe handlers to the top card only
-                            const appliedSwipeHandlers = index === 0 ? swipeHandlers : {};
-
-
-                            return (
-                                <div
-                                    key={index}
-                                    style={{
-                                        position: 'absolute',
-                                        width: '100%',
-                                        height: '100%',
-                                        transform: `translateY(-${translateY}px) rotate(${rotation}deg) translateX(${cardPosition}px)`,
-                                        transition: 'transform 0.3s',
-                                        cursor: 'pointer',
+                            <FormControl >
+                                <InputLabel id="area-select-label" >Area</InputLabel>
+                                <Select
+                                    labelId="area-select-label"
+                                    id="area-select"
+                                    multiple
+                                    value={filterArea}
+                                    label="Area"
+                                    onChange={handleChange}
+                                    sx={{
+                                        backgroundColor: "#ffffff",
+                                        borderRadius: 4,
+                                        padding: 1,
+                                        margin: 1,
+                                        width: "200px",
+                                        cursor: "pointer",
+                                        '&.Mui-selected': {
+                                            backgroundColor: "#000000",
+                                            color: "#ffffff",
+                                        },
                                     }}
-                                    {...appliedSwipeHandlers}
                                 >
+                                    <MenuItem value='All areas'>All areas</MenuItem>
+                                    {uniqueAreas.map((area, index) => (
+                                       <MenuItem key={index} value={area}>
+                                       {filterArea.includes(area) && <CheckIcon />}
+                                       {area}
+                                     </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <FormControl >
+                                <InputLabel id="region-select-label">Region</InputLabel>
+                                <Select
+                                    labelId="region-select-label"
+                                    id="region-select"
+                                    multiple
+                                    value={filterRegion}
+                                    label="Region"
+                                    onChange={handleRegionChange}
+                                    sx={{
+                                        backgroundColor: "#ffffff",
+                                        borderRadius: 4,
+                                        padding: 1,
+                                        margin: 1,
+                                        width: "200px",
+                                        cursor: "pointer",
+                                        '&.Mui-selected': {
+                                            backgroundColor: "#000000",
+                                            color: "#ffffff",
+                                        },
+                                    }}
+                                >
+                                    {uniqueRegions.map((region, index) => (
+                                        <MenuItem key={index} value={region}>
+                                        {filterRegion.includes(region) && <CheckIcon />}
+                                        {region}
+                                      </MenuItem>
+                                       
+                                    ))}
+                                </Select>
+                            </FormControl>
 
-                                    <RequestCard request={request} />
-
-                                </div>
-                            );
-                        })}
+                            <FormControl >
+                                <InputLabel id="route-select-label">Route</InputLabel>
+                                <Select
+                                    labelId="route-select-label"
+                                    id="route-select"
+                                    multiple
+                                    value={filterRoutes}
+                                    label="Route"
+                                    onChange={handleRouteChange}
+                                    sx={{
+                                        backgroundColor: "#ffffff",
+                                        borderRadius: 4,
+                                        padding: 1,
+                                        margin: 1,
+                                        width: "200px",
+                                        cursor: "pointer",
+                                        '&.Mui-selected': {
+                                            backgroundColor: "#000000",
+                                            color: "#ffffff",
+                                        },
+                                    }}
+                                >
+                                    {uniqueRoutes.map((route, index) => (
+                                        <MenuItem key={index} value={route}>
+                                        {filterRoutes.includes(route) && <CheckIcon />}
+                                        {route}
+                                      </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
 
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', zIndex: 1000 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', zIndex: 1000, marginTop: 20 }}>
                         <Button
                             variant="contained"
                             startIcon={<CloseIcon />}
@@ -180,20 +412,94 @@ const SeeRequests = () => {
                             Connect
                         </Button>
                     </div>
-                    {notificationType && (
-                        <div className={`notification ${notificationType}`} style={{ fontSize: '5em' }}>
-                            {notificationType === 'connect' ? (
-                                <CheckCircleOutlineIcon style={{ fontSize: '4em' }} />
-                            ) : notificationType === 'dismiss' ? (
-                                <HighlightOffIcon style={{ fontSize: '4em' }} />
-                            ) : notificationType === 'undo' ? (
-                                <ReplayIcon style={{ fontSize: '4em' }} />
-                            ) : null}
+                    <div style={{ display: 'grid', gridTemplateRows: '1fr auto', height: '100vh', marginTop: "4rem" }}>
+                        <Modal
+                            open={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                        >
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    bgcolor: 'background.paper',
+                                    boxShadow: 24,
+                                    p: 4,
+                                    maxHeight: '90vh',
+                                    overflow: 'auto'
+                                }}
+                            >
+                                <IconButton
+                                    aria-label="close"
+                                    onClick={handleClose}
+                                    sx={{
+                                        position: 'absolute',
+                                        right: 8,
+                                        top: 8,
+                                    }}
+                                >
+                                    <CloseIcon fontSize="large" />
+                                </IconButton>
+                                <SendAMessage
+                                    user={connectedUser}
+                                />
+
+                            </Box>
+                        </Modal>
+                        <div {...swipeHandlers} style={{ position: 'relative' }}>
+
+                            {[...requests].reverse().map((request, index) => {
+                                currentIndexRef.current = index;
+                                const even = index % 2 === 0;
+                                const rotation = even ? index * 1 : -index * 1; // degrees
+                                const translateY = index * 4; // pixels
+
+
+                                // Apply the swipe handlers to the top card only
+                                const appliedSwipeHandlers = index === 0 ? swipeHandlers : {};
+
+
+                                return (
+
+                                    <div
+                                        key={index}
+                                        style={{
+                                            position: 'absolute',
+                                            width: '100%',
+                                            height: '100%',
+                                            transform: `translateY(-${translateY}px) rotate(${rotation}deg) translateX(${cardPosition}px)`,
+                                            transition: 'transform 0.3s',
+                                            cursor: 'pointer',
+                                        }}
+                                        {...appliedSwipeHandlers}
+                                    >
+
+                                        <RequestCard request={request} />
+
+                                    </div>
+
+                                );
+                            })}
+
                         </div>
-                    )}
+
+                        {notificationType && (
+                            <div className={`notification ${notificationType}`} style={{ fontSize: '5em' }}>
+                                {notificationType === 'connect' ? (
+                                    <CheckCircleOutlineIcon style={{ fontSize: '4em' }} />
+                                ) : notificationType === 'dismiss' ? (
+                                    <HighlightOffIcon style={{ fontSize: '4em' }} />
+                                ) : notificationType === 'undo' ? (
+                                    <ReplayIcon style={{ fontSize: '4em' }} />
+                                ) : null}
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>
+
     );
 };
 
