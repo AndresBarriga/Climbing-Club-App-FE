@@ -82,13 +82,11 @@ const SideBar = () => {
 
       <Box className="mySidebar"  
         sx={{
-          height: '100vh',
           "& .pro-sidebar": {
-              height: '100vh !important',
               
           },
           "& .pro-sidebar-inner": {
-            height: '100vh !important', 
+           
             background: `#739072 !important`,
             flexDirection: "column",
             
@@ -110,7 +108,7 @@ const SideBar = () => {
         }}
       >
         <ProSidebar collapsed={true} > {/* Always collapsed */}
-          <Menu iconShape="square">
+        <Menu iconShape="square" style={{ paddingBottom: '240%' }}>
             {/* Avatar */}
             <Box mb="25px" margin="3">
               <Box display="flex" justifyContent="center" alignItems="center" >
@@ -209,7 +207,9 @@ const SideBar = () => {
             
         
           </Box>
+          
         </Menu>
+        <div style={{ flexGrow: 1 }} />
       </ProSidebar>
     </Box>
 

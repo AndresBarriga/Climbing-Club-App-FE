@@ -13,21 +13,19 @@ const SeeRequestIndex = () => {
   if (!isAuthenticated) {
     return loginMessage;
   }
-
-return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <TopBar />
-        <div style={{ display: 'flex', margin:0}}>
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-          <SideBar />
-          </div>
-          <div className='custom-paper2' style={{ display: 'flex', flex: 1  , flexDirection: "column", padding:20 }}>
-          <SeeRequests/>
-          </div>
-          
+  return (
+    <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100vh' }}>
+      <TopBar />
+      <div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <SideBar style={{ margin: 0, padding: 0 }} />
+        </div>
+        <div className='custom-paper2' style={{ display: 'flex', flexDirection: 'column', padding: 20 }}>
+          <SeeRequests style={{ margin: 0, padding: 0 }} />
+        </div>
       </div>
     </div>
-    )
-}
+  );
+};
 
 export default SeeRequestIndex;

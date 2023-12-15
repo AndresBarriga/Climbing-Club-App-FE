@@ -16,8 +16,11 @@ import Box from '@mui/material/Box';
 import { SendAMessage } from '../sendAMessage/sendAMessage';
 import moment from "moment";
 import { styled } from '@mui/system';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, TextField, Typography } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers-pro';
+import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 
 
 
@@ -37,20 +40,21 @@ const SeeRequests = () => {
 
 
 
+
     //Const for the filters
     const [filterArea, setFilterArea] = useState(["All areas"]);
     const [filterCountry, setFilterCountry] = useState('');
     const [filterRegion, setFilterRegion] = useState(['All regions']);
     const [filterRoutes, setFilterRoutes] = useState(['All routes']);
-    const [filterStartDate, setFilterStartDate] = useState(null);
-    const [filterEndDate, setFilterEndDate] = useState(null);
-    const [filterClimbingStyle, setFilterClimbingStyle] = useState('')
+    const [filterDateRange, setFilterDateRange] = useState([null, null]);
+    const [filterStyle, setFilterStyle] = useState(['All styles']);
 
     //Managing what to show in filters selection
     const [uniqueAreas, setUniqueAreas] = useState([]);
     const [uniqueRegions, setUniqueRegions] = useState([]);
     const [uniqueRoutes, setUniqueRoutes] = useState([]);
-     //Passing filters to create new array
+    const [uniqueStyles, setUniqueStyles] = useState([]);
+    //Passing filters to create new array
     const [requestsWithFilters, setRequestsWithFilters] = useState([]);
 
     const getUniqueAreas = (requests) => {
@@ -61,107 +65,142 @@ const SeeRequests = () => {
 
     useEffect(() => {
         const getUniqueRegions = () => {
-          const regions = requestsWithFilters.map(request => request.region);
-          const uniqueRegions = ['All regions', ...new Set(regions)];
-          setUniqueRegions(uniqueRegions);
+            const regions = requestsWithFilters.map(request => request.region);
+            const uniqueRegions = ['All regions', ...new Set(regions)];
+            setUniqueRegions(uniqueRegions);
         };
-      
+
         getUniqueRegions();
-      }, [requestsWithFilters]);
+    }, [requestsWithFilters]);
 
     useEffect(() => {
         const getUniqueRoutes = () => {
             const routes = requestsWithFilters.flatMap(request => request.selected_routes ? request.selected_routes.map(routeString => {
-              try {
-                const route = JSON.parse(routeString);
-                return route.name;
-              } catch (error) {
-                console.error('Error parsing JSON string:', error);
-                return null;
-              }
+                try {
+                    const route = JSON.parse(routeString);
+                    return route.name;
+                } catch (error) {
+                    console.error('Error parsing JSON string:', error);
+                    return null;
+                }
             }) : []);
             const uniqueRoutes = ['All routes', ...new Set(routes)];
             setUniqueRoutes(uniqueRoutes);
-          };
-      
-        getUniqueRoutes();
-      }, [requestsWithFilters]);
+        };
 
+        getUniqueRoutes();
+    }, [requestsWithFilters]);
+
+    useEffect(() => {
+        const getUniqueStyles = () => {
+            const styles = requestsWithFilters.flatMap(request => request.climbing_style);
+            const uniqueStyles = ['All styles', ...new Set(styles)];
+            setUniqueStyles(uniqueStyles);
+        };
+
+        getUniqueStyles();
+    }, [requestsWithFilters]);
 
     const handleChange = (event) => {
         const newSelectedAreas = event.target.value;
         if (newSelectedAreas.length === 1 && newSelectedAreas[0] === 'All areas') {
-          // If 'All areas' is the only selected area, deselect all other areas
-          setFilterArea(['All areas']);
+            // If 'All areas' is the only selected area, deselect all other areas
+            setFilterArea(['All areas']);
         } else if (newSelectedAreas.includes('All areas')) {
-          // If another area is selected and 'All areas' is also selected, deselect 'All areas'
-          setFilterArea(newSelectedAreas.filter(area => area !== 'All areas'));
+            // If another area is selected and 'All areas' is also selected, deselect 'All areas'
+            setFilterArea(newSelectedAreas.filter(area => area !== 'All areas'));
         } else {
-          // Otherwise, update the selected areas
-          setFilterArea(newSelectedAreas);
+            // Otherwise, update the selected areas
+            setFilterArea(newSelectedAreas);
         }
-      };
+    };
 
-      const handleRegionChange = (event) => {
+    const handleRegionChange = (event) => {
         const newSelectedRegions = event.target.value;
         if (newSelectedRegions.length === 1 && newSelectedRegions[0] === 'All regions') {
-          setFilterRegion(['All regions']);
+            setFilterRegion(['All regions']);
         } else if (newSelectedRegions.includes('All regions')) {
-          setFilterRegion(newSelectedRegions.filter(region => region !== 'All regions'));
+            setFilterRegion(newSelectedRegions.filter(region => region !== 'All regions'));
         } else {
-          setFilterRegion(newSelectedRegions);
+            setFilterRegion(newSelectedRegions);
         }
-      };
+    };
 
 
-      const handleRouteChange = (event) => {
+    const handleRouteChange = (event) => {
         const newSelectedRoutes = event.target.value;
         if (newSelectedRoutes.length === 1 && newSelectedRoutes[0] === 'All routes') {
-          // If 'All routes' is the only selected route, deselect all other routes
-          setFilterRoutes(['All routes']);
+            // If 'All routes' is the only selected route, deselect all other routes
+            setFilterRoutes(['All routes']);
         } else if (newSelectedRoutes.includes('All routes')) {
-          // If another route is selected and 'All routes' is also selected, deselect 'All routes'
-          setFilterRoutes(newSelectedRoutes.filter(route => route !== 'All routes'));
+            // If another route is selected and 'All routes' is also selected, deselect 'All routes'
+            setFilterRoutes(newSelectedRoutes.filter(route => route !== 'All routes'));
         } else {
-          // Otherwise, update the selected routes
-          setFilterRoutes(newSelectedRoutes);
+            // Otherwise, update the selected routes
+            setFilterRoutes(newSelectedRoutes);
         }
-      };
+    };
 
-      const clearFilters = () => {
+    const handleStyleChange = (event) => {
+        const newSelectedStyles = event.target.value;
+        if (newSelectedStyles.length === 1 && newSelectedStyles[0] === 'All styles') {
+            // If 'All styles' is the only selected style, deselect all other styles
+            setFilterStyle(['All styles']);
+        } else if (newSelectedStyles.includes('All styles')) {
+            // If another style is selected and 'All styles' is also selected, deselect 'All styles'
+            setFilterStyle(newSelectedStyles.filter(style => style !== 'All styles'));
+        } else {
+            // Otherwise, update the selected styles
+            setFilterStyle(newSelectedStyles);
+        }
+    };
+
+    useEffect(() => {
+        const getUniqueStyles = () => {
+            const styles = requestsWithFilters.flatMap(request => request.climbing_style);
+            const uniqueStyles = ['All styles', ...new Set(styles)];
+            setUniqueStyles(uniqueStyles);
+        };
+
+        getUniqueStyles();
+    }, [requestsWithFilters]);
+
+    const clearFilters = () => {
         setFilterArea(['All areas']);
         setFilterRegion(['All regions']);
         setFilterRoutes(['All routes']);
-        setFilterStartDate(null);
-        setFilterEndDate(null);
-        setFilterClimbingStyle('');
-      };
+        setFilterDateRange(null);;
+        setFilterStyle('');
+    };
 
     useEffect(() => {
         if (requests.length > 0) {
             const filteredRequests = requests.filter(request =>
-              (filterArea.length > 0 && !filterArea.includes('All areas') ? filterArea.includes(request.area) : true) &&
-              (filterRegion.length > 0 && !filterRegion.includes('All regions') ? filterRegion.includes(request.region) : true) &&
-              (filterRoutes.length > 0 && !filterRoutes.includes('All routes') ? request.selected_routes && request.selected_routes.some(routeString => {
-                try {
-                  const route = JSON.parse(routeString);
-                  return filterRoutes.includes(route.name);
-                } catch (error) {
-                  console.error('Error parsing JSON string:', error);
-                  return false;
-                }
-              }) : true) &&
-                (filterStartDate !== null ? moment(request.time_data.startDate).format('DD-MM-YYYY') === moment(filterStartDate).format('DD-MM-YYYY') : true) &&
-                (filterEndDate !== null ? moment(request.time_data.endDate).format('DD-MM-YYYY') === moment(filterEndDate).format('DD-MM-YYYY') : true) &&
-                (filterClimbingStyle !== "" ? request.climbingStyle === filterClimbingStyle : true)
+                (filterArea.length > 0 && !filterArea.includes('All areas') ? filterArea.includes(request.area) : true) &&
+                (filterRegion.length > 0 && !filterRegion.includes('All regions') ? filterRegion.includes(request.region) : true) &&
+                (filterRoutes.length > 0 && !filterRoutes.includes('All routes') ? request.selected_routes && request.selected_routes.some(routeString => {
+                    try {
+                        const route = JSON.parse(routeString);
+                        return filterRoutes.includes(route.name);
+                    } catch (error) {
+                        console.error('Error parsing JSON string:', error);
+                        return false;
+                    }
+                }) : true) &&
+                ('startDate' in request.time_data ?
+                (filterDateRange[0] !== null ? moment(request.time_data.startDate).isSameOrAfter(moment(filterDateRange[0].toDate())) : true) &&
+                (filterDateRange[1] !== null ? moment(request.time_data.startDate).isSameOrBefore(moment(filterDateRange[1].toDate())) : true)
+                : true) &&
+                (filterStyle.length > 0 && !filterStyle.includes('All styles') ? request.climbing_style.some(style => filterStyle.includes(style)) : true)
 
             );
             setRequestsWithFilters(filteredRequests);
         }
-    }, [requests, filterArea, filterRegion, filterRoutes, filterStartDate, filterEndDate, filterClimbingStyle]);
+    }, [requests, filterArea, filterRegion, filterRoutes, filterDateRange, filterStyle]);
 
     console.log("request....", requests)
     console.log("request with filters...", requestsWithFilters)
+    console.log("date range is...", filterDateRange)
 
     // Create the swipe handlers
     const swipeHandlers = useSwipeable({
@@ -242,22 +281,32 @@ const SeeRequests = () => {
                             const regions = completeRequests.map(request => request.region);
                             const uniqueRegions = ['All regions', ...new Set(regions)];
                             setUniqueRegions(uniqueRegions);
-                          };
-                          getInitialUniqueRegions();
-                          const getInitialUniqueRoutes = () => {
+                        };
+                        getInitialUniqueRegions();
+
+
+                        const getInitialUniqueRoutes = () => {
                             const routes = completeRequests.flatMap(request => request.selected_routes.map(routeString => {
-                              try {
-                                const route = JSON.parse(routeString);
-                                return route.name;
-                              } catch (error) {
-                                console.error('Error parsing JSON string:', error);
-                                return null;
-                              }
+                                try {
+                                    const route = JSON.parse(routeString);
+                                    return route.name;
+                                } catch (error) {
+                                    console.error('Error parsing JSON string:', error);
+                                    return null;
+                                }
                             }));
                             const uniqueRoutes = ['All routes', ...new Set(routes)];
                             setUniqueRoutes(uniqueRoutes);
-                          };
-                          getInitialUniqueRoutes();
+                        };
+                        getInitialUniqueRoutes();
+
+                        const getInitialUniqueStyles = () => {
+                            const styles = completeRequests.map(request => request.style);
+                            const uniqueStyles = ['All regions', ...new Set(styles)];
+                            setUniqueStyles(uniqueStyles);
+                        };
+                        getInitialUniqueStyles();
+
                         setIsLoading(false);
                     })
                     .catch(err => {
@@ -277,110 +326,161 @@ const SeeRequests = () => {
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Button onClick={clearFilters}>Clear all filters</Button>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                     <Typography variant="h6" style={{ flex: 1, opacity: 0.7 }}>🔎 Add filters to see what interest you the most! </Typography>
+                     <Button onClick={clearFilters}sx={{ borderRadius: '12px', border: '1px solid grey' , flexGrow: 1, alignSelf: 'flex-end', margin: '10px' }}>Clear all</Button>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                       
 
-                            <FormControl >
-                                <InputLabel id="area-select-label" >Area</InputLabel>
-                                <Select
-                                    labelId="area-select-label"
-                                    id="area-select"
-                                    multiple
-                                    value={filterArea}
-                                    label="Area"
-                                    onChange={handleChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        padding: 1,
-                                        margin: 1,
-                                        width: "200px",
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    <MenuItem value='All areas'>All areas</MenuItem>
-                                    {uniqueAreas.map((area, index) => (
-                                       <MenuItem key={index} value={area}>
-                                       {filterArea.includes(area) && <CheckIcon />}
-                                       {area}
-                                     </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormControl >
-                                <InputLabel id="region-select-label">Region</InputLabel>
-                                <Select
-                                    labelId="region-select-label"
-                                    id="region-select"
-                                    multiple
-                                    value={filterRegion}
-                                    label="Region"
-                                    onChange={handleRegionChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        padding: 1,
-                                        margin: 1,
-                                        width: "200px",
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    {uniqueRegions.map((region, index) => (
-                                        <MenuItem key={index} value={region}>
+                        <FormControl >
+                            <InputLabel id="area-select-label" >Area</InputLabel>
+                            <Select
+                                labelId="area-select-label"
+                                id="area-select"
+                                multiple
+                                value={filterArea}
+                                label="Area"
+                                onChange={handleChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
+                            >
+                                <MenuItem value='All areas'>All areas</MenuItem>
+                                {uniqueAreas.map((area, index) => (
+                                    <MenuItem key={index} value={area}>
+                                        {filterArea.includes(area) && <CheckIcon />}
+                                        {area}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl >
+                            <InputLabel id="region-select-label">Region</InputLabel>
+                            <Select
+                                labelId="region-select-label"
+                                id="region-select"
+                                multiple
+                                value={filterRegion}
+                                label="Region"
+                                onChange={handleRegionChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
+                            >
+                                {uniqueRegions.map((region, index) => (
+                                    <MenuItem key={index} value={region}>
                                         {filterRegion.includes(region) && <CheckIcon />}
                                         {region}
-                                      </MenuItem>
-                                       
-                                    ))}
-                                </Select>
-                            </FormControl>
+                                    </MenuItem>
 
-                            <FormControl >
-                                <InputLabel id="route-select-label">Route</InputLabel>
-                                <Select
-                                    labelId="route-select-label"
-                                    id="route-select"
-                                    multiple
-                                    value={filterRoutes}
-                                    label="Route"
-                                    onChange={handleRouteChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        padding: 1,
-                                        margin: 1,
-                                        width: "200px",
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    {uniqueRoutes.map((route, index) => (
-                                        <MenuItem key={index} value={route}>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+                        <FormControl >
+                            <InputLabel id="route-select-label">Route</InputLabel>
+                            <Select
+                                labelId="route-select-label"
+                                id="route-select"
+                                multiple
+                                value={filterRoutes}
+                                label="Route"
+                                onChange={handleRouteChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
+                            >
+                                {uniqueRoutes.map((route, index) => (
+                                    <MenuItem key={index} value={route}>
                                         {filterRoutes.includes(route) && <CheckIcon />}
                                         {route}
-                                      </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
+                        <FormControl >
+                            <InputLabel id="style-select-label">Climbing Style</InputLabel>
+                            <Select
+                                labelId="style-select-label"
+                                id="style-select"
+                                multiple
+                                value={filterStyle}
+                                label="Style"
+                                onChange={handleStyleChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
+                            >
+                                {uniqueStyles.map((style, index) => (
+
+                                    <MenuItem key={index} value={style}>
+                                        {filterStyle.includes(style) && <CheckIcon />}
+                                        {style}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Box sx={{ border: '1px solid grey', borderRadius: '4px', padding: '5px', width: 'fit-content' }}>
+  <Typography variant="body2" >You want to climb between:</Typography>
+  <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <DateRangePicker
+      startText="Start date"
+      endText="End date"
+      value={filterDateRange}
+      onChange={(newValue) => {
+        setFilterDateRange(newValue);
+      }}
+      renderInput={(startProps, endProps) => (
+        <React.Fragment>
+          <TextField {...startProps} sx={{ width: '40% !important' }} />
+          <Box sx={{ mx: 2 }}> to </Box>
+          <TextField {...endProps} sx={{ width: '40% !important' }} />
+        </React.Fragment>
+      )}
+      inputFormat="DD/MM/YYYY"
+    />
+  </LocalizationProvider>
+</Box>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', zIndex: 1000, marginTop: 20 }}>
                         <Button
                             variant="contained"
                             startIcon={<CloseIcon />}
-                            style={{ width: '150px', height: '60px', fontSize: '1.25rem' }}
+                            
                             className="block w-full rounded bg-red-700 px-16 py-4 text-lg font-medium text-white shadow hover:bg-white hover:text-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto" onClick={() => {
                                 dismissCard();
 
@@ -391,7 +491,7 @@ const SeeRequests = () => {
                         <Button
                             variant="contained"
                             startIcon={<UndoIcon />}
-                            style={{ width: '150px', height: '60px', fontSize: '1.25rem' }}
+                           
                             className="undo-button block w-full rounded bg-yellow-700 px-12 py-6 text-sm font-medium text-white shadow hover:bg-white hover:text-yellow-700 focus:outline-none focus:ring active:bg-yellow-500 sm:w-auto"
                             onClick={undoDismiss}
 
@@ -403,7 +503,7 @@ const SeeRequests = () => {
                         <Button
                             variant="contained"
                             startIcon={<CheckCircleIcon />}
-                            style={{ width: '150px', height: '60px', fontSize: '1.25rem' }}
+                  
                             className="block w-full rounded bg-green-700 px-12 py-6 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
                             onClick={() => {
                                 connectCard();
@@ -449,7 +549,7 @@ const SeeRequests = () => {
                         </Modal>
                         <div {...swipeHandlers} style={{ position: 'relative' }}>
 
-                            {[...requests].reverse().map((request, index) => {
+                        {[...requestsWithFilters].reverse().map((request, index) => {
                                 currentIndexRef.current = index;
                                 const even = index % 2 === 0;
                                 const rotation = even ? index * 1 : -index * 1; // degrees
@@ -499,7 +599,7 @@ const SeeRequests = () => {
                 </div>
             )}
         </div>
-
+    
     );
 };
 
