@@ -1,6 +1,6 @@
 import "./styles/App.css";
 import "./styles/index.css";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles'; 
 import HomePage from "./pages/Website/Home/Home";
@@ -21,12 +21,24 @@ import FindPartnerIndex from "./pages/mainpage/scenes/finding-Partner/find-partn
 import ActiveRequestIndex from "./pages/mainpage/scenes/finding-Partner/ActiveRequests/activeRequestIndex";
 import RoutesDetailsIndex from "./pages/mainpage/scenes/climbingPlaces/routes/routeDetailsIndex";
 import SeeRequestIndex from "./pages/mainpage/scenes/finding-Partner/SeeRequest/seeRequestIndex";
+import InboxIndex from "./pages/mainpage/scenes/messaging/inboxIndex";
 
 
 
 function App() { 
    // State for storing the user token
   const [token, setToken] = useState(null);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+  }, [])
+  console.log("API KEY",process.env.REACT_APP_GOOGLE_API_KEY)
+  
+  
+
   return(
   <ThemeProvider theme={theme}>
   <Routes>
@@ -46,6 +58,7 @@ function App() {
     <Route path="/find-a-buddy" element={<FindPartnerIndex />} />
     <Route path="/showActiveRequest/:request" element={<ActiveRequestIndex />} />
     <Route path="/allRequests" element={<SeeRequestIndex/>} />
+    <Route path="/inbox" element={<InboxIndex />} />
     
   </Routes>
 </ThemeProvider>

@@ -9,6 +9,7 @@ import NotificationTop from "./NotificationTop";
 import ProfileDropdown from "./ProfileDropdown";
 import SettingsDropdown from "./SettingsDropdown";
 import { useNavigate } from "react-router-dom";
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 
 // All pages within the app has a Topbar, this is displayed always on top and offer search, settings, profile , notifications.
@@ -19,7 +20,34 @@ const Topbar = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
+    const [newMessagesCount, setNewMessagesCount] = useState(0);
 
+
+    useEffect(() => {
+        const fetchNewMessages = async () => {
+            fetch('http://localhost:3001/api/newMessages', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setNewMessagesCount(data.newMessagesCount);
+            })
+            .catch(error => {
+                console.error('Error fetching new messages:', error);
+            });
+        };
+    
+        fetchNewMessages();
+    }, []); // Add any dependencies here
 
     useEffect(() => {
         const timeoutId = setTimeout(fetchSearchResults, 500);
@@ -75,8 +103,7 @@ const Topbar = () => {
                         <SearchIcon />
                     </IconButton>
                     </Box>
-                {/* SEARCH RESULTS */}
-                {/* SEARCH RESULTS */}
+               
         {searchResults.length > 0 && (
             <Card style={{ position: 'absolute', zIndex: 1, top: '100%', width: '300px', marginTop: '10px' }}>
                 <List>
@@ -121,6 +148,22 @@ const Topbar = () => {
                 <IconButton onClick={handleToggleNotifications} >
                     <NotificationsOutlinedIcon className="mx-1" style={{ color: "#f0f8c7" }} />
                 </IconButton>
+                <IconButton onClick={() => navigate('/inbox')}>
+    <MailOutlineIcon className="mx-1" style={{ color: "#f0f8c7" }} />
+    {newMessagesCount > 0 && (
+               <span style={{
+                color: "white",
+                backgroundColor: "red",
+                borderRadius: "50%",
+                padding: "1.5px 6px",
+                fontSize: "0.5em",
+                fontWeight: "bold"
+            }}>
+                {newMessagesCount}
+            </span>
+        )}
+            
+</IconButton>
                 {openNotifications && <NotificationTop setOpen={setOpenNotifications} />}
                 <IconButton onClick={handleToggleSettings}>
                     <SettingsOutlinedIcon className="mx-1" style={{ color: "#f0f8c7" }} />

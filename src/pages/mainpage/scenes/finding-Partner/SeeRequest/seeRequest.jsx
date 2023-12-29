@@ -308,7 +308,7 @@ const SeeRequests = () => {
 
         useEffect(() => {
             setIsLoading(true);
-            fetch('http://localhost:3001/api/getAllRequests', {
+            fetch('http://localhost:3001/api/getAllRequests/otherUsers', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`

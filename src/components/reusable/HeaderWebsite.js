@@ -22,18 +22,26 @@ const AppHeader = () => {
 		}
 	}
     
-	useEffect(() => {
-		// Check if a token exists in local storage
-		const token = localStorage.getItem('token');
-		if (token) {
-		  // If a token exists, the user is authenticated
-		  setIsAuthenticated(true);
-		} else {
-		  // If no token exists, the user is not authenticated
-		  setIsAuthenticated(false);
-		}
-	  }, []); 
-
+	  useEffect(() => {
+		fetch('http://localhost:3001/check-auth', {
+		  method: 'GET',
+		  credentials: 'include',
+		  headers: {
+			'Authorization': `Bearer ${localStorage.getItem('token')}`
+		  },
+		})
+		  .then((response) => {
+			// If the response status is 200, the user is authenticated
+			if (response.status === 200) {
+			  setIsAuthenticated(true); 
+			}
+		  })
+		  .catch((error) => {
+			// Log any errors
+			console.error(error);
+		  });
+	  },  []);
+	
 
 	return (
 

@@ -5,6 +5,7 @@ import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth
 import React, { useState, useEffect } from 'react';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
+
 // Function to calculate age based on birthdate extracted from DB
 function calculateAge(birthdate) {
   const birthDate = new Date(birthdate);
@@ -65,12 +66,6 @@ const UserProfileCardOthers = ({ userId }) => {
       }
     }
   }, [isAuthenticated, firstRender]);
-
-  // Log user and preferences when they change -Debugging purposes
-  useEffect(() => {
-    console.log('User:', user);
-    console.log('Preferences:', preferences);
-  }, [user, preferences]);
 
   // Show loading screen while fetching data - Otherwise map function renders faster than we fetch info from DB and returns error "Can't map"
   if (loading) {

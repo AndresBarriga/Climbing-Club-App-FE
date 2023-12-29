@@ -42,7 +42,7 @@ const RequestCard = ({ request }) => {
 
     return (
         <>
-            <Paper sx={{ width: '50%', padding: 2, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'relative', '&:hover': {transform: 'scale(1.05)'}}} elevation={3}>
+            <Paper sx={{ width: '50%', padding: 2, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'relative', '&:hover': { transform: 'scale(1.05)' } }} elevation={3}>
 
                 <IconButton
                     aria-label="delete"
@@ -66,7 +66,7 @@ const RequestCard = ({ request }) => {
                             boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
                             transform: 'scale(1.1)',
                         },
-                       
+
                     }}
                     onClick={handleOpen}
                 >
@@ -90,32 +90,32 @@ const RequestCard = ({ request }) => {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box  sx={{ 
-      position: 'absolute', 
-      top: '50%', 
-      left: '50%', 
-      transform: 'translate(-50%, -50%)', 
-      bgcolor: 'background.paper', 
-      boxShadow: 24, 
-      p: 4,
-      maxHeight: '90vh', // Set a maximum height
-      overflow: 'auto' // Add a scrollbar if the content is too large
-    }} >
-            <IconButton
-      aria-label="close"
-      onClick={handleClose}
-      sx={{
-        position: 'absolute',
-        right: 8,
-        top: 8,
-        '&:hover': {
-            transform: 'scale(1.1)', // Slightly increase the size on hover
-          },
-      }}
-    >
-      <CloseIcon fontSize="large" />
-    </IconButton>
-                        <UserProfileCardOthers userId={request.user_id}/>
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4,
+                        maxHeight: '90vh', // Set a maximum height
+                        overflow: 'auto' // Add a scrollbar if the content is too large
+                    }} >
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                '&:hover': {
+                                    transform: 'scale(1.1)', // Slightly increase the size on hover
+                                },
+                            }}
+                        >
+                            <CloseIcon fontSize="large" />
+                        </IconButton>
+                        <UserProfileCardOthers userId={request.user_id} />
                     </Box>
                 </Modal>
                 <Box sx={{ marginTop: 2 }}>
