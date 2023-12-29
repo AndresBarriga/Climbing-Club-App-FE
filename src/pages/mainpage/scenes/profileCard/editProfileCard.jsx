@@ -94,7 +94,7 @@ const EditProfileCard = () => {
 
   useEffect(() => {
     if (firstRender) {
-      if (isAuhenticated) {
+      if (isAuthenticated) {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/show-profile`, {
           method: "GET",
           headers: {
