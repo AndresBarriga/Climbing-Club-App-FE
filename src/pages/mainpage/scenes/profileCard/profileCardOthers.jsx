@@ -38,7 +38,7 @@ const UserProfileCardOthers = ({ userId }) => {
   useEffect(() => {
     if (firstRender) {
       if (isAuthenticated) {
-        fetch(`http://localhost:3001/api/showOtherProfile/profileAndPreferences?userId=${userId}`, {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/showOtherProfile/profileAndPreferences?userId=${userId}`, {
           method: "GET",
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

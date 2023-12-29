@@ -61,7 +61,7 @@ export default function Login(props) {
     }
 
     // Send login request to the server
-    fetch("http://localhost:3001/auth", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/auth`, {
       method: "POST",
       headers: {
           Accept: "application/json, text/plain, */*",

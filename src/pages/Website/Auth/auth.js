@@ -10,7 +10,7 @@ export const useCheckAuthentication = () => {
   // Effect hook for checking the authentication status
   useEffect(() => {
     // Send a request to the check-auth endpoint
-    fetch('http://localhost:3001/check-auth', {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/check-auth`, {
       method: 'GET',
       credentials: 'include',
       headers: {

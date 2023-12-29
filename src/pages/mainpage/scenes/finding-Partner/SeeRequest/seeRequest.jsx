@@ -308,7 +308,7 @@ const SeeRequests = () => {
 
         useEffect(() => {
             setIsLoading(true);
-            fetch('http://localhost:3001/api/getAllRequests/otherUsers', {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAllRequests/otherUsers`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -318,7 +318,7 @@ const SeeRequests = () => {
                 .then(requestsData => {
 
                     const userRequestsPromises = requestsData.map(request => {
-                        return fetch(`http://localhost:3001/api/showOtherProfile/onlyProfile?userId=${request.user_id}`, {
+                        return fetch(`${process.env.REACT_APP_BACKEND_URL}/api/showOtherProfile/onlyProfile?userId=${request.user_id}`, {
                             method: "GET",
                             headers: {
                                 'Authorization': `Bearer ${localStorage.getItem('token')}`

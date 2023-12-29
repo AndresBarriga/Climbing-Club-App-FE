@@ -86,7 +86,7 @@ export default function Registration(props) {
     }
 
     // Send registration request to the server
-    fetch("http://localhost:3001/registration", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/registration`, {
       method: "POST",
       headers: {
           Accept: "application/json, text/plain, */*",

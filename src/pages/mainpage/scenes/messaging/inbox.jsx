@@ -31,7 +31,7 @@ const Inbox = () => {
     const handleSendMessage = (messageContent) => {
         const { conversation_id, receiver_id, request_uid } = messages[0];
 
-        fetch('http://localhost:3001/api/sendMessage/answer', {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/sendMessage/answer`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ const Inbox = () => {
             setSelectedChat(chat);
             const nameAndLastName = chat.title.split(' - ')[0]; // This will give you 'Alex tio'
             setOtherUserName(nameAndLastName);
-            fetch(`http://localhost:3001/api/getMessage/${chat.conversation_id}/messages`, {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getMessage/${chat.conversation_id}/messages`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -88,7 +88,7 @@ const Inbox = () => {
                     setOtherUserId(otherUserId);
 
                     // Update the read status of the messages in the clicked conversation
-                    fetch('http://localhost:3001/api/updateMessagesStatus', {  // Replace with the actual endpoint
+                    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/updateMessagesStatus`, {  // Replace with the actual endpoint
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const Inbox = () => {
     };
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/getMessage/conversations', {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getMessage/conversations`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`

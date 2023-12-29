@@ -35,7 +35,7 @@ export function ProfileWizard() {
   // Function to handle form submission to DB
   const handleFormSubmit = async (formData) => {
       console.log(formData)
-      const response = await fetch("http://localhost:3001/initial-preferences", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/initial-preferences`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ const RoutesList = () => {
 
 
   const handleFavorite = (route) => {
-    fetch(`http://localhost:3001/user_favourites`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites`, {
       method: "PUT",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -52,7 +52,7 @@ const RoutesList = () => {
   useEffect(() => {
     if (firstRender) {
       console.log("Fetching is happening")
-      fetch(`http://localhost:3001/climbing-locations/${country}/${region}/${area}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/${country}/${region}/${area}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -74,7 +74,7 @@ const RoutesList = () => {
 
   useEffect(() => {
     if (firstRender) {
-      fetch(`http://localhost:3001/user_favourites_get`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites_get`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

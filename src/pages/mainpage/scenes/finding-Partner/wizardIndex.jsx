@@ -53,7 +53,7 @@ useEffect(() => {
       expiration_date = moment().add(1, 'months').endOf('day').toISOString();
     }
     console.log(expiration_date)
-    const response = await fetch('http://localhost:3001/api/create_request', {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/create_request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

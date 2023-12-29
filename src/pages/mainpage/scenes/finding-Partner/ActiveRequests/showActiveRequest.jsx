@@ -35,7 +35,7 @@ const RequestDetails = () => {
   }
 
   function handleConfirmDelete() {
-    fetch(`http://localhost:3001/api/deleteRequest/${selectedRequest.uid}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/deleteRequest/${selectedRequest.uid}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -65,7 +65,7 @@ const RequestDetails = () => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:3001/show-profile", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/show-profile`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -90,7 +90,7 @@ const RequestDetails = () => {
   }, [uid]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/getActiveRequest/${uid}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getActiveRequest/${uid}`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`

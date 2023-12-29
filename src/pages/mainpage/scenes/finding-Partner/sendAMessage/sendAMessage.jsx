@@ -37,7 +37,7 @@ export function SendAMessage({ user, requestUid , onClose}) {
       };
      
        const sendMessage = (message) => {
-        fetch('http://localhost:3001/api/sendMessage/start', {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/sendMessage/start`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -25,7 +25,7 @@ const Topbar = () => {
 
     useEffect(() => {
         const fetchNewMessages = async () => {
-            fetch('http://localhost:3001/api/newMessages', {
+            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/newMessages`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const Topbar = () => {
 
     const fetchSearchResults = async () => {
         if (searchTerm.length >= 3) {
-            const response = await fetch(`http://localhost:3001/search?term=${searchTerm}`);
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/search?term=${searchTerm}`);
             const results = await response.json();
             setSearchResults(results);
         } else {
@@ -119,15 +119,15 @@ const Topbar = () => {
                             onClick={async () => {
                                 let url = '/climbing-locations';
                                 if (result.type === 'Route') {
-                                  const response = await fetch(`http://localhost:3001/searchNavigation/route-details/${result.name}`);
+                                  const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/searchNavigation/route-details/${result.name}`);
                                   const details = await response.json();
                                   url += `/${details.country}/${details.region}/${details.area}/${details.route}`;
                                 } else if (result.type === 'Area') {
-                                  const response = await fetch(`http://localhost:3001/searchNavigation/area-details/${result.name}`);
+                                  const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/searchNavigation/area-details/${result.name}`);
                                   const details = await response.json();
                                   url += `/${details.country}/${details.region}/${result.name}`;
                                 } else if (result.type === 'Region') {
-                                  const response = await fetch(`http://localhost:3001/searchNavigation/region-details/${result.name}`);
+                                  const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/searchNavigation/region-details/${result.name}`);
                                   const details = await response.json();
                                   url += `/${details.country}/${result.name}`;
                                 } else if (result.type === 'Country') {

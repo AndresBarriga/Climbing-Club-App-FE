@@ -19,7 +19,7 @@ const Dashboard = () => {
 
   // Effect hook for checking authentication status
   useEffect(() => {
-    fetch('http://localhost:3001/check-auth', {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/check-auth`, {
       method: 'GET',
       credentials: 'include',
       headers: {

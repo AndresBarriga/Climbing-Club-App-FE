@@ -69,7 +69,7 @@ const RouteDetails = () => {
 
   useEffect(() => {
     // Fetch route details from your API
-    fetch(`http://localhost:3001/climbing-locations/${country}/${region}/${area}/${routeName}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/${country}/${region}/${area}/${routeName}`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -89,7 +89,7 @@ const RouteDetails = () => {
   useEffect(() => {
     if (routeDetails) {
 
-      fetch(`http://localhost:3001/reviews/${routeDetails.id}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/reviews/${routeDetails.id}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -107,7 +107,7 @@ const RouteDetails = () => {
 
   useEffect(() => {
     if (firstRender) {
-      fetch(`http://localhost:3001/user_favourites_get`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites_get`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -125,7 +125,7 @@ const RouteDetails = () => {
   }, [firstRender]);
 
   const handleFavorite = () => {
-    fetch(`http://localhost:3001/user_favourites`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites`, {
       method: "PUT",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -176,7 +176,7 @@ const RouteDetails = () => {
   }
 
   const handleReviewSubmit = () => {
-    fetch(`http://localhost:3001/reviews`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/reviews`, {
       method: "POST",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

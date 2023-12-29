@@ -30,7 +30,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
   useEffect(() => {
     if (firstRender) {
       if (isAuthenticated) {
-        fetch("http://localhost:3001/api/getUserLocation", {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getUserLocation`, {
           method: "GET",
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -60,7 +60,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
 
   // Function to get all Countries from DB
   useEffect(() => {
-    fetch("http://localhost:3001/api/getAvailableLocations/countries", {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAvailableLocations/countries`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -89,7 +89,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
   // Function to get all regions for the choosen country
   useEffect(() => {
     if (country) {
-      fetch(`http://localhost:3001/api/getAvailableLocations/countries/regions?country=${country}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAvailableLocations/countries/regions?country=${country}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -120,7 +120,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
   // Function to get all areas for the choosen region
   useEffect(() => {
     if (region) {
-      fetch(`http://localhost:3001/api/getAvailableLocations/countries/regions/area?region=${region}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAvailableLocations/countries/regions/area?region=${region}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -151,7 +151,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
   // Function to get all routes from choosen Area
   useEffect(() => {
     if (area) {
-      fetch(`http://localhost:3001/api/getAvailableLocations/countries/regions/area/route?area=${area}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAvailableLocations/countries/regions/area/route?area=${area}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

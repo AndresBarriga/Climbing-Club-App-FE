@@ -21,7 +21,7 @@ function MyFavLocations() {
 
 
   async function handleNavigate(route) {
-    const response = await fetch(`http://localhost:3001/climbing-locations/area-details/${route.area}`);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/area-details/${route.area}`);
     const areaDetails = await response.json();
     navigate(`/climbing-locations/${areaDetails.country}/${areaDetails.region}/${route.area}/${route.name}`);
   }
@@ -35,7 +35,7 @@ function MyFavLocations() {
   useEffect(() => {
     const fetchAllRouteInfo = async () => {
       // Fetch the favorite route IDs
-      const response = await fetch('http://localhost:3001/user_favourites_get', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites_get`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -50,7 +50,7 @@ function MyFavLocations() {
 
       // For each favorite route ID, fetch the corresponding route information
       const routeInfoArray = await Promise.all(favouriteIds.map(async (routeId) => {
-        const response = await fetch(`http://localhost:3001/user_favourites_get/route/${routeId}`, {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites_get/route/${routeId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -72,7 +72,7 @@ function MyFavLocations() {
 
 
   function handleConfirmDelete() {
-    fetch(`http://localhost:3001/user_favourites`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

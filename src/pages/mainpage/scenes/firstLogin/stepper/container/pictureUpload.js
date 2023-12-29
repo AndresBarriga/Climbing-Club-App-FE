@@ -15,7 +15,7 @@ export function ProfilePictureForm({ setActiveStep, onSubmit }) {
     uploadData.append('file', file);
 
     try {
-      const res = await fetch('http://localhost:3001/initial-preferences/profile-picture', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/initial-preferences/profile-picture`, {
         method: 'POST',
         body: uploadData,
         headers: {

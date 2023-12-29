@@ -21,7 +21,7 @@ const Areas = () => {
 
   useEffect(() => {
     if (firstRender) {
-      fetch(`http://localhost:3001/climbing-locations/${country}/${region}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/${country}/${region}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

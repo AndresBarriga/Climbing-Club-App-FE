@@ -16,7 +16,7 @@ const Regions = () => {
 
   useEffect(() => {
     if (firstRender) {
-      fetch(`http://localhost:3001/climbing-locations/${country}`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/${country}`, {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

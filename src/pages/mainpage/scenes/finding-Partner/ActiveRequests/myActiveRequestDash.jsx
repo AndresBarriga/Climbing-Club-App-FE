@@ -20,7 +20,7 @@ function MyActiveRequestDash() {
 
   useEffect(() => {
     const fetchRequestInfo = async () => {
-      const response = await fetch('http://localhost:3001/api/getActiveRequest', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getActiveRequest`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -49,7 +49,7 @@ function MyActiveRequestDash() {
     setShowModal(true);
   }
   function handleConfirmDelete() {
-    fetch(`http://localhost:3001/api/deleteRequest/${selectedRequest.uid}`, {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/deleteRequest/${selectedRequest.uid}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`

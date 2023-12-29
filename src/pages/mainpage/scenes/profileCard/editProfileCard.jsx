@@ -94,8 +94,8 @@ const EditProfileCard = () => {
 
   useEffect(() => {
     if (firstRender) {
-      if (isAuthenticated) {
-        fetch("http://localhost:3001/show-profile", {
+      if (isAuhenticated) {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/show-profile`, {
           method: "GET",
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -147,7 +147,7 @@ const EditProfileCard = () => {
     climbing_philosophy: preferences.climbing_philosophy,
   };
     console.log(JSON.stringify(updatedPreferences))
-    const response = await fetch("http://localhost:3001/edit-profile", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-profile`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ const handleFileChange = async (e) => {
     uploadData.append('currentProfilePictureId', currentProfilePictureId);
 
     try {
-      const res = await fetch('http://localhost:3001/edit-profile/profile-picture', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-profile/profile-picture`, {
         method: 'PUT',
         body: uploadData,
         headers: {

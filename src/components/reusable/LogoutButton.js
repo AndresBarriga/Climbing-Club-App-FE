@@ -2,7 +2,7 @@
 
 function LogoutButton() {
     const handleClick = () => {
-        fetch('http://localhost:3001/logout', {
+        fetch('${process.env.REACT_APP_BACKEND_URL}/logout', {
           method: 'GET',
           credentials: 'include',
         })

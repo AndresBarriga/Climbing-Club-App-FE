@@ -36,7 +36,7 @@ const UserProfileCard = () => {
   useEffect(() => {
     if (firstRender) {
       if (isAuthenticated) {
-        fetch("http://localhost:3001/show-profile", {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/show-profile`, {
           method: "GET",
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

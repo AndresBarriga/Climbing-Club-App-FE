@@ -18,7 +18,7 @@ const CountryList = () => {
   useEffect(() => {
     if (firstRender) {
       console.log("Fetching is happening")
-      fetch("http://localhost:3001/climbing-locations", {
+      fetch("${process.env.REACT_APP_BACKEND_URL}/climbing-locations", {
         method: "GET",
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
