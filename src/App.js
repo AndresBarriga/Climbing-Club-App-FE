@@ -7,7 +7,6 @@ import HomePage from "./pages/Website/Home/Home";
 import theme from "./styles/theme"
 import AppHeader from "./components/reusable/HeaderWebsite";
 import Login from './pages/Website/Auth/Login';
-import Registration from './pages/Website/Auth/Registration';
 import InitialPreferences from "./pages/mainpage/scenes/firstLogin/initial-preferences";
 import Dashboard from './pages/mainpage/scenes/dashboard/index';
 import FAQ from './pages/mainpage/scenes/faq/index';
@@ -22,6 +21,10 @@ import ActiveRequestIndex from "./pages/mainpage/scenes/finding-Partner/ActiveRe
 import RoutesDetailsIndex from "./pages/mainpage/scenes/climbingPlaces/routes/routeDetailsIndex";
 import SeeRequestIndex from "./pages/mainpage/scenes/finding-Partner/SeeRequest/seeRequestIndex";
 import InboxIndex from "./pages/mainpage/scenes/messaging/inboxIndex";
+import RegistrationPlus from "./pages/Website/Auth/registrationPlus";
+import CreatePassword from "./pages/Website/Auth/passwordCreationPlus";
+import RestorePassword from "./pages/Website/Auth/recoverPassword";
+import RecoverPasswordCreation from "./pages/Website/Auth/recoverPasswordCreation";
 
 
 
@@ -35,7 +38,7 @@ function App() {
     script.defer = true;
     document.body.appendChild(script);
   }, [])
-  console.log("API KEY",process.env.REACT_APP_GOOGLE_API_KEY)
+  
   
   
 
@@ -44,7 +47,8 @@ function App() {
   <Routes>
     <Route path="/" element={<><AppHeader /> <HomePage /></>}  /> 
     <Route path="/auth" element={<><AppHeader /><Login setToken={setToken}/></>}  />
-    <Route path="/registration" element={<><AppHeader /><Registration/></>}  />
+    <Route path="/registration" element={<><AppHeader /> <RegistrationPlus/> </>}/>
+    <Route path="/recover-password" element={<><AppHeader /> <RestorePassword/> </>}/>
     <Route path="/initial-preferences" element={<><AppHeader /><InitialPreferences token={token} /></>}  />
     <Route path="/dashboard" element={<Dashboard token={token} />}  />
     <Route path="/view-profile" element={<ViewProfile token={token} />}  />
@@ -59,6 +63,9 @@ function App() {
     <Route path="/showActiveRequest/:request" element={<ActiveRequestIndex />} />
     <Route path="/allRequests" element={<SeeRequestIndex/>} />
     <Route path="/inbox" element={<InboxIndex />} />
+    <Route path="/create-password" element={<CreatePassword />} />
+    <Route path="/recover-passwordCreation" element={<RecoverPasswordCreation />} />
+
     
   </Routes>
 </ThemeProvider>

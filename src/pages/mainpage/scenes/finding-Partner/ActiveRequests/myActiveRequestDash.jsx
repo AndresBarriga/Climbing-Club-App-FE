@@ -10,6 +10,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 
 
 
+
 function MyActiveRequestDash() {
   const [requestInfo, setRequestInfo] = useState([]);
   const [showAll, setShowAll] = useState(false);
@@ -138,7 +139,9 @@ function MyActiveRequestDash() {
                   dateDisplay = startDateStrWithTime;
                 } else if (request.time_data.startDate && request.time_data.endDate) {
                   dateDisplay = `${startDateStr} to ${endDate.format('DD/MM/YYYY')}`;
-                }
+                }else {
+                  dateDisplay = startDateStrWithTime;
+              }
 
 
                 return (

@@ -5,6 +5,11 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import europe from "../../../../../styles/images/europe.jpg"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchBar from '../../../../../components/reusable/searchBar';
+import 'leaflet/dist/leaflet.css';
+import { Icon, divIcon } from "leaflet"
+import pin from "../../../../../styles/images/pin.png"
+import MarkerClusterGroup from "react-leaflet-cluster"
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 const Regions = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,6 +18,31 @@ const Regions = () => {
   const [firstRender, setFirstRender] = useState(true)
   const navigate = useNavigate();
   const { country } = useParams();
+  const [routes, setRoutes] = useState([]);
+
+  const [selectedRoute, setSelectedRoute] = useState(null);
+  const customIcon = new Icon({
+    iconUrl: pin,
+    iconSize: [34, 34]
+  })
+
+     //for the map
+     useEffect(() => {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          setRoutes(data)
+        })
+        .catch(err => {
+          console.error("Error:", err);
+        });
+    }, []);
 
   useEffect(() => {
     if (firstRender) {
@@ -41,17 +71,54 @@ const Regions = () => {
   return (
     <Box>
       <div style={{ width: '95%', height: '300px', overflow: 'hidden', margin: 20, borderRadius: '10px', position: 'relative' }}>
-        <img
-          src={europe}
-          alt="description of image"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 30%',
-            borderRadius: 'inherit',
-          }}
+          <MapContainer center={[51.165691, 10.451526]} zoom={6} style={{ height: "50vh", width: "90%" }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+        <MarkerClusterGroup
+          chunkedLoadings
+        >
+          {routes.map((route, index) => (
+            <Marker key={route.name} icon={customIcon} position={[route.x_axis, route.y_axis]}>
+              {<Popup>
+                <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Name: </span> {route.name}<br />
+                <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Style :  </span> {route.route_style === "Gym" ? `${route.route_style} - Indoors` : `${route.route_style} - Outdoors`} <br />
+                You can practice here {route.style}<br />
+                {route.route_style !== "Gym" && <><span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Number of routes: </span>{route.number_routes}<br /></>}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+                <Button
+                  variant="contained"
+                  className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+
+                  onClick={async () => {
+                    let url = `${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap/${route.name}`;
+                    fetch(url, {
+                      method: "GET",
+                      headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                      },
+                    })
+                      .then(res => res.json())
+                      .then(data => {
+                        const { area, regions, country } = data;
+                        const routeName = route.name; // Assuming route.name is available here
+                        const link = `/climbing-locations/${country}/${regions}/${area}/${routeName}`;
+                        window.open(link, "_blank");
+                      })
+                      .catch(err => {
+                        console.error("Error:", err);
+                      });
+                  }}
+                >
+                  View Location
+                </Button>
+                </div>
+              </Popup>}
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
+      </MapContainer>
       </div>
       <SearchBar
       />

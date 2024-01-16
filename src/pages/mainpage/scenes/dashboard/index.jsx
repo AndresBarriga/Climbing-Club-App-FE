@@ -17,6 +17,17 @@ const Dashboard = () => {
   // State for authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    // Parse the URL query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      // Store the token in localStorage and redirect if needed
+      localStorage.setItem('token', token);
+    }
+  }, []);
+
   // Effect hook for checking authentication status
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/check-auth`, {

@@ -17,6 +17,11 @@ import Diversity1Icon from '@mui/icons-material/Diversity1';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SearchBar from '../../../../../components/reusable/searchBar';
+import 'leaflet/dist/leaflet.css';
+import { Icon, divIcon } from "leaflet"
+import pin from "../../../../../styles/images/pin.png"
+import MarkerClusterGroup from "react-leaflet-cluster"
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 
 const RoutesList = () => {
@@ -26,7 +31,49 @@ const RoutesList = () => {
   const [loading, setLoading] = useState(true)
   const { country, region, area } = useParams();
   const [favourites, setFavourites] = useState([]);
+  const [routes2, setRoutes2] = useState([]);
   const navigate = useNavigate()
+  const [coordinates, setCoordinates] =  useState({ y_axis: 52.520008, x_axis: 13.404954 })
+
+  const customIcon = new Icon({
+    iconUrl: pin,
+    iconSize: [34, 34]
+  })
+
+  //for the map
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setRoutes2(data)
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap/coordinates/${area}`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setCoordinates({  y_axis: data.y_axis , x_axis: data.x_axis})
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      });
+   }, [area]);
 
 
   const handleFavorite = (route) => {
@@ -105,6 +152,20 @@ const RoutesList = () => {
     return <div>Loading...</div>;
   }
 
+  const handleStartRequest = (selectedRoute) => {
+  
+    // Prepare the initial data for the wizard
+    const initialData = {
+      country: country,
+      region: region,
+      area: area,
+      route: selectedRoute.name,
+    };
+  
+    // Use navigate to change the route and pass the initial data as state
+    navigate('/find-a-buddy', { state: { initialData: initialData } });
+  };
+
   const routeStyleTitles = {
     "Gym": "Climbing / Boulder Gyms",
     "Wall": "Climbing",
@@ -122,17 +183,54 @@ const RoutesList = () => {
   return (
     <Box>
       <div style={{ width: '95%', height: '300px', overflow: 'hidden', margin: 20, borderRadius: '10px', position: 'relative' }}>
-        <img
-          src={europe}
-          alt="description of image"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 30%',
-            borderRadius: 'inherit',
-          }}
+      <MapContainer center={[ coordinates.y_axis, coordinates.x_axis]} zoom={13} style={{ height: "70vh", width: "90%" }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+        <MarkerClusterGroup
+          chunkedLoadings
+        >
+          {routes2.map((route2, index) => (
+            <Marker key={route2.name} icon={customIcon} position={[  route2.x_axis, route2.y_axis]}>
+              {<Popup>
+                <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Name: </span> {route2.name}<br />
+                <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Style :  </span> {route2.route_style === "Gym" ? `${route2.route_style} - Indoors` : `${route2.route_style} - Outdoors`} <br />
+                You can practice here {route2.style}<br />
+                {route2.route_style !== "Gym" && <><span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Number of routes: </span>{route2.number_routes}<br /></>}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+                <Button
+                  variant="contained"
+                  className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+
+                  onClick={async () => {
+                    let url = `${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap/${route2.name}`;
+                    fetch(url, {
+                      method: "GET",
+                      headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                      },
+                    })
+                      .then(res => res.json())
+                      .then(data => {
+                        const { area, regions, country } = data;
+                        const routeName = route.name; // Assuming route.name is available here
+                        const link = `/climbing-locations/${country}/${regions}/${area}/${routeName}`;
+                        window.open(link, "_blank");
+                      })
+                      .catch(err => {
+                        console.error("Error:", err);
+                      });
+                  }}
+                >
+                  View Location
+                </Button>
+                </div>
+              </Popup>}
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
+      </MapContainer>
       </div>
 
       <SearchBar
@@ -246,9 +344,9 @@ const RoutesList = () => {
                                     </IconButton>
                                   </Tooltip>
                                   <Tooltip title="Find here people to climb with">
-                                    <IconButton>
-                                      <Diversity1Icon />
-                                    </IconButton>
+                                  <IconButton onClick={() => handleStartRequest(route)}>
+  <Diversity1Icon  />
+</IconButton>
                                   </Tooltip>
                                   <Tooltip title="Open route details">
                                     <IconButton component={Link} to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
