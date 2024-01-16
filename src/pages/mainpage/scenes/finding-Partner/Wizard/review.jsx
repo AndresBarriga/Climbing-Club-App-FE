@@ -46,16 +46,20 @@ const handleBack = () => {
       <h2 className=" text-base sm:text-lg font-bold text-gray-700 sm:mx-4 mb-2 sm:py-2">Make sure all details are right❗❗ 🚨</h2>
       <Divider />
 
-      <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }} variant="h5" >📌 I want to climb in: <span className="text-gray-700">{formData.area} {formData.region} </span></Typography>
+      <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }} variant="h5" >📌 I want to climb in: <span className="text-gray-700">{formData.area} , {formData.region} </span></Typography>
       <Box sx={{ marginLeft: 2, marginBottom: 2 }}>
-        {!formData.areaChecked && formData.selectedRoutes && formData.selectedRoutes.length > 0 && (
-          <>
-            <Typography variant="h6" className="text-green-900 " sx={{ fontWeight: 'fontWeightMedium' }} >We could go to:</Typography>
-            {formData.selectedRoutes.map((route, index) => (
-              <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={index}>• {route.name}, it is a {route.route_style}</Typography>
-            ))}
-          </>
-        )}
+      {!formData.areaChecked && (
+  <>
+    <Typography variant="h6" className="text-green-900 " sx={{ fontWeight: 'fontWeightMedium' }} >We could go to:</Typography>
+    {formData.selectedRoutes && formData.selectedRoutes.length > 0 ? (
+      formData.selectedRoutes.map((route, index) => (
+        <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={index}>• {route.name}, it is a {route.route_style}</Typography>
+      ))
+    ) : formData.route ? (
+      <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700">• {formData.route}</Typography>
+    ) : null}
+  </>
+)}
         {formData.areaChecked && (
           <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-red-700">* Request it is active for the whole area</Typography>
         )}

@@ -24,7 +24,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
   const { isAuthenticated, loginMessage } = useCheckAuthentication();
   const [areaError, setAreaError] = useState(false);
 
- 
+
 
   // Populates user country´s in Country Field as pre-defined Value
   useEffect(() => {
@@ -199,8 +199,8 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
       return;
     }
     setActiveStep((prevStep) => prevStep + 1);
-   };
-   
+  };
+
 
 
   return (
@@ -267,7 +267,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
                 setAreaChecked(event.target.checked);
                 onFormDataChange('areaChecked', event.target.checked);
                 setSelectedRoutes([]);
-              }}/>}
+              }} />}
               label={<Typography variant="body2">* Make request for entire Area</Typography>}
               style={{ alignSelf: 'flex-start', marginTop: '-5px' }}
             />
@@ -293,21 +293,21 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
             renderOption={(props, option, { selected }) => (
               <li {...props}>
                 <Checkbox
- checked={selectedRoutes.some(route => route.name === option.name && route.route_style === option.route_style)}
- onChange={(event) => {
-  if (event.target.checked) {
-    setSelectedRoutes(prev => {
-      if (!prev.some(route => route.name === option.name && route.route_style === option.route_style)) {
-        return [...prev, option];
-      } else {
-        return prev;
-      }
-    });
-  } else {
-    setSelectedRoutes(prev => prev.filter(route => route.name !== option.name || route.route_style !== option.route_style));
-  }
- }}
-/>
+                  checked={selectedRoutes.some(route => route.name === option.name && route.route_style === option.route_style)}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setSelectedRoutes(prev => {
+                        if (!prev.some(route => route.name === option.name && route.route_style === option.route_style)) {
+                          return [...prev, option];
+                        } else {
+                          return prev;
+                        }
+                      });
+                    } else {
+                      setSelectedRoutes(prev => prev.filter(route => route.name !== option.name || route.route_style !== option.route_style));
+                    }
+                  }}
+                />
                 {`${option.name} - ${option.route_style}`}
               </li>
             )}

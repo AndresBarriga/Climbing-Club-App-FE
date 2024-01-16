@@ -181,195 +181,167 @@ const SeeRequests = () => {
     };
 
 
-    
-        const handleStyleChange = (event) => {
-            const newSelectedStyles = event.target.value;
-            if (newSelectedStyles.length === 1 && newSelectedStyles[0] === 'All styles') {
-                setFilterStyle(['All styles']);
-                setFilterArea(['All areas']);  // reset the area filter
-                setFilterRegion(['All regions']);  // reset the region filter
-                setFilterRoutes(['All routes']);  // reset the route filter
-            } else if (newSelectedStyles.includes('All styles')) {
-                setFilterStyle(newSelectedStyles.filter(style => style !== 'All styles'));
-                setFilterArea(['All areas']);  // reset the area filter
-                setFilterRegion(['All regions']);  // reset the region filter
-                setFilterRoutes(['All routes']);  // reset the route filter
-            } else {
-                setFilterStyle(newSelectedStyles);
-                setFilterArea(['All areas']);  // reset the area filter
-                setFilterRegion(['All regions']);  // reset the region filter
-                setFilterRoutes(['All routes']);  // reset the route filter
-            }
-            const newAreas = newSelectedStyles.includes('All styles') ? allAreas : allAreas.filter(area => newSelectedStyles.includes(area));
-            setUniqueAreas(newAreas);
 
-            const newRegions = newSelectedStyles.includes('All styles') ? allRegions : allRegions.filter(region => newSelectedStyles.includes(region));
-            setUniqueRegions(newRegions);
-
-            const newRoutes = newSelectedStyles.includes('All styles') ? allRoutes : allRoutes.filter(route => newSelectedStyles.includes(route));
-            setUniqueRoutes(newRoutes);
-
-        };
-
-        useEffect(() => {
-            const getUniqueStyles = () => {
-                const styles = requestsWithFilters.flatMap(request => request.climbing_style);
-                const uniqueStyles = ['All styles', ...new Set(styles)];
-                setUniqueStyles(uniqueStyles);
-            };
-
-            getUniqueStyles();
-        }, [requestsWithFilters]);
-
-        const clearFilters = () => {
-            setFilterArea(['All areas']);
-            setFilterRegion(['All regions']);
-            setFilterRoutes(['All routes']);
-            setFilterDateRange([null, null]);
+    const handleStyleChange = (event) => {
+        const newSelectedStyles = event.target.value;
+        if (newSelectedStyles.length === 1 && newSelectedStyles[0] === 'All styles') {
             setFilterStyle(['All styles']);
+            setFilterArea(['All areas']);  // reset the area filter
+            setFilterRegion(['All regions']);  // reset the region filter
+            setFilterRoutes(['All routes']);  // reset the route filter
+        } else if (newSelectedStyles.includes('All styles')) {
+            setFilterStyle(newSelectedStyles.filter(style => style !== 'All styles'));
+            setFilterArea(['All areas']);  // reset the area filter
+            setFilterRegion(['All regions']);  // reset the region filter
+            setFilterRoutes(['All routes']);  // reset the route filter
+        } else {
+            setFilterStyle(newSelectedStyles);
+            setFilterArea(['All areas']);  // reset the area filter
+            setFilterRegion(['All regions']);  // reset the region filter
+            setFilterRoutes(['All routes']);  // reset the route filter
+        }
+        const newAreas = newSelectedStyles.includes('All styles') ? allAreas : allAreas.filter(area => newSelectedStyles.includes(area));
+        setUniqueAreas(newAreas);
+
+        const newRegions = newSelectedStyles.includes('All styles') ? allRegions : allRegions.filter(region => newSelectedStyles.includes(region));
+        setUniqueRegions(newRegions);
+
+        const newRoutes = newSelectedStyles.includes('All styles') ? allRoutes : allRoutes.filter(route => newSelectedStyles.includes(route));
+        setUniqueRoutes(newRoutes);
+
+    };
+
+    useEffect(() => {
+        const getUniqueStyles = () => {
+            const styles = requestsWithFilters.flatMap(request => request.climbing_style);
+            const uniqueStyles = ['All styles', ...new Set(styles)];
+            setUniqueStyles(uniqueStyles);
         };
 
-        useEffect(() => {
-            if (requests.length > 0) {
-                const filteredRequests = requests.filter(request =>
-                    (filterArea.length > 0 && !filterArea.includes('All areas') ? filterArea.includes(request.area) : true) &&
-                    (filterRegion.length > 0 && !filterRegion.includes('All regions') ? filterRegion.includes(request.region) : true) &&
-                    (filterRoutes.length > 0 && !filterRoutes.includes('All routes') ? request.selected_routes && request.selected_routes.some(routeString => {
-                        try {
-                            const route = JSON.parse(routeString);
-                            return filterRoutes.includes(route.name);
-                        } catch (error) {
-                            console.error('Error parsing JSON string:', error);
-                            return false;
-                        }
-                    }) : true) &&
-                    ('startDate' in request.time_data ?
-                        (filterDateRange[0] !== null ? moment(request.time_data.startDate).isSameOrAfter(moment(filterDateRange[0].toDate())) : true) &&
-                        (filterDateRange[1] !== null ? moment(request.time_data.startDate).isSameOrBefore(moment(filterDateRange[1].toDate())) : true)
-                        : true) &&
-                    (filterStyle.length > 0 && !filterStyle.includes('All styles') ? request.climbing_style.some(style => filterStyle.includes(style)) : true)
+        getUniqueStyles();
+    }, [requestsWithFilters]);
 
-                );
-                setRequestsWithFilters(filteredRequests);
+    const clearFilters = () => {
+        setFilterArea(['All areas']);
+        setFilterRegion(['All regions']);
+        setFilterRoutes(['All routes']);
+        setFilterDateRange([null, null]);
+        setFilterStyle(['All styles']);
+    };
+
+    useEffect(() => {
+        if (requests.length > 0) {
+            const filteredRequests = requests.filter(request =>
+                (filterArea.length > 0 && !filterArea.includes('All areas') ? filterArea.includes(request.area) : true) &&
+                (filterRegion.length > 0 && !filterRegion.includes('All regions') ? filterRegion.includes(request.region) : true) &&
+                (filterRoutes.length > 0 && !filterRoutes.includes('All routes') ? request.selected_routes && request.selected_routes.some(routeString => {
+                    try {
+                        const route = JSON.parse(routeString);
+                        return filterRoutes.includes(route.name);
+                    } catch (error) {
+                        console.error('Error parsing JSON string:', error);
+                        return false;
+                    }
+                }) : true) &&
+                ('startDate' in request.time_data ?
+                    (filterDateRange[0] !== null ? moment(request.time_data.startDate).isSameOrAfter(moment(filterDateRange[0].toDate())) : true) &&
+                    (filterDateRange[1] !== null ? moment(request.time_data.startDate).isSameOrBefore(moment(filterDateRange[1].toDate())) : true)
+                    : true) &&
+                (filterStyle.length > 0 && !filterStyle.includes('All styles') ? request.climbing_style.some(style => filterStyle.includes(style)) : true)
+
+            );
+            setRequestsWithFilters(filteredRequests);
+        }
+    }, [requests, filterArea, filterRegion, filterRoutes, filterDateRange, filterStyle]);
+
+   
+
+    // Create the swipe handlers
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: () => dismissCard(),
+        onSwipedRight: () => connectCard(),
+        onSwiping: (eventData) => {
+            if (currentIndexRef.current === 0) {
+                setCardPosition(eventData.absX);
             }
-        }, [requests, filterArea, filterRegion, filterRoutes, filterDateRange, filterStyle]);
+        },
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true,
+        delta: 100,
+    });
 
-        console.log("request....", requests)
-        console.log("request with filters...", requestsWithFilters)
-        console.log("date range is...", filterDateRange)
+    const handleClose = () => setIsModalOpen(false);
 
-        // Create the swipe handlers
-        const swipeHandlers = useSwipeable({
-            onSwipedLeft: () => dismissCard(),
-            onSwipedRight: () => connectCard(),
-            onSwiping: (eventData) => {
-                if (currentIndexRef.current === 0) {
-                    setCardPosition(eventData.absX);
-                }
+    const dismissCard = () => {
+        const [firstCard, ...remainingCards] = requests;
+        setDismissedRequests(prevDismissedRequests => [...prevDismissedRequests, firstCard]);
+        setRequests(remainingCards);
+        setNotificationType('dismiss');
+        setTimeout(() => setNotificationType(null), 1000); // Set timeout for the notification to disappear
+    };
+
+
+    const undoDismiss = () => {
+        const [lastCard, ...remainingDismissedCards] = dismissedRequests;
+        setDismissedRequests(remainingDismissedCards);
+        setRequests(prevRequests => [lastCard, ...prevRequests]);
+        setNotificationType('undo');
+        setTimeout(() => setNotificationType(null), 1000);
+    };
+
+
+    const connectCard = () => {
+        const [firstCard, ...remainingCards] = requests;
+        setConnectedCards(prevConnectedCards => [...prevConnectedCards, firstCard]);
+        setConnectedUser(firstCard.user);
+        setSelectedRequestUid(firstCard.uid)
+        setRequests(remainingCards);
+        setNotificationType('connect');
+        setTimeout(() => setNotificationType(null), 1000); // Set timeout for the notification to disappear
+        setIsModalOpen(true);
+    };
+
+
+
+
+    useEffect(() => {
+        setIsLoading(true);
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAllRequests/otherUsers`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
             },
-            preventDefaultTouchmoveEvent: true,
-            trackMouse: true,
-            delta: 100,
-        });
+        })
+            .then(response => response.json())
+            .then(requestsData => {
 
-        const handleClose = () => setIsModalOpen(false);
+                const userRequestsPromises = requestsData.map(request => {
+                    return fetch(`${process.env.REACT_APP_BACKEND_URL}/api/showOtherProfile/onlyProfile?userId=${request.user_id}`, {
+                        method: "GET",
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                    })
+                        .then(res => res.json())
+                        .then(userData => {
+                            return { ...request, user: userData.user };
+                        });
+                });
 
-        const dismissCard = () => {
-            const [firstCard, ...remainingCards] = requests;
-            setDismissedRequests(prevDismissedRequests => [...prevDismissedRequests, firstCard]);
-            setRequests(remainingCards);
-            setNotificationType('dismiss');
-            setTimeout(() => setNotificationType(null), 1000); // Set timeout for the notification to disappear
-        };
-
-
-        const undoDismiss = () => {
-            const [lastCard, ...remainingDismissedCards] = dismissedRequests;
-            setDismissedRequests(remainingDismissedCards);
-            setRequests(prevRequests => [lastCard, ...prevRequests]);
-            setNotificationType('undo');
-            setTimeout(() => setNotificationType(null), 1000);
-        };
-
-
-        const connectCard = () => {
-            const [firstCard, ...remainingCards] = requests;
-            setConnectedCards(prevConnectedCards => [...prevConnectedCards, firstCard]);
-            setConnectedUser(firstCard.user);
-            setSelectedRequestUid(firstCard.uid)
-            setRequests(remainingCards);
-            setNotificationType('connect');
-            setTimeout(() => setNotificationType(null), 1000); // Set timeout for the notification to disappear
-            setIsModalOpen(true);
-        };
+                Promise.all(userRequestsPromises)
+                    .then(completeRequests => {
+                        setRequests(completeRequests);
+                        getUniqueAreas(completeRequests);
+                        const getInitialUniqueRegions = () => {
+                            const regions = completeRequests.map(request => request.region);
+                            const uniqueRegions = ['All regions', ...new Set(regions)];
+                            setUniqueRegions(uniqueRegions);
+                        };
+                        getInitialUniqueRegions();
 
 
-
-
-        useEffect(() => {
-            setIsLoading(true);
-            fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAllRequests/otherUsers`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-            })
-                .then(response => response.json())
-                .then(requestsData => {
-
-                    const userRequestsPromises = requestsData.map(request => {
-                        return fetch(`${process.env.REACT_APP_BACKEND_URL}/api/showOtherProfile/onlyProfile?userId=${request.user_id}`, {
-                            method: "GET",
-                            headers: {
-                                'Authorization': `Bearer ${localStorage.getItem('token')}`
-                            },
-                        })
-                            .then(res => res.json())
-                            .then(userData => {
-                                return { ...request, user: userData.user };
-                            });
-                    });
-
-                    Promise.all(userRequestsPromises)
-                        .then(completeRequests => {
-                            setRequests(completeRequests);
-                            getUniqueAreas(completeRequests);
-                            const getInitialUniqueRegions = () => {
-                                const regions = completeRequests.map(request => request.region);
-                                const uniqueRegions = ['All regions', ...new Set(regions)];
-                                setUniqueRegions(uniqueRegions);
-                            };
-                            getInitialUniqueRegions();
-
-
-                            const getInitialUniqueRoutes = () => {
-                                const routes = completeRequests.flatMap(request => request.selected_routes.map(routeString => {
-                                    try {
-                                        const route = JSON.parse(routeString);
-                                        return route.name;
-                                    } catch (error) {
-                                        console.error('Error parsing JSON string:', error);
-                                        return null;
-                                    }
-                                }));
-                                const uniqueRoutes = ['All routes', ...new Set(routes)];
-                                setUniqueRoutes(uniqueRoutes);
-                            };
-                            getInitialUniqueRoutes();
-
-                            const getInitialUniqueStyles = () => {
-                                const styles = completeRequests.map(request => request.style);
-                                const uniqueStyles = ['All regions', ...new Set(styles)];
-                                setUniqueStyles(uniqueStyles);
-                            };
-                            getInitialUniqueStyles();
-                            const allAreas = [...new Set(requestsData.map(request => request.area))];
-                            setAllAreas(allAreas);
-
-                            const allRegions = ['All regions', ...new Set(requestsData.map(request => request.region))];
-                            setAllRegions(allRegions);
-
-                            const allRoutes = ['All routes', ...new Set(requestsData.flatMap(request => request.selected_routes.map(routeString => {
+                        const getInitialUniqueRoutes = () => {
+                            const routes = completeRequests.flatMap(request => request.selected_routes.map(routeString => {
                                 try {
                                     const route = JSON.parse(routeString);
                                     return route.name;
@@ -377,308 +349,334 @@ const SeeRequests = () => {
                                     console.error('Error parsing JSON string:', error);
                                     return null;
                                 }
-                            })))];
-                            setAllRoutes(allRoutes);
+                            }));
+                            const uniqueRoutes = ['All routes', ...new Set(routes)];
+                            setUniqueRoutes(uniqueRoutes);
+                        };
+                        getInitialUniqueRoutes();
 
-                            const allStyles = ['All styles', ...new Set(requestsData.map(request => request.style))];
-                            setAllStyles(allStyles);
+                        const getInitialUniqueStyles = () => {
+                            const styles = completeRequests.map(request => request.style);
+                            const uniqueStyles = ['All regions', ...new Set(styles)];
+                            setUniqueStyles(uniqueStyles);
+                        };
+                        getInitialUniqueStyles();
+                        const allAreas = [...new Set(requestsData.map(request => request.area))];
+                        setAllAreas(allAreas);
 
-                            setIsLoading(false);
-                        })
-                        .catch(err => {
-                            console.error("Error fetching user data:", err);
-                            setIsLoading(false);
-                        });
-                })
-                .catch(error => {
-                    console.error('Error fetching requests:', error);
-                    setIsLoading(false);
-                });
-        }, []);
+                        const allRegions = ['All regions', ...new Set(requestsData.map(request => request.region))];
+                        setAllRegions(allRegions);
+
+                        const allRoutes = ['All routes', ...new Set(requestsData.flatMap(request => request.selected_routes.map(routeString => {
+                            try {
+                                const route = JSON.parse(routeString);
+                                return route.name;
+                            } catch (error) {
+                                console.error('Error parsing JSON string:', error);
+                                return null;
+                            }
+                        })))];
+                        setAllRoutes(allRoutes);
+
+                        const allStyles = ['All styles', ...new Set(requestsData.map(request => request.style))];
+                        setAllStyles(allStyles);
+
+                        setIsLoading(false);
+                    })
+                    .catch(err => {
+                        console.error("Error fetching user data:", err);
+                        setIsLoading(false);
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching requests:', error);
+                setIsLoading(false);
+            });
+    }, []);
 
 
-        return (
-            <div>
-                {isLoading ? (
-                    <p>Loading...</p>
-                ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography variant="h6" style={{ flex: 1, opacity: 0.7 }}>🔎 Add filters to see what interest you the most! </Typography>
-                        <Button onClick={clearFilters} sx={{ borderRadius: '12px', border: '1px solid grey', flexGrow: 1, alignSelf: 'flex-end', margin: '10px' }}>Clear all</Button>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    return (
+        <div>
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography variant="h6" style={{ flex: 1, opacity: 0.7 }}>🔎 Add filters to see what interest you the most! </Typography>
+                    <Button onClick={clearFilters} sx={{ borderRadius: '12px', border: '1px solid grey', flexGrow: 1, alignSelf: 'flex-end', margin: '10px' }}>Clear all</Button>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 
 
-                            <FormControl >
-                                <InputLabel id="area-select-label" >Area</InputLabel>
-                                <Select
-                                    labelId="area-select-label"
-                                    id="area-select"
-                                    multiple
-                                    value={filterArea}
-                                    label="Area"
-                                    onChange={handleChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        maxWidth: '20em',
-                                        margin: 1,
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    <MenuItem value='All areas'>All areas</MenuItem>
-                                    {uniqueAreas.map((area, index) => (
-                                        <MenuItem key={index} value={area}>
-                                            {filterArea.includes(area) && <CheckIcon />}
-                                            {area}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <FormControl >
-                                <InputLabel id="region-select-label">Region</InputLabel>
-                                <Select
-                                    labelId="region-select-label"
-                                    id="region-select"
-                                    multiple
-                                    value={filterRegion}
-                                    label="Region"
-                                    onChange={handleRegionChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        maxWidth: '20em',
-                                        margin: 1,
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    {uniqueRegions.map((region, index) => (
-                                        <MenuItem key={index} value={region}>
-                                            {filterRegion.includes(region) && <CheckIcon />}
-                                            {region}
-                                        </MenuItem>
-
-                                    ))}
-                                </Select>
-                            </FormControl>
-
-                            <FormControl >
-                                <InputLabel id="route-select-label">Route</InputLabel>
-                                <Select
-                                    labelId="route-select-label"
-                                    id="route-select"
-                                    multiple
-                                    value={filterRoutes}
-                                    label="Route"
-                                    onChange={handleRouteChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        maxWidth: '20em',
-                                        margin: 1,
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    {uniqueRoutes.map((route, index) => (
-                                        <MenuItem key={index} value={route}>
-                                            {filterRoutes.includes(route) && <CheckIcon />}
-                                            {route}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-
-                            <FormControl >
-                                <InputLabel id="style-select-label">Climbing Style</InputLabel>
-                                <Select
-                                    labelId="style-select-label"
-                                    id="style-select"
-                                    multiple
-                                    value={filterStyle}
-                                    label="Style"
-                                    onChange={handleStyleChange}
-                                    sx={{
-                                        backgroundColor: "#ffffff",
-                                        borderRadius: 4,
-                                        maxWidth: '20em',
-                                        margin: 1,
-
-                                        cursor: "pointer",
-                                        '&.Mui-selected': {
-                                            backgroundColor: "#000000",
-                                            color: "#ffffff",
-                                        },
-                                    }}
-                                >
-                                    {uniqueStyles.map((style, index) => (
-
-                                        <MenuItem key={index} value={style}>
-                                            {filterStyle.includes(style) && <CheckIcon />}
-                                            {style}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                            <Box sx={{ border: '1px solid grey', borderRadius: '4px', padding: '5px', width: 'fit-content' }}>
-                                <Typography variant="body2" >You want to climb between:</Typography>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DateRangePicker
-                                        startText="Start date"
-                                        endText="End date"
-                                        value={filterDateRange}
-                                        onChange={(newValue) => {
-                                            setFilterDateRange(newValue);
-                                        }}
-                                        renderInput={(startProps, endProps) => (
-                                            <React.Fragment>
-                                                <TextField {...startProps} sx={{ width: '40% !important' }} />
-                                                <Box sx={{ mx: 2 }}> to </Box>
-                                                <TextField {...endProps} sx={{ width: '40% !important' }} />
-                                            </React.Fragment>
-                                        )}
-                                        inputFormat="DD/MM/YYYY"
-                                    />
-                                </LocalizationProvider>
-                            </Box>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', zIndex: 1000, marginTop: 20 }}>
-                            <Button
-                                variant="contained"
-                                startIcon={<CloseIcon />}
-
-                                className="block w-full rounded bg-red-700 px-16 py-4 text-lg font-medium text-white shadow hover:bg-white hover:text-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto" onClick={() => {
-                                    dismissCard();
-
+                        <FormControl >
+                            <InputLabel id="area-select-label" >Area</InputLabel>
+                            <Select
+                                labelId="area-select-label"
+                                id="area-select"
+                                multiple
+                                value={filterArea}
+                                label="Area"
+                                onChange={handleChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
                                 }}
                             >
-                                Dismiss
-                            </Button>
-                            <Button
-                                variant="contained"
-                                startIcon={<UndoIcon />}
-
-                                className="undo-button block w-full rounded bg-yellow-700 px-12 py-6 text-sm font-medium text-white shadow hover:bg-white hover:text-yellow-700 focus:outline-none focus:ring active:bg-yellow-500 sm:w-auto"
-                                onClick={undoDismiss}
-
-                                disabled={dismissedRequests.length === 0}
+                                <MenuItem value='All areas'>All areas</MenuItem>
+                                {uniqueAreas.map((area, index) => (
+                                    <MenuItem key={index} value={area}>
+                                        {filterArea.includes(area) && <CheckIcon />}
+                                        {area}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl >
+                            <InputLabel id="region-select-label">Region</InputLabel>
+                            <Select
+                                labelId="region-select-label"
+                                id="region-select"
+                                multiple
+                                value={filterRegion}
+                                label="Region"
+                                onChange={handleRegionChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
                             >
+                                {uniqueRegions.map((region, index) => (
+                                    <MenuItem key={index} value={region}>
+                                        {filterRegion.includes(region) && <CheckIcon />}
+                                        {region}
+                                    </MenuItem>
 
-                                Undo
-                            </Button>
-                            <Button
-                                variant="contained"
-                                startIcon={<CheckCircleIcon />}
+                                ))}
+                            </Select>
+                        </FormControl>
 
-                                className="block w-full rounded bg-green-700 px-12 py-6 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
-                                onClick={() => {
-                                    connectCard();
-
-                                }}>
-                                Connect
-                            </Button>
-                        </div>
-                        <div style={{ display: 'grid', gridTemplateRows: '1fr auto', height: '100vh', marginTop: "4rem" }}>
-                            <Modal
-                                open={isModalOpen}
-                                onClose={() => setIsModalOpen(false)}
+                        <FormControl >
+                            <InputLabel id="route-select-label">Route</InputLabel>
+                            <Select
+                                labelId="route-select-label"
+                                id="route-select"
+                                multiple
+                                value={filterRoutes}
+                                label="Route"
+                                onChange={handleRouteChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
                             >
-                                <Box
+                                {uniqueRoutes.map((route, index) => (
+                                    <MenuItem key={index} value={route}>
+                                        {filterRoutes.includes(route) && <CheckIcon />}
+                                        {route}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+                        <FormControl >
+                            <InputLabel id="style-select-label">Climbing Style</InputLabel>
+                            <Select
+                                labelId="style-select-label"
+                                id="style-select"
+                                multiple
+                                value={filterStyle}
+                                label="Style"
+                                onChange={handleStyleChange}
+                                sx={{
+                                    backgroundColor: "#ffffff",
+                                    borderRadius: 4,
+                                    maxWidth: '20em',
+                                    margin: 1,
+
+                                    cursor: "pointer",
+                                    '&.Mui-selected': {
+                                        backgroundColor: "#000000",
+                                        color: "#ffffff",
+                                    },
+                                }}
+                            >
+                                {uniqueStyles.map((style, index) => (
+
+                                    <MenuItem key={index} value={style}>
+                                        {filterStyle.includes(style) && <CheckIcon />}
+                                        {style}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <Box sx={{ border: '1px solid grey', borderRadius: '4px', padding: '5px', width: 'fit-content' }}>
+                            <Typography variant="body2" >You want to climb between:</Typography>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateRangePicker
+                                    startText="Start date"
+                                    endText="End date"
+                                    value={filterDateRange}
+                                    onChange={(newValue) => {
+                                        setFilterDateRange(newValue);
+                                    }}
+                                    renderInput={(startProps, endProps) => (
+                                        <React.Fragment>
+                                            <TextField {...startProps} sx={{ width: '40% !important' }} />
+                                            <Box sx={{ mx: 2 }}> to </Box>
+                                            <TextField {...endProps} sx={{ width: '40% !important' }} />
+                                        </React.Fragment>
+                                    )}
+                                    inputFormat="DD/MM/YYYY"
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', zIndex: 1000, marginTop: 20 }}>
+                        <Button
+                            variant="contained"
+                            startIcon={<CloseIcon />}
+
+                            className="block w-full rounded bg-red-700 px-16 py-4 text-lg font-medium text-white shadow hover:bg-white hover:text-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto" onClick={() => {
+                                dismissCard();
+
+                            }}
+                        >
+                            Dismiss
+                        </Button>
+                        <Button
+                            variant="contained"
+                            startIcon={<UndoIcon />}
+
+                            className="undo-button block w-full rounded bg-yellow-700 px-12 py-6 text-sm font-medium text-white shadow hover:bg-white hover:text-yellow-700 focus:outline-none focus:ring active:bg-yellow-500 sm:w-auto"
+                            onClick={undoDismiss}
+
+                            disabled={dismissedRequests.length === 0}
+                        >
+
+                            Undo
+                        </Button>
+                        <Button
+                            variant="contained"
+                            startIcon={<CheckCircleIcon />}
+
+                            className="block w-full rounded bg-green-700 px-12 py-6 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+                            onClick={() => {
+                                connectCard();
+
+                            }}>
+                            Connect
+                        </Button>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateRows: '1fr auto', height: '100vh', marginTop: "4rem" }}>
+                        <Modal
+                            open={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                        >
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)',
+                                    bgcolor: 'background.paper',
+                                    boxShadow: 24,
+                                    p: 4,
+                                    maxHeight: '90vh',
+                                    overflow: 'auto'
+                                }}
+                            >
+                                <IconButton
+                                    aria-label="close"
+                                    onClick={handleClose}
                                     sx={{
                                         position: 'absolute',
-                                        top: '50%',
-                                        left: '50%',
-                                        transform: 'translate(-50%, -50%)',
-                                        bgcolor: 'background.paper',
-                                        boxShadow: 24,
-                                        p: 4,
-                                        maxHeight: '90vh',
-                                        overflow: 'auto'
+                                        right: 8,
+                                        top: 8,
                                     }}
                                 >
-                                    <IconButton
-                                        aria-label="close"
-                                        onClick={handleClose}
-                                        sx={{
+                                    <CloseIcon fontSize="large" />
+                                </IconButton>
+                                <SendAMessage
+                                    user={connectedUser}
+                                    requestUid={selectedRequestUid}
+                                    onClose={() => setIsModalOpen(false)}
+                                />
+                            </Box>
+                        </Modal>
+                        <div {...swipeHandlers} style={{ position: 'relative' }}>
+
+                            {[...requestsWithFilters].reverse().map((request, index) => {
+                                currentIndexRef.current = index;
+                                const even = index % 2 === 0;
+                                const rotation = even ? index * 1 : -index * 1; // degrees
+                                const translateY = index * 4; // pixels
+
+
+                                // Apply the swipe handlers to the top card only
+                                const appliedSwipeHandlers = index === 0 ? swipeHandlers : {};
+
+
+                                return (
+
+                                    <div
+                                        key={index}
+                                        style={{
                                             position: 'absolute',
-                                            right: 8,
-                                            top: 8,
+                                            width: '100%',
+                                            height: '100%',
+                                            transform: `translateY(-${translateY}px) rotate(${rotation}deg) translateX(${cardPosition}px)`,
+                                            transition: 'transform 0.3s',
+                                            cursor: 'pointer',
                                         }}
+                                        {...appliedSwipeHandlers}
                                     >
-                                        <CloseIcon fontSize="large" />
-                                    </IconButton>
-                                    <SendAMessage
-  user={connectedUser}
-  requestUid={selectedRequestUid} 
-  onClose={() => setIsModalOpen(false)}
-/>
-                                </Box>
-                            </Modal>
-                            <div {...swipeHandlers} style={{ position: 'relative' }}>
 
-                                {[...requestsWithFilters].reverse().map((request, index) => {
-                                    currentIndexRef.current = index;
-                                    const even = index % 2 === 0;
-                                    const rotation = even ? index * 1 : -index * 1; // degrees
-                                    const translateY = index * 4; // pixels
+                                        <RequestCard request={request} />
 
+                                    </div>
 
-                                    // Apply the swipe handlers to the top card only
-                                    const appliedSwipeHandlers = index === 0 ? swipeHandlers : {};
+                                );
+                            })}
 
-
-                                    return (
-
-                                        <div
-                                            key={index}
-                                            style={{
-                                                position: 'absolute',
-                                                width: '100%',
-                                                height: '100%',
-                                                transform: `translateY(-${translateY}px) rotate(${rotation}deg) translateX(${cardPosition}px)`,
-                                                transition: 'transform 0.3s',
-                                                cursor: 'pointer',
-                                            }}
-                                            {...appliedSwipeHandlers}
-                                        >
-
-                                            <RequestCard request={request} />
-
-                                        </div>
-
-                                    );
-                                })}
-
-                            </div>
-
-                            {notificationType && (
-                                <div className={`notification ${notificationType}`} style={{ fontSize: '5em' }}>
-                                    {notificationType === 'connect' ? (
-                                        <CheckCircleOutlineIcon style={{ fontSize: '4em' }} />
-                                    ) : notificationType === 'dismiss' ? (
-                                        <HighlightOffIcon style={{ fontSize: '4em' }} />
-                                    ) : notificationType === 'undo' ? (
-                                        <ReplayIcon style={{ fontSize: '4em' }} />
-                                    ) : null}
-                                </div>
-                            )}
                         </div>
-                    </div>
-                )}
-            </div>
 
-        );
-    };
+                        {notificationType && (
+                            <div className={`notification ${notificationType}`} style={{ fontSize: '5em' }}>
+                                {notificationType === 'connect' ? (
+                                    <CheckCircleOutlineIcon style={{ fontSize: '4em' }} />
+                                ) : notificationType === 'dismiss' ? (
+                                    <HighlightOffIcon style={{ fontSize: '4em' }} />
+                                ) : notificationType === 'undo' ? (
+                                    <ReplayIcon style={{ fontSize: '4em' }} />
+                                ) : null}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+        </div>
+
+    );
+};
 
 
 export default SeeRequests;

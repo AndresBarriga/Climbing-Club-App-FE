@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Confetti from 'react-confetti';
 
 
-export function SendAMessage({ user, requestUid , onClose}) {
+export function SendAMessage({ user, requestUid , onClose, onMessageSent}) {
     console.log("MY USER IS ::::",user)
     console.log("My request is : ",requestUid)
   
@@ -22,17 +22,17 @@ export function SendAMessage({ user, requestUid , onClose}) {
        
         // Check if the input value exceeds the maximum characters
         if (inputValue.length <= maxChars) {
-            setMessage(inputValue);
-            sendMessage(inputValue); 
-          setIsMessageSent(true); // Set isMessageSent to true
-          setShowConfetti(true);
-          setTimeout(() => setShowConfetti(false), 6000); // Stop the confetti after 5 seconds
+          sendMessage(message);
+    setMessage(''); // Clear the message input after sending
+    setIsMessageSent(true); // Set isMessageSent to true
+    setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 4000); // Stop the confetti after 5 seconds
        
           // Set isMessageSent back to false after 1 second
           setTimeout(() => {
             setIsMessageSent(false);
             onClose(); // Close the component
-          }, 6000);
+          }, 4000);
         }
       };
      
@@ -52,7 +52,8 @@ export function SendAMessage({ user, requestUid , onClose}) {
           .then(response => response.json())
           .then(data => {
             console.log('Message sent:', data);
-            // Handle the response
+            setIsMessageSent(true); // Set isMessageSent to true
+        onMessageSent();
           })
           .catch(error => {
             console.error('Error sending message:', error);
