@@ -22,6 +22,7 @@ import { Icon, divIcon } from "leaflet"
 import pin from "../../../../../styles/images/pin.png"
 import MarkerClusterGroup from "react-leaflet-cluster"
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import emptyPin from "../../../../../styles/images/emptyPin.png"
 
 
 const RoutesList = () => {
@@ -33,12 +34,35 @@ const RoutesList = () => {
   const [favourites, setFavourites] = useState([]);
   const [routes2, setRoutes2] = useState([]);
   const navigate = useNavigate()
-  const [coordinates, setCoordinates] =  useState({ y_axis: 52.520008, x_axis: 13.404954 })
+  const [coordinates, setCoordinates] = useState({ y_axis: 52.520008, x_axis: 13.404954 })
+  const [activeRequests, setActiveRequests] = useState([]);
 
   const customIcon = new Icon({
     iconUrl: pin,
     iconSize: [34, 34]
   })
+
+
+
+
+
+  // Function to handle marker click
+  const handleMarkerClick = (routeName) => {
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getAllRequests/forSpecificPlace?routeName=${encodeURIComponent(routeName)}`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setActiveRequests(data);
+      })
+      .catch(err => {
+        console.error("Error:", err);
+      });
+  };
+
 
   //for the map
   useEffect(() => {
@@ -68,12 +92,12 @@ const RoutesList = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        setCoordinates({  y_axis: data.y_axis , x_axis: data.x_axis})
+        setCoordinates({ y_axis: data.y_axis, x_axis: data.x_axis })
       })
       .catch(err => {
         console.error("Error:", err);
       });
-   }, [area]);
+  }, [area]);
 
 
   const handleFavorite = (route) => {
@@ -153,7 +177,7 @@ const RoutesList = () => {
   }
 
   const handleStartRequest = (selectedRoute) => {
-  
+
     // Prepare the initial data for the wizard
     const initialData = {
       country: country,
@@ -161,7 +185,7 @@ const RoutesList = () => {
       area: area,
       route: selectedRoute.name,
     };
-  
+
     // Use navigate to change the route and pass the initial data as state
     navigate('/find-a-buddy', { state: { initialData: initialData } });
   };
@@ -182,55 +206,68 @@ const RoutesList = () => {
 
   return (
     <Box>
-      <div style={{ width: '95%', height: '300px', overflow: 'hidden', margin: 20, borderRadius: '10px', position: 'relative' }}>
-      <MapContainer center={[ coordinates.y_axis, coordinates.x_axis]} zoom={13} style={{ height: "70vh", width: "90%" }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <MarkerClusterGroup
-          chunkedLoadings
-        >
-          {routes2.map((route2, index) => (
-            <Marker key={route2.name} icon={customIcon} position={[  route2.x_axis, route2.y_axis]}>
-              {<Popup>
-                <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Name: </span> {route2.name}<br />
-                <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Style :  </span> {route2.route_style === "Gym" ? `${route2.route_style} - Indoors` : `${route2.route_style} - Outdoors`} <br />
-                You can practice here {route2.style}<br />
-                {route2.route_style !== "Gym" && <><span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Number of routes: </span>{route2.number_routes}<br /></>}
-                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
-                <Button
-                  variant="contained"
-                  className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+      <div style={{ width: '95%', height: '400px', overflow: 'hidden', margin: 20, borderRadius: '10px', position: 'relative' }}>
+        <MapContainer center={[coordinates.y_axis, coordinates.x_axis]} zoom={13} style={{ height: "90vh", width: "90%" }}>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <MarkerClusterGroup
+            chunkedLoadings
+          >
+            {routes2.map((route2, index) => (
+              <Marker key={route2.name} icon={customIcon} position={[route2.x_axis, route2.y_axis]} eventHandlers={{
+                click: () => handleMarkerClick(route2.name),
+              }}>
+                {<Popup>
+                  <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Name: </span> {route2.name}<br />
+                  <span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Route Style :  </span> {route2.route_style === "Gym" ? `${route2.route_style} - Indoors` : `${route2.route_style} - Outdoors`} <br />
+                  You can practice here {route2.style}<br />
+                  {route2.route_style !== "Gym" && <><span style={{ fontWeight: 'bold', color: 'darkgreen' }}>Number of routes: </span>{route2.number_routes}<br /></>}
 
-                  onClick={async () => {
-                    let url = `${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap/${route2.name}`;
-                    fetch(url, {
-                      method: "GET",
-                      headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                      },
-                    })
-                      .then(res => res.json())
-                      .then(data => {
-                        const { area, regions, country } = data;
-                        const routeName = route.name; // Assuming route.name is available here
-                        const link = `/climbing-locations/${country}/${regions}/${area}/${routeName}`;
-                        window.open(link, "_blank");
-                      })
-                      .catch(err => {
-                        console.error("Error:", err);
-                      });
-                  }}
-                >
-                  View Location
-                </Button>
-                </div>
-              </Popup>}
-            </Marker>
-          ))}
-        </MarkerClusterGroup>
-      </MapContainer>
+                  {activeRequests && activeRequests.length > 0 ? (
+                    <div style={{ marginTop: '10px' }}> {/* Adjust the value as needed */}
+                      At the moment there are <span className="text-green-900 font-semibold">{activeRequests.length} active requests</span> to climb here
+                    </div>
+                  ) : (
+                    <div style={{ marginTop: '10px' }}> {/* Adjust the value as needed */}
+                      There are no active request yet, be the first one adding one.
+                    </div>
+                  )}
+
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+                    <Button
+                      variant="contained"
+                      className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
+
+                      onClick={async () => {
+                        let url = `${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap/${route2.name}`;
+                        fetch(url, {
+                          method: "GET",
+                          headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                          },
+                        })
+                          .then(res => res.json())
+                          .then(data => {
+                            const { area, regions, country } = data;
+                            const routeName = route.name; // Assuming route.name is available here
+                            const link = `/climbing-locations/${country}/${regions}/${area}/${routeName}`;
+                            window.open(link, "_blank");
+                          })
+                          .catch(err => {
+                            console.error("Error:", err);
+                          });
+                      }}
+                    >
+                      View Location
+                    </Button>
+                  </div>
+                </Popup>}
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
+        </MapContainer>
       </div>
 
       <SearchBar
@@ -344,9 +381,9 @@ const RoutesList = () => {
                                     </IconButton>
                                   </Tooltip>
                                   <Tooltip title="Find here people to climb with">
-                                  <IconButton onClick={() => handleStartRequest(route)}>
-  <Diversity1Icon  />
-</IconButton>
+                                    <IconButton onClick={() => handleStartRequest(route)}>
+                                      <Diversity1Icon />
+                                    </IconButton>
                                   </Tooltip>
                                   <Tooltip title="Open route details">
                                     <IconButton component={Link} to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>

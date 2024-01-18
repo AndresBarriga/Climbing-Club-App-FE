@@ -1,9 +1,10 @@
-import { Card, CardContent, Divider, Paper, Typography, Avatar, Box, Chip, Button } from "@mui/material";
+import { Card, CardContent, Divider, Paper, Typography, Avatar, Box, Chip, Button, Dialog } from "@mui/material";
 import { Link } from "react-router-dom";
 import ClimbingStyleCardProfile from "./climbingStyleCardProfile";
 import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth";
 import React, { useState, useEffect } from 'react';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { SendAMessageNoRequestRelated } from "../finding-Partner/sendAMessage/sendAMessageNoRequestRelated";
 
 
 // Function to calculate age based on birthdate extracted from DB
@@ -33,6 +34,22 @@ const UserProfileCardOthers = ({ userId }) => {
   const userAge = calculateAge(userBirthday)
 
   const { isAuthenticated, loginMessage } = useCheckAuthentication();
+
+  const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+
+  const handleMessageDialogOpen = () => {
+    setIsMessageDialogOpen(true);
+  };
+
+  const handleMessageDialogClose = () => {
+    setIsMessageDialogOpen(false);
+  };
+
+  const handleOnMessageSent = () => {
+    // You can add any additional logic you want to execute after the message is sent
+    setIsMessageDialogOpen(false);
+  };
+
 
   // Fetch user profile on first render (to avoid infinite renders) if authenticated 
   useEffect(() => {
@@ -89,8 +106,7 @@ const UserProfileCardOthers = ({ userId }) => {
         <Box display="flex" justifyContent="flex-end" >
           <Button
             endIcon={<MailOutlineIcon style={{ fontSize: '25px' }}  />}
-            component={Link}
-            to="/edit-profile"
+            onClick={handleMessageDialogOpen}
             variant="contained"
             className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
           sx={{'&:hover': {
@@ -188,6 +204,14 @@ const UserProfileCardOthers = ({ userId }) => {
           <Typography variant="body" component="h3" sx={{ mt: 2 }}>
             <span className="font-bold"> Route Whislist:  </span>  {preferences.route_whish_list ? preferences.route_whish_list : 'No information yet. Add some routes to your wishlist! '}
             ✍️✨ </Typography>
+
+            <Dialog open={isMessageDialogOpen} onClose={handleMessageDialogClose}>
+        <SendAMessageNoRequestRelated
+          user={{ user_id: userId, name: user.name }} // Adjust according to the expected props
+          onClose={handleMessageDialogClose}
+          onMessageSent={handleOnMessageSent}
+        />
+      </Dialog>
         </Paper>
 
        
