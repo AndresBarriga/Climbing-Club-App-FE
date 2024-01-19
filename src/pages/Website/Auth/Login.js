@@ -166,7 +166,7 @@ export default function Login(props) {
                   </Button>
                 </div>
               </form>
-              <div>
+              <div  style={{ display: "flex", justifyContent: "center", marginTop: "14px" }}>
      <GoogleButton onClick={handleGoogleSignIn} />
    </div>
 

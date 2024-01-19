@@ -12,6 +12,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { FindPartnerWizard } from '../../finding-Partner/wizardIndex';
 import ActiveRequestonRoute from './activeRequestOnRoute';
 
@@ -249,18 +250,27 @@ const RouteDetails = () => {
     <>
       <Box sx={{ width: '100%', padding: 2 }}>
         <Paper sx={{ width: '50%', padding: 2, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'relative' }} elevation={3}>
-          <Box display="flex" justifyContent="flex-end" alignItems="center" sx={{ position: 'absolute', right: 8, top: 8 }}>
-            <Tooltip title="Mark as favourite">
-              <IconButton onClick={handleFavorite}>
-                {routeDetails.isFavorite ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Start a request">
-              <IconButton onClick={handleStartRequest}>
-                <Diversity1Icon fontSize="large" />
-              </IconButton>
-            </Tooltip>
-          </Box>
+        <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ right: 8, top: 8, left: 8, width: 'calc(100% - 16px)' }}>
+ {showActiveRequestIndex && (
+ <Tooltip title="Back">
+   <IconButton onClick={() => setShowActiveRequestIndex(false)}>
+     <ArrowBackIcon fontSize="large" />
+   </IconButton>
+ </Tooltip>
+ )}
+ <Box display="flex" justifyContent="flex-end" alignItems="center" marginLeft="auto">
+ <Tooltip title="Mark as favourite">
+   <IconButton onClick={handleFavorite}>
+     {routeDetails.isFavorite ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
+   </IconButton>
+ </Tooltip>
+ <Tooltip title="Start a request">
+   <IconButton onClick={handleStartRequest}>
+     <Diversity1Icon fontSize="large" />
+   </IconButton>
+ </Tooltip>
+ </Box>
+</Box>
           <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" component="h2">
             {routeDetails.name}
           </Typography>
