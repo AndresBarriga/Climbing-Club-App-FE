@@ -23,6 +23,8 @@ import pin from "../../../../../styles/images/pin.png"
 import MarkerClusterGroup from "react-leaflet-cluster"
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import emptyPin from "../../../../../styles/images/emptyPin.png"
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 
 
 const RoutesList = () => {
@@ -36,6 +38,64 @@ const RoutesList = () => {
   const navigate = useNavigate()
   const [coordinates, setCoordinates] = useState({ y_axis: 52.520008, x_axis: 13.404954 })
   const [activeRequests, setActiveRequests] = useState([]);
+  const [displayCount, setDisplayCount] = useState(3);
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
+  const [expanded, setExpanded] = useState([]);
+  const [showMore, setShowMore] = useState(new Array(filteredRoutes.length).fill(false));
+  const [value, setValue] = React.useState(0);
+
+const handleChange = (event, newValue) => {
+ setValue(newValue);
+};
+
+  useEffect(() => {
+    if (firstRender) {
+      console.log("Fetching is happening")
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/${country}/${region}/${area}`, {
+        method: "GET",
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+          setRoutes(data)
+          setFirstRender(false)
+          setLoading(false)
+        })
+        .catch(err => {
+          console.error("Error:", err);
+          setLoading(false)
+        });
+    }
+  }, [region, country, area, firstRender]);
+
+  const routeStyleTitles = {
+    "Gym": "Indoor Climbing & Boulder (Gyms)",
+    "Wall": "Climbing",
+    "Boulder": "Boulder",
+    "Urban Boulder": "Boulder"
+  };
+  const routeStyles = ["Indoor Climbing & Boulder (Gyms)", "Climbing", "Boulder"];
+
+  useEffect(() => {
+    if (route.length > 0) {
+      const newFilteredRoutes = routeStyles.map(title => {
+        return {
+          title,
+          routes: route.filter(r => r.route_style && routeStyleTitles[r.route_style.trim()] === title)
+        };
+      });
+  
+      setFilteredRoutes(newFilteredRoutes);
+      setShowMore(new Array(newFilteredRoutes.length).fill(false)); // Update showMore length
+    }
+  }, [route]);
+  
+  const handleShowMore = (index) => {
+    setShowMore(showMore.map((item, idx) => (idx === index ? !item : item)));
+  };
 
   const customIcon = new Icon({
     iconUrl: pin,
@@ -120,28 +180,7 @@ const RoutesList = () => {
         console.error("Error:", err);
       });
   };
-  useEffect(() => {
-    if (firstRender) {
-      console.log("Fetching is happening")
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/climbing-locations/${country}/${region}/${area}`, {
-        method: "GET",
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data)
-          setRoutes(data)
-          setFirstRender(false)
-          setLoading(false)
-        })
-        .catch(err => {
-          console.error("Error:", err);
-          setLoading(false)
-        });
-    }
-  }, [region, country, area, firstRender]);
+
 
   useEffect(() => {
     if (firstRender) {
@@ -190,19 +229,10 @@ const RoutesList = () => {
     navigate('/find-a-buddy', { state: { initialData: initialData } });
   };
 
-  const routeStyleTitles = {
-    "Gym": "Climbing / Boulder Gyms",
-    "Wall": "Climbing",
-    "Boulder": "Boulder",
-    "Urban Boulder": "Boulder"
-  };
-  const routeStyles = ["Climbing / Boulder Gyms", "Climbing", "Boulder"];
-  const filteredRoutes = routeStyles.map(title => {
-    return {
-      title,
-      routes: route.filter(r => routeStyleTitles[r.route_style.trim()] === title)
-    };
-  });
+
+
+
+
 
   return (
     <Box>
@@ -301,107 +331,125 @@ const RoutesList = () => {
 
           <Typography variant="h6" className="font-bold text-green-900" style={{ paddingTop: 14 }}>Routes available in {area}</Typography>
         </Box>
-        <TableContainer>
-          <Table style={{ width: '100%', margin: 0 }}>
+        
+          
 
-            <TableBody>
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          {filteredRoutes.map((filteredRoute, index) => (
+            <Tab key={index} label={filteredRoute.title} />
+          ))}
+        </Tabs>
 
-              {filteredRoutes.map((filteredRoute, index) => (
-                <Accordion key={index} >
-                  <Tooltip title={`Click to open all ${filteredRoute.title} routes`}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography variant="h6" className="text-green-800">{filteredRoute.title}</Typography>
-                    </AccordionSummary>
-                  </Tooltip>
-                  <AccordionDetails>
-                    <TableContainer>
-                      <Table style={{ width: '100%', margin: 0 }}>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Country Name</TableCell>
-                            <TableCell>Style</TableCell>
-                            {filteredRoute.title !== "Climbing / Boulder Gyms" && <TableCell>Amount of Routes</TableCell>}
-                            <TableCell>Avg. height</TableCell>
-                            <TableCell>Helpful Links</TableCell>
-                            <TableCell>&nbsp;&nbsp;Action</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {filteredRoute.routes.map((route, index) => (
-
-                            <TableRow
-                              key={index}
-                              sx={{
-                                '&:hover': {
-                                  backgroundColor: '#9EC69B',
-                                  cursor: 'pointer',
-                                },
-                              }}
-                            >
-                              <TableCell>
-                                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
-                                  {route.id}
-                                </Link>
-                              </TableCell>
-                              <TableCell>
-                                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
-                                  {route.name}
-                                </Link>
-                              </TableCell>
-                              <TableCell>
-                                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
-                                  {route.style}
-                                </Link>
-                              </TableCell>
-                              {filteredRoute.title !== "Climbing / Boulder Gyms" && <TableCell>{route.number_routes}</TableCell>}
-                              <TableCell>
-                                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
-                                  {route.height_avg}
-                                </Link>
-                              </TableCell>
-                              <TableCell style={{ width: '150px' }}>
-                                <Tooltip title="Open website">
-                                  <IconButton onClick={() => window.open(route.link_site, "_blank")}>
-                                    <PublicIcon />
-                                  </IconButton>
-                                </Tooltip>
-                                <Tooltip title="Open maps">
-                                  <IconButton onClick={() => window.open(route.link_maps, "_blank")}>
-                                    <DirectionsIcon />
-                                  </IconButton>
-                                </Tooltip>
-
-                              </TableCell>
-                              <TableCell style={{ width: '150px' }}>
-                                <Box display="flex">
-                                  <Tooltip title="Marking as favourite will notify you about request to climb, events happening & more">
-                                    <IconButton onClick={() => handleFavorite(route)}>
-                                      {route.isFavorite ? <StarIcon /> : <StarBorderIcon />}
-                                    </IconButton>
-                                  </Tooltip>
-                                  <Tooltip title="Find here people to climb with">
-                                    <IconButton onClick={() => handleStartRequest(route)}>
-                                      <Diversity1Icon />
-                                    </IconButton>
-                                  </Tooltip>
-                                  <Tooltip title="Open route details">
-                                    <IconButton component={Link} to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
-                                      <LaunchIcon />
-                                    </IconButton>
-                                  </Tooltip>
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </TableBody>
-          </Table>
+ <TableContainer>
+ <div className="tableContainer" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+  <Table style={{ width: '100%', margin: 0 }}>
+  {filteredRoutes[value] && filteredRoutes[value].routes.length > 0 ? (
+      <>
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Country Name</TableCell>
+            <TableCell>Style</TableCell>
+            {filteredRoutes[value].title !== "Indoor Climbing & Boulder (Gyms)" && filteredRoutes[value].title !== "Climbing / Boulder Gyms" && <TableCell>Amount of Routes</TableCell>}
+            <TableCell>Avg. height</TableCell>
+            <TableCell>Helpful Links</TableCell>
+            <TableCell>&nbsp;&nbsp;Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {filteredRoutes[value].routes
+    .slice(0, showMore[value] ? filteredRoutes[value].routes.length : 3)
+    .map((route, index) => (
+            <TableRow
+              key={index}
+              sx={{
+                '&:hover': {
+                 backgroundColor: '#9EC69B',
+                 cursor: 'pointer',
+                },
+              }}
+            >
+              <TableCell>
+                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+                 {route.id}
+                </Link>
+              </TableCell>
+              <TableCell>
+                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+                 {route.name}
+                </Link>
+              </TableCell>
+              <TableCell>
+                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+                 {route.style}
+                </Link>
+              </TableCell>
+              {filteredRoutes[value].title !== "Indoor Climbing & Boulder (Gyms)" && filteredRoutes[value].title !== "Climbing / Boulder Gyms" && <TableCell>{route.number_routes}</TableCell>}
+              <TableCell>
+                <Link to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+                 {route.height_avg}
+                </Link>
+              </TableCell>
+              <TableCell style={{ width: '150px' }}>
+                <Tooltip title="Open website">
+                 <IconButton onClick={() => window.open(route.link_site, "_blank")}>
+                   <PublicIcon />
+                 </IconButton>
+                </Tooltip>
+                <Tooltip title="Open maps">
+                 <IconButton onClick={() => window.open(route.link_maps, "_blank")}>
+                   <DirectionsIcon />
+                 </IconButton>
+                </Tooltip>
+              </TableCell>
+              <TableCell style={{ width: '150px' }}>
+                <Box display="flex">
+                 <Tooltip title="Marking as favourite will notify you about request to climb, events happening & more">
+                   <IconButton onClick={() => handleFavorite(route)}>
+                     {route.isFavorite ? <StarIcon /> : <StarBorderIcon />}
+                   </IconButton>
+                 </Tooltip>
+                 <Tooltip title="Find here people to climb with">
+                   <IconButton onClick={() => handleStartRequest(route)}>
+                     <Diversity1Icon />
+                   </IconButton>
+                 </Tooltip>
+                 <Tooltip title="Open route details">
+                   <IconButton component={Link} to={`/climbing-locations/${country}/${region}/${area}/${route.name}`}>
+                     <LaunchIcon />
+                   </IconButton>
+                 </Tooltip>
+                </Box>
+              </TableCell>
+            </TableRow>
+          ))}
+           {filteredRoutes[value].routes.length > 3 && (
+    <TableRow>
+      <TableCell colSpan={6} style={{ textAlign: 'center' }}>
+        <Button
+          variant="contained"
+          onClick={() => handleShowMore(value)}
+        >
+          {showMore[value] ? 'Show Less' : 'Show More'}
+        </Button>
+      </TableCell>
+    </TableRow>
+  )}
+        </TableBody>
+      </>
+   ) : (
+      <TableBody>
+        <TableRow>
+          <TableCell colSpan={6} style={{ textAlign: 'center' }}>
+            <Typography variant="body2" style={{ textAlign: 'center', marginTop: '20px', color: "#757575" }}>
+              There are no {filteredRoutes[value].title} routes yet. If you know any and want it to be included, please get in touch with support@climbingapp.com.
+            </Typography>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    )}
+  </Table>
+  </div>
         </TableContainer>
       </Paper>
     </Box>
@@ -409,3 +457,5 @@ const RoutesList = () => {
 };
 
 export default RoutesList;
+
+

@@ -14,11 +14,10 @@ const CountryIndex = () => {
 return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <TopBar />
-        <div style={{ display: 'flex', margin:0}}>
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <div style={{ display: 'flex', height: '100vh' }}>
           <SideBar />
-          </div>
-          <div className='custom-paper2' style={{ display: 'flex', flex: 1  , flexDirection: "column", padding:20 }}>
+          
+          <div className='custom-paper2' style={{ flex: 1, overflow: 'auto',padding:20  }}>
           <HeaderComp title="Zones / Country 🌎 📌" subtitle="Search climbing zones based on areas!" />
           <CountryList />
           </div>

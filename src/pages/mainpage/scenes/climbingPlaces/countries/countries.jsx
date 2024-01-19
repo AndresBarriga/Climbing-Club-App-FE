@@ -16,8 +16,9 @@ const CountryList = () => {
   const navigate = useNavigate()
   const [countries, setCountries] = useState([{}])
   const [loading, setLoading] = useState(true)
-
   const [routes, setRoutes] = useState([]);
+
+  
 
 
 
@@ -94,7 +95,10 @@ const CountryList = () => {
                 <Button
                   variant="contained"
                   className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
-
+                  sx={{'&:hover': {
+                    transform: 'scale(1.1)', // Slightly increase the size on hover
+                  }}}
+                  
                   onClick={async () => {
                     let url = `${process.env.REACT_APP_BACKEND_URL}/api/getLocationsForMap/${route.name}`;
                     fetch(url, {
