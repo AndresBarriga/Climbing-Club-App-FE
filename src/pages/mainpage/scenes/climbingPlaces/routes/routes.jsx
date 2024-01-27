@@ -281,7 +281,8 @@ const handleChange = (event, newValue) => {
                           .then(res => res.json())
                           .then(data => {
                             const { area, regions, country } = data;
-                            const routeName = route.name; // Assuming route.name is available here
+                          
+                            const routeName = route2.name; // Assuming route.name is available here
                             const link = `/climbing-locations/${country}/${regions}/${area}/${routeName}`;
                             window.open(link, "_blank");
                           })

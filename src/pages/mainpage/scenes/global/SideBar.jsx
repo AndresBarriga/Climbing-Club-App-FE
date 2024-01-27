@@ -90,8 +90,12 @@ const SideBar = () => {
            title={'Find your buddy'}
            icon={<FaRegLaughWink />}
          >
-           <MenuItem>Start your climbing Request</MenuItem>
-           <MenuItem>Join others </MenuItem>
+            <MenuItem>
+    <Link to="/find-a-buddy">Start your climbing request</Link>
+ </MenuItem>
+ <MenuItem>
+    <Link to="/allRequests">Join Others</Link>
+ </MenuItem>
          </SubMenu>
          <SubMenu
            prefix={<span className="badge gray">3</span>}

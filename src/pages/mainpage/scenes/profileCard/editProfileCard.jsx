@@ -1,5 +1,5 @@
-import {Tooltip, RadioGroup, Chip, FormControlLabel, Radio, FormControl, FormGroup, Checkbox, Card, CardContent, Box, Button, Avatar, TextField, Typography, Paper, Select, MenuItem, Divider } from "@mui/material";
-import { useState, useEffect , useRef} from 'react';
+import { Tooltip, RadioGroup, Chip, FormControlLabel, Radio, FormControl, FormGroup, Checkbox, Card, CardContent, Box, Button, Avatar, TextField, Typography, Paper, Select, MenuItem, Divider } from "@mui/material";
+import { useState, useEffect, useRef } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { useNavigate } from 'react-router-dom';
 import { useCheckAuthentication, loginMessage } from "../../../Website/Auth/auth";
@@ -43,7 +43,7 @@ const EditProfileCard = () => {
     { preference: 'Mantle Master', explanation: 'Excels in routes with mantle moves. Enjoys the challenge of ascending features using mantle techniques.' },
     { preference: 'Slopey Sensation', explanation: 'Enjoys routes with sloping holds. Values the challenge of maintaining grip on less positive features.' }
   ];
-  
+
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
   const { isAuthenticated, loginMessage } = useCheckAuthentication();
@@ -60,13 +60,13 @@ const EditProfileCard = () => {
 
   const handleEquipmentChange = (item) => {
     let newEquipment = [...preferences.climbing_equipment];
-  
+
     if (newEquipment.includes(item)) {
       newEquipment = newEquipment.filter((i) => i !== item);
     } else {
       newEquipment.push(item);
     }
-  
+
     setPreferences({ ...preferences, climbing_equipment: newEquipment });
   };
   const handleBelayerDeviceChange = (device) => {
@@ -88,8 +88,8 @@ const EditProfileCard = () => {
   const handleClimbingPhilosophyChange = (event) => {
     setPreferences({ ...preferences, climbing_philosophy: event.target.value });
   };
-  
- 
+
+
 
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const EditProfileCard = () => {
           });
       }
     }
-    
+
   }, [isAuthenticated, firstRender]);
 
 
@@ -144,8 +144,8 @@ const EditProfileCard = () => {
       ...preferences,
       favorite_climbing_destinations,
       route_preferences: preferences.route_preferences,
-    climbing_philosophy: preferences.climbing_philosophy,
-  };
+      climbing_philosophy: preferences.climbing_philosophy,
+    };
     console.log(JSON.stringify(updatedPreferences))
     const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-profile`, {
       method: 'PUT',
@@ -166,47 +166,47 @@ const EditProfileCard = () => {
   };
 
 
-const fileInputRef = useRef();
+  const fileInputRef = useRef();
 
-const handleEditButtonClick = () => {
-  fileInputRef.current.click();
-};
+  const handleEditButtonClick = () => {
+    fileInputRef.current.click();
+  };
 
-const handleFileChange = async (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const uploadData = new FormData();
-    uploadData.append('file', file);
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const uploadData = new FormData();
+      uploadData.append('file', file);
 
-    // Get the public_id of the current profile picture from the user state
-    const currentProfilePictureId = user.profile_picture.split('/').pop().split('.')[0];
-    uploadData.append('currentProfilePictureId', currentProfilePictureId);
+      // Get the public_id of the current profile picture from the user state
+      const currentProfilePictureId = user.profile_picture.split('/').pop().split('.')[0];
+      uploadData.append('currentProfilePictureId', currentProfilePictureId);
 
-    try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-profile/profile-picture`, {
-        method: 'PUT',
-        body: uploadData,
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-      });
+      try {
+        const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/edit-profile/profile-picture`, {
+          method: 'PUT',
+          body: uploadData,
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        });
 
-      if (!res.ok) {
-        throw new Error('Error uploading image');
+        if (!res.ok) {
+          throw new Error('Error uploading image');
+        }
+
+        const data = await res.json();
+        setUser(prevUser => ({ ...prevUser, profile_picture: data.profile_picture }));
+
+        // Reload the page
+        window.location.reload();
+
+      } catch (err) {
+        console.error(err);
       }
-
-      const data = await res.json();
-      setUser(prevUser => ({ ...prevUser, profile_picture: data.profile_picture }));
-
-      // Reload the page
-      window.location.reload();
-
-    } catch (err) {
-      console.error(err);
     }
-  }
-};
-  
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -217,13 +217,13 @@ const handleFileChange = async (e) => {
   return (
     <Card sx={{ width: '100%', boxShadow: 20 }}>
       {successMessage && <div className="modal">
-      <div className="modal-content">
-        <h2>Congratulations, {user.name} {user.last_name} !</h2>
-        <p>The changes in your profile have been correctly made! </p>
-        <div className="my-6"></div>
+        <div className="modal-content">
+          <h2>Congratulations, {user.name} {user.last_name} !</h2>
+          <p>The changes in your profile have been correctly made! </p>
+          <div className="my-6"></div>
 
-      </div>
-    </div>}
+        </div>
+      </div>}
       <CardContent>
         <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
           <Link to="/dashboard" style={{ textDecoration: 'none', color: 'inherit', alignSelf: 'flex-start', marginLeft: '15px' }}>
@@ -236,43 +236,43 @@ const handleFileChange = async (e) => {
             </Button>
           </Link>
           <Box sx={{ position: 'relative', width: 150, height: 150, margin: "10px" }}>
-  <Avatar
-    alt="User"
-    src={user.profile_picture}
-    sx={{
-      width: 150,
-      height: 150,
-      bgcolor: 'grey.300',
-    }}
-  />
-  <IconButton
-    aria-label="edit"
-    onClick={handleEditButtonClick}
-    sx={{
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'white',
-      border: 1,
-      '&:hover': {
-        backgroundColor: '#007f3c !important',
-      },
-    }}
-  >
-    <EditIcon />
-  </IconButton>
-  <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-</Box>
+            <Avatar
+              alt="User"
+              src={user.profile_picture}
+              sx={{
+                width: 150,
+                height: 150,
+                bgcolor: 'grey.300',
+              }}
+            />
+            <IconButton
+              aria-label="edit"
+              onClick={handleEditButtonClick}
+              sx={{
+                position: 'absolute',
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'white',
+                border: 1,
+                '&:hover': {
+                  backgroundColor: '#007f3c !important',
+                },
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+            <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+          </Box>
         </Box>
         <Box component="form" onSubmit={handleSubmit} >
           <Divider />
           <Typography variant="h3" component="h2">
-          {user.name} {user.last_name}
-        </Typography>
+            {user.name} {user.last_name}
+          </Typography>
           <Typography variant="h6" component="h3" className="font-bold text-green-900 ">
             Your Bio
           </Typography>
-         
+
           <TextField
             label="Bio"
             value={preferences.bio || ''}
@@ -328,22 +328,22 @@ const handleFileChange = async (e) => {
               </div>
             )}
           </PlacesAutocomplete>
-   
-          <Box sx={{ margin: "10px", textAlign:"center" }}>
+
+          <Box sx={{ margin: "10px", textAlign: "center" }}>
             <Typography variant="h6" component="h3" className="font-bold text-green-900 ">
               Select your gender
             </Typography>
             <RadioGroup
-        aria-label="gender"
-        name="gender"
-        value={preferences.gender || ''}
-        onChange={(event) => setPreferences({ ...preferences, gender: event.target.value })}
-        style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}
-      >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
-      </RadioGroup>
+              aria-label="gender"
+              name="gender"
+              value={preferences.gender || ''}
+              onChange={(event) => setPreferences({ ...preferences, gender: event.target.value })}
+              style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}
+            >
+              <FormControlLabel value="female" control={<Radio />} label="Female" />
+              <FormControlLabel value="male" control={<Radio />} label="Male" />
+              <FormControlLabel value="other" control={<Radio />} label="Other" />
+            </RadioGroup>
           </Box>
           <Divider />
 
@@ -400,18 +400,18 @@ const handleFileChange = async (e) => {
           <Typography variant="h6" style={{ margin: "5px" }} component="h3" className="font-bold text-green-900 ">
             Prefered Belay Device
           </Typography>
-       
-            <Divider />
-            {belayerDevices.map((device) => (
-              <Chip
-                label={device}
-                clickable
-                color={preferences.preferred_belayer_device === device ? "primary" : "default"}
-                onClick={() => handleBelayerDeviceChange(device)}
-                sx={{ margin: '20px' }}
-              />
-            ))}
-    
+
+          <Divider />
+          {belayerDevices.map((device) => (
+            <Chip
+              label={device}
+              clickable
+              color={preferences.preferred_belayer_device === device ? "primary" : "default"}
+              onClick={() => handleBelayerDeviceChange(device)}
+              sx={{ margin: '20px' }}
+            />
+          ))}
+
 
           <Typography variant="h6" component="h3" className="font-bold text-green-900 ">
             Others:
@@ -439,85 +439,85 @@ const handleFileChange = async (e) => {
               }}
               sx={{ margin: '20px' }}
             />
-<div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-  {/* First row */}
-  <div style={{ display: 'flex', gap: '20px' }}>
-    <div style={{ flex: 1 }}>
-      <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-        <span className="font-bold">Climbing Philosophy:</span> 🤔💭
-      </Typography>
-      <Select
-        value={preferences.climbing_philosophy || ''}
-        onChange={handleClimbingPhilosophyChange}
-        sx={{ width: '100%' }}
-      >
-        {climbingPhilosophies.map(({ philosophy, explanation }) => (
-          <MenuItem value={philosophy}>
-            <Tooltip title={explanation}>
-              <span>{philosophy}</span>
-            </Tooltip>
-          </MenuItem>
-        ))}
-      </Select>
-    </div>
-    <div style={{ flex: 1 }}>
-      <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-        <span className="font-bold">Route Preferences:</span> 🧗
-      </Typography>
-      <Select
-        value={preferences.route_preferences || ''}
-        onChange={(event) => setPreferences({ ...preferences, route_preferences: event.target.value })}
-        sx={{ width: '100%' }}
-      >
-        {routePreferences.map(({ preference, explanation }) => (
-          <MenuItem value={preference}>
-            <Tooltip title={explanation}>
-              <span>{preference}</span>
-            </Tooltip>
-          </MenuItem>
-        ))}
-      </Select>
-    </div>
-  </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {/* First row */}
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ flex: 1 }}>
+                  <Typography variant="body" component="h3" sx={{ mt: 2 }}>
+                    <span className="font-bold">Climbing Philosophy:</span> 🤔💭
+                  </Typography>
+                  <Select
+                    value={preferences.climbing_philosophy || ''}
+                    onChange={handleClimbingPhilosophyChange}
+                    sx={{ width: '100%' }}
+                  >
+                    {climbingPhilosophies.map(({ philosophy, explanation }) => (
+                      <MenuItem value={philosophy}>
+                        <Tooltip title={explanation}>
+                          <span>{philosophy}</span>
+                        </Tooltip>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Typography variant="body" component="h3" sx={{ mt: 2 }}>
+                    <span className="font-bold">Route Preferences:</span> 🧗
+                  </Typography>
+                  <Select
+                    value={preferences.route_preferences || ''}
+                    onChange={(event) => setPreferences({ ...preferences, route_preferences: event.target.value })}
+                    sx={{ width: '100%' }}
+                  >
+                    {routePreferences.map(({ preference, explanation }) => (
+                      <MenuItem value={preference}>
+                        <Tooltip title={explanation}>
+                          <span>{preference}</span>
+                        </Tooltip>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
 
-  {/* Second row */}
-  <div style={{ display: 'flex', gap: '20px' }}>
-    <div style={{ flex: 1 }}>
-      <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-        <span className="font-bold">Favorite Climbing Destinations:</span> 🏔️
-      </Typography>
-      <TextField
-        label="Favorite Climbing Destinations"
-        defaultValue={preferences.favorite_climbing_destinations || ''}
-        onChange={(event) => setPreferences({ ...preferences, favorite_climbing_destinations: event.target.value })}
-        sx={{ width: '100%' }}
-        placeholder="Start sharing your favoure climbing places!"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </div>
-    <div style={{ flex: 1 }}>
-      <Typography variant="body" component="h3" sx={{ mt: 2 }}>
-        <span className="font-bold">Route Wishlist:</span> ✍️✨
-      </Typography>
-      <TextField
-        label="Route Wishlist"
-        defaultValue={preferences.route_whish_list || ''}
-        onChange={(event) => setPreferences({ ...preferences, route_whish_list: event.target.value })}
-        sx={{ width: '100%' }}
-        placeholder="This project you are going to send!"
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </div>
-  </div>
-</div>
+              {/* Second row */}
+              <div style={{ display: 'flex', gap: '20px' }}>
+                <div style={{ flex: 1 }}>
+                  <Typography variant="body" component="h3" sx={{ mt: 2 }}>
+                    <span className="font-bold">Favorite Climbing Destinations:</span> 🏔️
+                  </Typography>
+                  <TextField
+                    label="Favorite Climbing Destinations"
+                    defaultValue={preferences.favorite_climbing_destinations || ''}
+                    onChange={(event) => setPreferences({ ...preferences, favorite_climbing_destinations: event.target.value })}
+                    sx={{ width: '100%' }}
+                    placeholder="Start sharing your favoure climbing places!"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <Typography variant="body" component="h3" sx={{ mt: 2 }}>
+                    <span className="font-bold">Route Wishlist:</span> ✍️✨
+                  </Typography>
+                  <TextField
+                    label="Route Wishlist"
+                    defaultValue={preferences.route_whish_list || ''}
+                    onChange={(event) => setPreferences({ ...preferences, route_whish_list: event.target.value })}
+                    sx={{ width: '100%' }}
+                    placeholder="This project you are going to send!"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </Paper>
-      
+
           <Button type="submit" className="primaryButton primaryButton:hover primaryButton:focus primaryButton:active ">SAVE DETAILS</Button>
-        
+
         </Box>
 
       </CardContent>

@@ -11,20 +11,20 @@ const CountryIndex = () => {
   if (!isAuthenticated) {
     return loginMessage;
   }
-return (
+  return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <TopBar />
-        <div style={{ display: 'flex', height: '100vh' }}>
-          <SideBar />
-          
-          <div className='custom-paper2' style={{ flex: 1, overflow: 'auto',padding:20  }}>
+      <TopBar />
+      <div style={{ display: 'flex', height: '100vh' }}>
+        <SideBar />
+
+        <div className='custom-paper2' style={{ flex: 1, overflow: 'auto', padding: 20 }}>
           <HeaderComp title="Zones / Country 🌎 📌" subtitle="Search climbing zones based on areas!" />
           <CountryList />
-          </div>
-          
+        </div>
+
       </div>
     </div>
-    )
+  )
 }
 
 export default CountryIndex;

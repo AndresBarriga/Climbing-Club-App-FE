@@ -25,6 +25,8 @@ import RegistrationPlus from "./pages/Website/Auth/registrationPlus";
 import CreatePassword from "./pages/Website/Auth/passwordCreationPlus";
 import RestorePassword from "./pages/Website/Auth/recoverPassword";
 import RecoverPasswordCreation from "./pages/Website/Auth/recoverPasswordCreation";
+import NotificationSettingsIndex from "./pages/mainpage/scenes/notifications/notificationSettingsIndex";
+import RequestDetailsIndex from "./pages/mainpage/scenes/requestDetails/requestDetailsIndex";
 
 
 
@@ -65,6 +67,9 @@ function App() {
     <Route path="/inbox" element={<InboxIndex />} />
     <Route path="/create-password" element={<CreatePassword />} />
     <Route path="/recover-passwordCreation" element={<RecoverPasswordCreation />} />
+    <Route path="/notification-settings" element={<NotificationSettingsIndex />} />
+    <Route path="/request-details/:request_id" element={<RequestDetailsIndex />} />
+
 
     
   </Routes>
