@@ -11,6 +11,7 @@ import SettingsDropdown from "./SettingsDropdown";
 import { useNavigate } from "react-router-dom";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Badge from '@mui/material/Badge';
+import { useCheckAuthentication } from "../../../Website/Auth/auth";
 
 
 // All pages within the app has a Topbar, this is displayed always on top and offer search, settings, profile , notifications.
@@ -24,6 +25,36 @@ const Topbar = () => {
     const [newMessagesCount, setNewMessagesCount] = useState(0);
     const [notifications, setNotifications] = useState([]);
     const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
+
+
+    const { isAuthenticated } = useCheckAuthentication();
+ const [user, setUser] = useState({});
+
+ useEffect(() => {
+   if (isAuthenticated) {
+     fetch(`${process.env.REACT_APP_BACKEND_URL}/show-profile`, {
+       method: "GET",
+       headers: {
+         'Authorization': `Bearer ${localStorage.getItem('token')}`
+       },
+     })
+       .then(res => {
+         const contentType = res.headers.get("content-type");
+         if (contentType && contentType.indexOf("application/json") !== -1) {
+           return res.json();
+         } else {
+           throw new Error('Server response is not JSON');
+         }
+       })
+       .then(data => {
+         console.log('Data received from server:', data);
+         setUser(data.user);
+       })
+       .catch(err => {
+         console.error("Error:", err);
+       });
+   }
+ }, [isAuthenticated]);
 
 
     console.log("notifications", notifications)

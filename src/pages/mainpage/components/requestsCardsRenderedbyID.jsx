@@ -12,7 +12,6 @@ import moment from "moment";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { SendAMessageNoRequestRelated } from '../scenes/finding-Partner/sendAMessage/sendAMessageNoRequestRelated';
 import { SendAMessage } from '../scenes/finding-Partner/sendAMessage/sendAMessage';
 
 
@@ -34,10 +33,7 @@ const RequestCardsRenderedbyID = ({ request }) => {
     setIsMessageDialogOpen(false);
   };
 
-  const handleOnMessageSent = () => {
-    // You can add any additional logic you want to execute after the message is sent
-    setIsMessageDialogOpen(false);
-  };
+
 
     const fetchUser = async () => {
         console.log("Fetching happening")
@@ -329,7 +325,7 @@ const RequestCardsRenderedbyID = ({ request }) => {
                     user={{ user_id: request.user_id, name: user.user.name }} 
                     requestUid={request.uid}// Adjust according to the expected props
                     onClose={handleMessageDialogClose}
-                    onMessageSent={handleOnMessageSent}
+                    
                 />
             </Dialog>
         </Paper>

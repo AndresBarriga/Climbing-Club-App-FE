@@ -24,19 +24,22 @@ export function SendAMessage({ user, requestUid, onClose, onMessageSent }) {
        sendMessage(message);
        setMessage(''); 
        setIsMessageSent(true); 
+       console.log('Message sent, showing success message')
        setShowConfetti(true);
        setTimeout(() => {
-         setShowConfetti(false);
+        setIsMessageSent(false);
          
          setTimeout(() => {
-           setIsMessageSent(false);
+          
+           setShowConfetti(false);
            onClose(); 
-         }, 6000); // Increase the delay before closing the dialog
-       }, 6000); // Increase the duration of the confetti effect
+         }, 5500); // Increase the delay before closing the dialog
+       }, 5500); // Increase the duration of the confetti effect
     }
    };
 
   const sendMessage = (message) => {
+    console.log('Sending message...');
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/sendMessage/start`, {
       method: 'POST',
       headers: {

@@ -4,39 +4,11 @@ import { Link } from "react-router-dom";
 import { FaUser, FaAngleDoubleLeft, FaAngleDoubleRight, FaTachometerAlt, FaGem, FaList, FaRegLaughWink, FaHeart } from 'react-icons/fa';
 import { FaHouse, FaMapLocationDot  } from "react-icons/fa6";
 import sidebarBg from '../../../../styles/images/barBgTest3.jpeg'
-import { useCheckAuthentication } from "../../../Website/Auth/auth";
 import '../../../../styles/sidebarStyles.scss'
 
 const SideBar = () => {
  const [collapsed, setCollapsed] = useState(true);
- const { isAuthenticated } = useCheckAuthentication();
- const [user, setUser] = useState({});
-
- useEffect(() => {
-   if (isAuthenticated) {
-     fetch(`${process.env.REACT_APP_BACKEND_URL}/show-profile`, {
-       method: "GET",
-       headers: {
-         'Authorization': `Bearer ${localStorage.getItem('token')}`
-       },
-     })
-       .then(res => {
-         const contentType = res.headers.get("content-type");
-         if (contentType && contentType.indexOf("application/json") !== -1) {
-           return res.json();
-         } else {
-           throw new Error('Server response is not JSON');
-         }
-       })
-       .then(data => {
-         console.log('Data received from server:', data);
-         setUser(data.user);
-       })
-       .catch(err => {
-         console.error("Error:", err);
-       });
-   }
- }, [isAuthenticated]);
+ 
 
  return (
    <ProSidebar

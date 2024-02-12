@@ -315,26 +315,26 @@ const RequestDetails = () => {
         </Box>
       </Paper>
       <Dialog
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete Request"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+    open={showModal}
+    onClose={() => setShowModal(false)}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+>
+    <DialogTitle id="alert-dialog-title">{"Delete Request"}</DialogTitle>
+    <DialogContent>
+        <DialogContentText id="alert-dialog-description">
             Are you sure you want to delete this request?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowModal(false)} color="primary">
+        </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+        <Button onClick={() => setShowModal(false)} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+        </Button>
+        <Button onClick={handleConfirmDelete} color="primary" variant="contained" autoFocus>
             Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </Button>
+    </DialogActions>
+</Dialog>
       <Dialog
         open={showSuccessDialog}
         onClose={() => setShowSuccessDialog(false)}

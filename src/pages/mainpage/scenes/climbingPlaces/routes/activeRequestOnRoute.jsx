@@ -35,7 +35,7 @@ function ActiveRequestonRoute({ requests, handleStartRequest }) {
     const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
     const handleMessageModalClose = () => setIsMessageModalOpen(false);
     const handleMessageModalOpen = () => setIsMessageModalOpen(true);
-    const [showConfetti, setShowConfetti]= useState(false);
+    const [showConfetti, setShowConfetti] = useState(false);
 
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [open, setOpen] = React.useState(false);
@@ -112,10 +112,10 @@ function ActiveRequestonRoute({ requests, handleStartRequest }) {
     const onMessageSent = () => {
         setShowConfetti(true);
         setTimeout(() => {
-          setShowConfetti(false); // Stop the confetti after 2 seconds
-          setIsMessageModalOpen(false); // Close the modal
+            setShowConfetti(false); // Stop the confetti after 2 seconds
+            setIsMessageModalOpen(false); // Close the modal
         }, 2000);
-      };
+    };
 
 
     return (
@@ -150,11 +150,11 @@ function ActiveRequestonRoute({ requests, handleStartRequest }) {
                         <CloseIcon fontSize="large" />
                     </IconButton>
                     <SendAMessage
-  user={connectedUser}
-  requestUid={selectedRequestUid}
-  onMessageSent={onMessageSent} // Pass the new callback prop
-  onClose={handleMessageModalClose} // Keep the onClose prop for the "X" icon
-/>
+                        user={connectedUser}
+                        requestUid={selectedRequestUid}
+                        onMessageSent={onMessageSent} // Pass the new callback prop
+                        onClose={handleMessageModalClose} // Keep the onClose prop for the "X" icon
+                    />
                 </Box>
             </Modal>
             {/* Modal for opening profile of user who made request: UserProfileCardOthers */}
