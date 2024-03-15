@@ -22,6 +22,7 @@ const stateInitialData  = location.state?.initialData;
  // Use the initialData from the prop if it's provided, otherwise use the stateInitialData from the location state
  const effectiveInitialData = initialData || stateInitialData;
 
+
   // Steps for the profile wizard
   const steps = ['Location', 'Date and Time', 'Climbing Style and Equipment', 'Other comments', "Review"];
   // State for changing between pages

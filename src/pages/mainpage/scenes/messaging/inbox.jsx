@@ -57,7 +57,6 @@ const Inbox = ({ userId }) => {
             });
 
             if (response.ok) {
-                console.log("Conversation deleted successfully");
                 // Remove the chat from the conversations array in the UI
                 setConversations(conversations.filter(conversation => conversation.conversation_id !== conversationId));
             } else {
@@ -73,17 +72,10 @@ const Inbox = ({ userId }) => {
 
     const [messageContent, setMessageContent] = useState('');
 
-    console.log("MEssage", messages)
     const handleSendMessage = (messageContent, userId) => {
         const { conversation_id, receiver_id, sender_id, request_uid } = messages[0];
-        console.log("sender", sender_id)
-        console.log("receiver", receiver_id)
-        console.log("userID", userId)
 
         const otherUserId = sender_id === userId ? receiver_id : sender_id;
-
-        console.log("This is other user", otherUserId)
-
 
         fetch(`${process.env.REACT_APP_BACKEND_URL}/api/sendMessage/answer`, {
             method: 'POST',
@@ -127,7 +119,6 @@ const Inbox = ({ userId }) => {
         if (selectedChat && selectedChat.conversation_id === chat.conversation_id) {
             setSelectedChat(null);
         } else {
-            console.log('Chat clicked:', chat);
             setSelectedChat(chat);
             const nameAndLastName = chat.title.split(' - ')[0]; // This will give you 'Alex tio'
             setOtherUserName(nameAndLastName);
@@ -139,7 +130,6 @@ const Inbox = ({ userId }) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Message received from server:', data);
                     setMessages(data);
                     const otherUserId = data[0].sender_id === userId ? data[0].receiver_id : data[0].sender_id;
                     setOtherUserId(otherUserId);
@@ -186,7 +176,6 @@ const Inbox = ({ userId }) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Conversation table data:', data); // Log the conversation table data
             const userId = data.userId; // Retrieve the user ID from the response
     
             // Extract the conversation IDs that should not be rendered
@@ -194,9 +183,6 @@ const Inbox = ({ userId }) => {
                 .filter(conversation => (conversation.deleted_user1 && conversation.user1_id === userId) || (conversation.deleted_user2 && conversation.user2_id === userId))
                 .map(conversation => conversation.conversation_id);
     
-            console.log('Conversation IDs to skip:', conversationIdsToSkip); // Log the IDs to skip
-    
-            // Now, fetch the conversations from the getMessage/conversations endpoint
             return fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getMessage/conversations`, {
                 method: 'GET',
                 headers: {
@@ -205,15 +191,9 @@ const Inbox = ({ userId }) => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('All conversations data:', data); // Log all conversations data
-                console.log('Current user ID:', userId);
-    
-                // Filter out the conversations that should not be rendered
                 const filteredConversations = data.conversations.filter(conversation => !conversationIdsToSkip.includes(conversation.conversation_id));
-    
-                console.log('Filtered conversations:', filteredConversations); // Log the filtered conversations
-    
-                // Sort and process the remaining conversations as before
+
+                // Sort and process the remaining conversations 
                 const sortedConversations = filteredConversations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 const uniqueConversations = Array.from(new Set(sortedConversations.map(conversation => conversation.conversation_id)))
                     .map(conversation_id => {

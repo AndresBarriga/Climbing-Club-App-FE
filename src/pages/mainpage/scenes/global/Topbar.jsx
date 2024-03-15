@@ -28,7 +28,7 @@ const Topbar = () => {
 
 
     const { isAuthenticated } = useCheckAuthentication();
- const [user, setUser] = useState({});
+    const [user, setUser] = useState({});
 
  useEffect(() => {
    if (isAuthenticated) {

@@ -17,8 +17,14 @@ const NotificationTop = ({ setOpen, notifications }) => {
   const [showAll, setShowAll] = useState(false);
   
   const handleNotificationClick = async (notification) => {
+    // Check if the notification is a placeholder
+    if (notification.icon === null && notification.content === "No new notifications at the moment, keep reaching for new heights!") {
+       // This is a placeholder, do nothing
+       console.log('Placeholder clicked, no action taken.');
+       return;
+    }
+   
     try {
-       
        await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/notificationRead/${notification.notification_id}`, {
          method: 'PUT',
          headers: {
@@ -29,14 +35,25 @@ const NotificationTop = ({ setOpen, notifications }) => {
        });
    
        // Redirect to the request details page
-      window.location.href = `/request-details/${notification.request_id}`;
+       window.location.href = `/request-details/${notification.request_id}`;
     } catch (error) {
        console.error('Failed to update notification status', error);
     }
    };
+
+   const noNotificationsMessage = {
+    icon: null, // Or any other appropriate icon
+    content: "No new notifications at the moment, keep reaching for new heights!",
+    created_at: new Date().toISOString(), // Current date and time
+    // Add any other properties needed for the message
+  };
+
+  const combinedNotifications = notifications.length >  0 ? notifications : [noNotificationsMessage];
   
 
-  const displayedNotifications = showAll ? notifications : notifications.slice(0, 3);
+  const displayedNotifications = showAll ? combinedNotifications : combinedNotifications.slice(0,  3);
+
+  
 
   return (
     <Card style={{ position: 'absolute', zIndex: 1, top: '100%', right: 70, width: '350px', marginTop: '10px' }}>
@@ -47,6 +64,7 @@ const NotificationTop = ({ setOpen, notifications }) => {
             <CloseIcon />
           </IconButton>
         </Box>
+        
         {displayedNotifications.map((notification, index) => (
           <Box 
             style={{marginTop: 10, padding: 5, cursor: 'pointer'}}

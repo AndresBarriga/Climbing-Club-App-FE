@@ -28,7 +28,17 @@ function FixTimeRequest({ onDateTimeChange }) {
    </Typography>
    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" gap={2}>
    
-   <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2"> Plan your climbing day down to the last detail. Whether it's a single day or a series of consecutive days for an adventurous trip, create a request for your needs. Your climbing agenda, your way.</h4>
+   <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2"> You can choose if the request is for an specific days or you want to organise a multiple-days trip</h4>
+   <Button variant="contained" color="primary" onClick={() => {
+  setMultipleDays(!multipleDays);
+  if (!multipleDays) {
+    setStartTime('');
+  } else {
+    setEndDate(null);
+  }
+}}>
+  {multipleDays ? 'Single day' : 'Organice a trip'}
+</Button>
    <Typography variant="body1">Select date:</Typography>
    <DatePicker label="Date" value={startDate} onChange={(newValue) => {
      setStartDate(newValue);
@@ -46,16 +56,7 @@ function FixTimeRequest({ onDateTimeChange }) {
        <TextField type="time" value={startTime} onChange={e => setStartTime(e.target.value)} />
      </>
    )}
-<Button variant="contained" color="primary" onClick={() => {
-  setMultipleDays(!multipleDays);
-  if (!multipleDays) {
-    setStartTime('');
-  } else {
-    setEndDate(null);
-  }
-}}>
-  {multipleDays ? 'Single day' : 'Multiple days'}
-</Button>
+
  </Box>
  </Box>
  );

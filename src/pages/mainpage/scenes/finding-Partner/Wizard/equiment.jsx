@@ -126,9 +126,14 @@ console.log('neededMaterial:', neededMaterial);
 
             </Box>
             {showError && <Typography color="error">Please select a climbing style!!</Typography>}
+            {climbingStyle.length > 0 && climbingStyle.every(style => ['Boulder Indoors', 'Deep water solo'].includes(style)) && (
+ <Typography variant="body1" color="textSecondary">
+    No material is needed for {climbingStyle.join(', ')}.
+ </Typography>
+)}
             <Divider></Divider>
             <h2 className=" text-sm sm:text-lg text-green-700 font-extrabold  sm:mx-4 mb-2 sm:py-2">Select your Available Gear 🎒🧗‍♀️</h2>
-
+           
             <Grid container spacing={2}>
                 {uniqueEquipment.map(item => (
                     <Grid item xs={12} sm={6} md={4} key={item}>

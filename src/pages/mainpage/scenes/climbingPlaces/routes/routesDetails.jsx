@@ -30,8 +30,8 @@ const RouteDetails = () => {
   const [requests, setRequests] = useState([]);
 
   const handleDetailsClick = () => {
-  setShowActiveRequestIndex(true);
-};
+    setShowActiveRequestIndex(true);
+  };
   const [showActiveRequestIndex, setShowActiveRequestIndex] = useState(false);
   console.log("request", requests)
 
@@ -206,8 +206,10 @@ const RouteDetails = () => {
       region: region,
       area: area,
       route: routeName,
+      route_style: routeDetails.route_style
       // You can add more fields here if needed
     };
+
 
     // Use navigate to change the route and pass the initial data as state
     navigate('/find-a-buddy', { state: { initialData: initialData } });
@@ -250,27 +252,27 @@ const RouteDetails = () => {
     <>
       <Box sx={{ width: '100%', padding: 2 }}>
         <Paper sx={{ width: '50%', padding: 2, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'relative' }} elevation={3}>
-        <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ right: 8, top: 8, left: 8, width: 'calc(100% - 16px)' }}>
- {showActiveRequestIndex && (
- <Tooltip title="Back">
-   <IconButton onClick={() => setShowActiveRequestIndex(false)}>
-     <ArrowBackIcon fontSize="large" />
-   </IconButton>
- </Tooltip>
- )}
- <Box display="flex" justifyContent="flex-end" alignItems="center" marginLeft="auto">
- <Tooltip title="Mark as favourite">
-   <IconButton onClick={handleFavorite}>
-     {routeDetails.isFavorite ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
-   </IconButton>
- </Tooltip>
- <Tooltip title="Start a request">
-   <IconButton onClick={handleStartRequest}>
-     <Diversity1Icon fontSize="large" />
-   </IconButton>
- </Tooltip>
- </Box>
-</Box>
+          <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ right: 8, top: 8, left: 8, width: 'calc(100% - 16px)' }}>
+            {showActiveRequestIndex && (
+              <Tooltip title="Back">
+                <IconButton onClick={() => setShowActiveRequestIndex(false)}>
+                  <ArrowBackIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            )}
+            <Box display="flex" justifyContent="flex-end" alignItems="center" marginLeft="auto">
+              <Tooltip title="Mark as favourite">
+                <IconButton onClick={handleFavorite}>
+                  {routeDetails.isFavorite ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Start a request">
+                <IconButton onClick={handleStartRequest}>
+                  <Diversity1Icon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
           <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" component="h2">
             {routeDetails.name}
           </Typography>
@@ -291,7 +293,7 @@ const RouteDetails = () => {
           />
 
           {showActiveRequestIndex ? (
-            <ActiveRequestonRoute requests={requests}  handleStartRequest={handleStartRequest}/>
+            <ActiveRequestonRoute requests={requests} handleStartRequest={handleStartRequest} />
           ) : (
             <>
               <Typography variant="body2" color="text.secondary">

@@ -17,16 +17,17 @@ const SettingsDropdown = ({ setOpen }) => {
             <CloseIcon />
           </IconButton>
         </Box>
+        <Box display="flex" alignItems="center "  style={{marginTop:10, marginBottom:5 }}>
+          <AccountSettingsIcon />
+          <Link to="/notification-settings"><Typography style={{marginLeft : 10 }}>Notification Settings</Typography></Link>
+        </Box>
+        <Divider />
         <Box display="flex" alignItems="center"  style={{marginTop:10, marginBottom:5 }}>
           <SupportIcon />
           <Link to="/support"><Typography style={{marginLeft : 10 }}>Support</Typography></Link>
         </Box>
         <Divider />
-        <Box display="flex" alignItems="center "  style={{marginTop:10, marginBottom:5 }}>
-          <AccountSettingsIcon />
-          <Link to="/account-settings"><Typography style={{marginLeft : 10 }}>Account Settings</Typography></Link>
-        </Box>
-        <Divider />
+        
         <Box display="flex" alignItems="center"  style={{marginTop:10, marginBottom:5 }}>
           <PrivacyCenterIcon />
           <Link to="/privacy-center"><Typography style={{marginLeft : 10 }} >Privacy Center</Typography></Link>
