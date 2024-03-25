@@ -318,7 +318,7 @@ const RouteDetails = () => {
                 <Divider variant="middle" style={{ borderBottomWidth: '1px', }} />
               </Box>
               <Typography variant="body1" className="text-green-900 ">
-                <span className="text-green-900 font-semibold "> Some Helpful Links:</span>
+                <span className="text-green-900 font-semibold ">  Helpful Links:</span>
               </Typography>
               <Box display="flex" alignItems="center">
                 <Typography variant="body2" color="text.secondary" style={{ marginRight: '10px' }}>

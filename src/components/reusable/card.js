@@ -18,8 +18,7 @@ export default function ActionAreaCard({ title, description, link, imageUrl, Ico
           alt={title}
           sx={{ position: 'relative' }}
         />
-        <Box sx={{ position: 'relative', paddingTop: '14px' }}> {/* Container for text content */}
-          {/* Overlay icon */}
+        <Box sx={{ position: 'relative', paddingTop: '14px' }}> 
           
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
@@ -32,14 +31,14 @@ export default function ActionAreaCard({ title, description, link, imageUrl, Ico
             aria-label={`${title} icon`}
             sx={{
               position: 'absolute',
-              top: 50, // Position the icon at the top of the text container
-              left: '80%', // Center the icon horizontally
-              transform: 'translateX(-50%)', // Adjust the icon's position to be centered
+              top: 50, 
+              left: '80%', 
+              transform: 'translateX(-50%)', 
               color: 'black',
               fontSize: '48px',
             }}
           >
-            <IconComponent style={{ width: '45px', height: '45px' }} /> {/* Use the passed icon component */}
+            <IconComponent style={{ width: '45px', height: '45px' }} /> 
           </IconButton>
           </CardContent>
         </Box>

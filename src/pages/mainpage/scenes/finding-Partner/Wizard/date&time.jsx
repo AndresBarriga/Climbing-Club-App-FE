@@ -43,7 +43,7 @@ export function DateAndTimeStep({ setActiveStep, forData, onFormDataChange }) {
 
     return (
         <Box sx={{ width: '100%' }}>
-            <h1 className=" text-base sm:text-xl text-green-900 font-extrabold sm:mx-4 mb-2 sm:py-2">Step 2: Time to Climb! 🕰️</h1>
+            <h1 className=" text-base sm:text-xl text-green-900 font-extrabold sm:mx-4 mb-2 sm:py-2">Step 2: Time to climb! 🕰️</h1>
             <h2 className=" text-base sm:text-lg font-semibold text-gray-700 sm:mx-4 mb-2 sm:py-2">Tell us about your availability ⏱️✨</h2>
 
 

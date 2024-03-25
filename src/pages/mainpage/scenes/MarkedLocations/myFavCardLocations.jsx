@@ -213,7 +213,7 @@ function MyFavCardLocations() {
         startIcon={<AddCircleOutlineIcon />}
         className="block w-full rounded bg-green-700 px-12 py-3 text-sm font-medium text-white shadow hover:bg-white hover:text-green-700 focus:outline-none focus:ring active:bg-green-500 sm:w-auto"
       >
-        Add new
+        Add New
       </Button>
     </Box>
       </Paper>

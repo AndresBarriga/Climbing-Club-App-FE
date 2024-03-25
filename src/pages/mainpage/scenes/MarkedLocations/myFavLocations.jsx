@@ -189,7 +189,7 @@ function MyFavLocations() {
             disabled={routeInfo.length <= 5}
             style={{ color: routeInfo.length > 5 ? 'black' : 'grey' }}
           >
-            {showAll ? 'Click to see less' : 'Click to display all'}
+            {showAll ? 'Click to see less ' : 'Click to display all'}
           </Button>
           <Button
             component={Link}

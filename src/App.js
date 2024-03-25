@@ -70,9 +70,6 @@ function App() {
     <Route path="/recover-passwordCreation" element={<RecoverPasswordCreation />} />
     <Route path="/notification-settings" element={<NotificationSettingsIndex />} />
     <Route path="/request-details/:request_id" element={<RequestDetailsIndex />} />
-
-
-    
   </Routes>
 </ThemeProvider>
 );

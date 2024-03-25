@@ -72,7 +72,7 @@ const handleChange = (event, newValue) => {
   }, [region, country, area, firstRender]);
 
   const routeStyleTitles = {
-    "Gym": "Indoor Climbing & Boulder (Gyms)",
+    "Gym": "Indoor Climbing & Indoor Boulder (Gyms)",
     "Wall": "Climbing",
     "Boulder": "Boulder",
     "Urban Boulder": "Boulder"

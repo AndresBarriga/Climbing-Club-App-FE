@@ -219,7 +219,7 @@ export function EquipmentStep({ setActiveStep, onFormDataChange }) {
                                         style={inputStyle}
                                         min={0}
                                         value={availableGear[item]?.amount || ''}
-                                        onChange={(event) => handleAvailableGearChange(item, 'amount', event.target.value)}
+                                        onChange={(event) => handleAvailableGearChange(item, 'Amount', event.target.value)}
                                     />
                                     <Select
                                         value={availableGear[item]?.size || ''}

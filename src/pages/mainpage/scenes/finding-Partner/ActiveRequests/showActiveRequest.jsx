@@ -166,7 +166,7 @@ const RequestDetails = () => {
           {user.name} {user.last_name}
         </Typography>
         <Box sx={{ marginTop: 2 }}>
-          <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" >📌 Wants to climb in: <span className="text-gray-700">{requestInfo.area}, {requestInfo.region} </span></Typography>
+          <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" >📌 Wants to climb in : <span className="text-gray-700">{requestInfo.area}, {requestInfo.region} </span></Typography>
           {requestInfo.selected_routes && requestInfo.selected_routes.length > 0 ? (
     <>
       <Typography variant="h6" sx={{ fontWeight: 'fontWeightBold' }}>Selected Routes:</Typography>
