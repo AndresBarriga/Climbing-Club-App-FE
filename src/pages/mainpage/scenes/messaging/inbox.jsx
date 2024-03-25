@@ -120,7 +120,7 @@ const Inbox = ({ userId }) => {
             setSelectedChat(null);
         } else {
             setSelectedChat(chat);
-            const nameAndLastName = chat.title.split(' - ')[0]; // This will give you 'Alex tio'
+            const nameAndLastName = chat.title.split(' - ')[0];
             setOtherUserName(nameAndLastName);
             fetch(`${process.env.REACT_APP_BACKEND_URL}/api/getMessage/${chat.conversation_id}/messages`, {
                 method: 'GET',

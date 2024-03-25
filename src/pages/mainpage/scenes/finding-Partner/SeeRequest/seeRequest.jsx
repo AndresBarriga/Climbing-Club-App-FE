@@ -59,7 +59,7 @@ const SeeRequests = () => {
     const [uniqueRegions, setUniqueRegions] = useState([]);
     const [uniqueRoutes, setUniqueRoutes] = useState([]);
     const [uniqueStyles, setUniqueStyles] = useState([]);
-    //Passing filters to create new array
+
     const [requestsWithFilters, setRequestsWithFilters] = useState([]);
 
     const getUniqueAreas = (requests) => {

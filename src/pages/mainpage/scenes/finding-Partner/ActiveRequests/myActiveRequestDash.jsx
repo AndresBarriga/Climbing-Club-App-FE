@@ -64,7 +64,6 @@ function MyActiveRequestDash() {
       })
       .then(data => {
         console.log('Data received from server:', data);
-        // Remove the deleted request from the requestInfo state variable
         setRequestInfo(requestInfo.filter(r => r.uid !== selectedRequest.uid));
         // Close the modal
         setShowModal(false);

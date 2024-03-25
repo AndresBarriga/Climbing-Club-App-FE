@@ -44,8 +44,7 @@ const NotificationTop = ({ setOpen, notifications }) => {
    const noNotificationsMessage = {
     icon: null, // Or any other appropriate icon
     content: "No new notifications at the moment, keep reaching for new heights!",
-    created_at: new Date().toISOString(), // Current date and time
-    // Add any other properties needed for the message
+    created_at: new Date().toISOString(),
   };
 
   const combinedNotifications = notifications.length >  0 ? notifications : [noNotificationsMessage];

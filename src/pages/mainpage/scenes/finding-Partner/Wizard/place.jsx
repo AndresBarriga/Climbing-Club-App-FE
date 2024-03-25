@@ -213,7 +213,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
           src={multilocations}
           alt="Multilocations"
           style={{ height: "200px" }} />
-        <p className=" text-sm sm:text-base text-gray-700  sm:mx-4 mb-2 sm:py-2">Whether you are up to climb in the whole region or you wanna visit a local crag, your favorite indoor gym, share your perfect location, and <span className="text-green-700 font-bold">  we'll help you find the ideal partner.
+        <p className=" text-sm sm:text-base text-gray-700  sm:mx-4 mb-2 sm:py-2">Share your perfect location, and <span className="text-green-700 font-bold">  we'll help you find the ideal partner.
  </span> </p>
 
       </div>

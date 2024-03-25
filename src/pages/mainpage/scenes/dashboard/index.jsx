@@ -209,7 +209,7 @@ const Dashboard = () => {
               </Box>
             </Box>
             <Box mt={2}>
-              <MyFavCardLocations />
+              <MyFavCardLocations/>
             </Box>
           </Box>
         </div>

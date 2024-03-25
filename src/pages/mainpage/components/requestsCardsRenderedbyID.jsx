@@ -60,7 +60,7 @@ const RequestCardsRenderedbyID = ({ request }) => {
 
 
     if (isLoading) {
-        return <div>Loading...</div>; // Or replace this with a loading spinner
+        return <div>Loading...</div>;
     }
 
     const timeMapping = {

@@ -184,7 +184,7 @@ const RequestDetails = () => {
             );
           } catch (error) {
             console.error('Error parsing JSON string:', error);
-            return null; // Return null or some fallback UI if parsing fails
+            return null;
           }
         })}
       </ul>

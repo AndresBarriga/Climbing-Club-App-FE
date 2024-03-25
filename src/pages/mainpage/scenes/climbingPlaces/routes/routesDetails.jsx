@@ -170,12 +170,9 @@ const RouteDetails = () => {
         // Update the state based on the response
         const isFavorite = data.message === "Favourite added successfully";
         setRouteDetails(prevRouteDetails => ({ ...prevRouteDetails, isFavorite }));
-
-        // If the route was added to favourites
         if (isFavorite) {
           setFavourites(prevFavourites => [...prevFavourites, routeDetails.id]);
         }
-        // If the route was removed from favourites
         else {
           setFavourites(prevFavourites => prevFavourites.filter(id => id !== routeDetails.id));
         }

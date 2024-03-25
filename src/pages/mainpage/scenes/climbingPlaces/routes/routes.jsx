@@ -89,7 +89,7 @@ const handleChange = (event, newValue) => {
       });
   
       setFilteredRoutes(newFilteredRoutes);
-      setShowMore(new Array(newFilteredRoutes.length).fill(false)); // Update showMore length
+      setShowMore(new Array(newFilteredRoutes.length).fill(false)); 
     }
   }, [route]);
   

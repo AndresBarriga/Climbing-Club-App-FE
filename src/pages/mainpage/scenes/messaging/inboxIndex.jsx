@@ -30,7 +30,7 @@ const InboxIndex = () => {
         return res.json();
       })
       .then(data => {
-        setUserId(data.preferences.user_id); // Assuming the user object has a user_id property
+        setUserId(data.preferences.user_id); 
       })
       .catch(err => {
         console.error("Error:", err);

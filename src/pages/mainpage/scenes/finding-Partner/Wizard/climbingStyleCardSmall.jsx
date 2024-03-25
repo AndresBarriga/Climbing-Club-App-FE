@@ -6,7 +6,7 @@ import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
 
 
-//Each of the cards presentent on the parent component are created here (ClimbingStyle.js)
+
 function ClimbingStyleCardSmall({ image, text, onClick, isSelected }) {
     // Screen responsivenbess
     const isSmallScreen = useMediaQuery({ query: '(max-width: 600px)' });

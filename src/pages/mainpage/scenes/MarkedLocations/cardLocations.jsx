@@ -27,7 +27,7 @@ const CardLocations = ({ route, handleNavigate, handleDelete }) => {
     transition: 'transform 0.3s ease',
     '&:hover': {
       transform: 'scale(1.1)',
-      color: 'rgba(0, 0, 0, 0.87)', // Change the color to a darker shade on hover
+      color: 'rgba(0, 0, 0, 0.87)', 
     },
   };
 

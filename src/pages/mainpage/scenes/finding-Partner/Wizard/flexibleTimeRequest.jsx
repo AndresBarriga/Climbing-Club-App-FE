@@ -204,6 +204,7 @@ const [isCompletelyFlexible, setIsCompletelyFlexible] = useState(false);
          </TableRow>
        </TableBody>
      </Table>
+     
    </TableContainer>
     )}
   </Box>

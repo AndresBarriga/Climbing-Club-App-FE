@@ -10,7 +10,6 @@ import EmailValidator from "../Auth/functions/validateEmail";
 import { get, isEmpty } from "lodash-es";
 import { Link } from 'react-router-dom';
 
-// Function to validate form fields
 async function validate(refs, form) {
     for (const [attribute, ref] of Object.entries(refs.current)) {
       var errors;

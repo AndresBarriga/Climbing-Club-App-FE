@@ -21,9 +21,6 @@ export function ProfileWizard() {
   // State for the success message after DB entry is created
   const [successMessage, setSuccessMessage] = useState(null);
 
-  
-
-  // Function to handle form data change
   const handleFormDataChange = useCallback((name, value) => {
     setFormData(prevFormData => ({
         ...prevFormData,

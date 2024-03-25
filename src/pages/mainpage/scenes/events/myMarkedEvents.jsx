@@ -59,7 +59,7 @@ function MyMarkedEvents({ events }) {
   );
 
   function handleDelete(event) {
-    // handle deletion of the event
+    // handle deletion of th event
   }
 }
 

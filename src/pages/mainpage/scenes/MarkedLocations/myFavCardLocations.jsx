@@ -86,7 +86,7 @@ function MyFavCardLocations() {
 
       const favouriteIds = await response.json();
 
-      // For each favorite route ID, fetch the corresponding route information
+    
       const routeInfoArray = await Promise.all(favouriteIds.map(async (routeId) => {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/user_favourites_get/route/${routeId}`, {
           headers: {

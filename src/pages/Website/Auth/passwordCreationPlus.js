@@ -4,14 +4,14 @@ import { Avatar, Button, IconButton, InputAdornment, TextField, Box } from "@mui
 import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
 import PasswordValidator from "../Auth/functions/validatePassword";
-import { useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 
 export default function CreatePassword() {
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-   const token = params.get('token');
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const token = params.get('token');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -23,43 +23,42 @@ export default function CreatePassword() {
     setShowPassword(!showPassword);
   };
   useEffect(() => {
-  const checkToken = async () => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/create-password/check-token`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
-        },
-      });
+    const checkToken = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/create-password/check-token`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+        });
 
-      if (response.ok) {
-        setIsValidToken(true);
-      } else {
-        setIsValidToken(false);
+        if (response.ok) {
+          setIsValidToken(true);
+        } else {
+          setIsValidToken(false);
+        }
+      } catch (error) {
+        console.error("Error checking token:", error);
       }
-    } catch (error) {
-      console.error("Error checking token:", error);
-    }
-  };
+    };
 
-  // Call the checkToken function when the component mounts
-  checkToken();
-}, []);
+    checkToken();
+  }, []);
 
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/create-password`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
-        },
-        body: JSON.stringify({
-          password,
-        }),
-      })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        password,
+      }),
+    })
       .then(res => {
         if (res.ok) { // Check if the response status code is 200-299
           return res.json().then(data => {
@@ -76,30 +75,30 @@ export default function CreatePassword() {
         // Handle fetch or JSON parsing errors
         console.error("Fetch error:", error);
       });
-    }
-      
+  }
+
 
 
   // Render the create password form
   return (
     <Box sx={{ width: "50%", margin: "0 auto", marginTop: "50px" }}>
-        {!isValidToken && (
-            <div className="modal">
- <div className="modal-content">
-  <h2>Token has been already used. Please restore your password if you don't remember it.</h2>
-  <div className="my-6"></div>
-  <Link to="/recover-password">
-    <span
-      className="mx-6 text-white rounded bg-green-800 text-sm font-medium hover:bg-white hover:text-green-800
+      {!isValidToken && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Token has been already used. Please restore your password if you don't remember it.</h2>
+            <div className="my-6"></div>
+            <Link to="/recover-password">
+              <span
+                className="mx-6 text-white rounded bg-green-800 text-sm font-medium hover:bg-white hover:text-green-800
       hover:border-green focus:outline-none focus:ring active:bg-green-800 sm:w-auto px-5 py-2.5 duration-300 border border-transparent hover:border-green-800"
-      aria-label="Recover password"
-    >
-      Forgot your password?
-    </span>
-  </Link>
- </div>
- </div>
-)}
+                aria-label="Recover password"
+              >
+                Forgot your password?
+              </span>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {passwordUpdated ? (
         <div className="modal">
@@ -108,13 +107,13 @@ export default function CreatePassword() {
             <p>You can now log in with your new password.</p>
             <div className="my-6"></div>
             <Link to="/auth">
-  <span
-    className="mx-6 text-white rounded bg-green-800 text-sm font-medium hover:bg-white hover:text-green-800 hover:border-green focus:outline-none focus:ring active:bg-green-800 sm:w-auto px-5 py-2.5 duration-300 border border-transparent hover:border-green-800"
-    aria-label="Sign in"
-  >
-    Log in
-  </span>
-</Link>
+              <span
+                className="mx-6 text-white rounded bg-green-800 text-sm font-medium hover:bg-white hover:text-green-800 hover:border-green focus:outline-none focus:ring active:bg-green-800 sm:w-auto px-5 py-2.5 duration-300 border border-transparent hover:border-green-800"
+                aria-label="Sign in"
+              >
+                Log in
+              </span>
+            </Link>
           </div>
         </div>
       ) : (

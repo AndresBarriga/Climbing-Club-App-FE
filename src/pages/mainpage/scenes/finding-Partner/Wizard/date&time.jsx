@@ -37,7 +37,7 @@ export function DateAndTimeStep({ setActiveStep, forData, onFormDataChange }) {
             setShowError(true);
             return;
         }
-        onFormDataChange('timeData', timeData); // pass timeData to parent
+        onFormDataChange('timeData', timeData);
         setActiveStep((prevStep) => prevStep + 1);
     };
 

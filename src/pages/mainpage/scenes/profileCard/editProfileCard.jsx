@@ -114,7 +114,7 @@ const EditProfileCard = () => {
             setUser(data.user);
             console.log(data.user)
             setPreferences(data.preferences);
-            setFirstRender(false) // In order to avoid infinite renders
+            setFirstRender(false) 
             setLoading(false)
 
           })

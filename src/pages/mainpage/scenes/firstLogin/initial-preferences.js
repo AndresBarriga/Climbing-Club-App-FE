@@ -24,7 +24,6 @@ export default function InitialPreferences() {
         }
       })
       .catch((error) => {
-        // Log any errors
         console.error(error);
       });
   }, []);

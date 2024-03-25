@@ -18,6 +18,7 @@ export default function ActionAreaCard({ title, description, link, imageUrl, Ico
           alt={title}
           sx={{ position: 'relative' }}
         />
+        
         <Box sx={{ position: 'relative', paddingTop: '14px' }}> 
           
           <CardContent>

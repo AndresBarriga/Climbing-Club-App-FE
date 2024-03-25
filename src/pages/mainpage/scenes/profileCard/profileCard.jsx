@@ -54,7 +54,7 @@ const UserProfileCard = () => {
             console.log('Data received from server:', data);
             setUser(data.user);
             setPreferences(data.preferences);
-            setFirstRender(false) // In order to avoid infinite renders
+            setFirstRender(false)
             setLoading(false)
 
           })

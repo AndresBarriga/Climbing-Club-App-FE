@@ -201,7 +201,7 @@ export function EquipmentStep({ setActiveStep, onFormDataChange }) {
                     <TextField
                         {...params}
                         label="Available Gear"
-                        style={{ margin: '20px' }} // Add margin to the top of the autocomplete box
+                        style={{ margin: '20px' }} 
                     />
                 )}
             />

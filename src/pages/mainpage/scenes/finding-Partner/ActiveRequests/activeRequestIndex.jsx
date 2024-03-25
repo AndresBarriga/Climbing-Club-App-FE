@@ -23,7 +23,6 @@ return (
           <div className='custom-paper2' style={{ display: 'flex', flex: 1  , flexDirection: "column", padding:20 }}>
           <RequestDetails selectedRequest={request} />
           </div>
-          
       </div>
     </div>
     )

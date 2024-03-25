@@ -22,7 +22,7 @@ return (
           <SideBar />
          
           <div className='custom-paper2'style={{ flex: 1, overflow: 'auto',padding:20  }}>
-          <HeaderComp title="Your Selected Route 🌎 📌" subtitle={`${routeName} located in ${area}, ${region}, ${country}`} />
+          <HeaderComp title="Your Selected Route  🌎 📌" subtitle={`${routeName} located in ${area}, ${region}, ${country}`} />
           <RouteDetails />
           </div>
           

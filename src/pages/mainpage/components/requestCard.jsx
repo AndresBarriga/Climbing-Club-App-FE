@@ -109,7 +109,7 @@ const RequestCard = ({ request }) => {
                                 right: 8,
                                 top: 8,
                                 '&:hover': {
-                                    transform: 'scale(1.1)', // Slightly increase the size on hover
+                                    transform: 'scale(1.1)', 
                                 },
                             }}
                         >

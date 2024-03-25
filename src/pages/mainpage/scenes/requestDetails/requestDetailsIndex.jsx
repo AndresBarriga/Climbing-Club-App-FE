@@ -6,7 +6,7 @@ import RequestDetails from "./requestDetails"
 import { useParams } from "react-router-dom"
 
 const RequestDetailsIndex = () => {
-    const { request_id } = useParams();
+  const { request_id } = useParams();
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -16,7 +16,7 @@ const RequestDetailsIndex = () => {
 
         <div className='custom-paper2' style={{ flex: 1, overflow: 'auto', padding: 20 }}>
           <HeaderComp title="Climbing Request" subtitle="See more details or contact your future buddy" />
-          <RequestDetails request_id={request_id}/>
+          <RequestDetails request_id={request_id} />
         </div>
 
       </div>

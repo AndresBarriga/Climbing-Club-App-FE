@@ -13,7 +13,6 @@ function calculateAge(birthdate) {
   const currentDate = new Date();
 
   let age = currentDate.getFullYear() - birthDate.getFullYear();
-  // Adjust age if the birthday hasn't occurred yet this year
   if (
     currentDate.getMonth() < birthDate.getMonth() ||
     (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())

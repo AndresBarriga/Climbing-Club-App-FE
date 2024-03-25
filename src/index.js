@@ -15,5 +15,4 @@ rootInstance.render(
   <BrowserRouter>
     <App />
   </BrowserRouter>
-
 );

@@ -38,6 +38,7 @@ function FixTimeRequest({ onDateTimeChange }) {
   }
 }}>
   {multipleDays ? 'Single day ' : 'Organice a trip'}
+  
 </Button>
    <Typography variant="body1">Select date:</Typography>
    <DatePicker label="Date" value={startDate} onChange={(newValue) => {

@@ -30,7 +30,7 @@ async function validate(refs, form) {
   return true;
 }
 
-// Registration component
+
 export default function RegistrationPlus(props) {
 
   const [recaptchaToken, setRecaptchaToken] = useState('');
