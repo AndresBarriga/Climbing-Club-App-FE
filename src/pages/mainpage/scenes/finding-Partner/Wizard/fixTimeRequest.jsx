@@ -28,7 +28,7 @@ function FixTimeRequest({ onDateTimeChange }) {
    </Typography>
    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" gap={2}>
    
-   <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2"> You can choose if the request is for an specific days or you want to organise a multiple-days trip</h4>
+   <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2"> Choose a <span className="text-green-700 font-bold">specific day </span> or a <span className="text-green-700 font-bold">various days</span> if you want to organise a trip</h4>
    <Button variant="contained" color="primary" onClick={() => {
   setMultipleDays(!multipleDays);
   if (!multipleDays) {

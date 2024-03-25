@@ -44,16 +44,14 @@ export function DateAndTimeStep({ setActiveStep, forData, onFormDataChange }) {
     return (
         <Box sx={{ width: '100%' }}>
             <h1 className=" text-base sm:text-xl text-green-900 font-extrabold sm:mx-4 mb-2 sm:py-2">Step 2: Time to Climb! 🕰️</h1>
-            <h2 className=" text-base sm:text-lg font-semibold text-gray-700 sm:mx-4 mb-2 sm:py-2">Let's narrow it down. When do you want to conquer those peaks?</h2>
+            <h2 className=" text-base sm:text-lg font-semibold text-gray-700 sm:mx-4 mb-2 sm:py-2">Tell us about your availability ⏱️✨</h2>
 
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '20px' }}>
                 <Button variant="contained" color="primary" onClick={() => setTimeRequestType('Flexible')}>Flexi-Time Request</Button>
                 <Button variant="contained" color="primary" onClick={() => setTimeRequestType('Fix')}>Fixed-Time Request</Button>
             </div>
-            <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2">Tell us about your preferred date and time.
-
-                Your climbing journey awaits! ⏱️✨</h4>
+            <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2">Choose between specific dates or hours that fits your regularly</h4>
             {timeRequestType === 'Flexible' ? <FlexibleTimeRequest onUserInputChange={setUserInput} /> : null}
             {timeRequestType === 'Fix' ? (
                 <LocalizationProvider dateAdapter={AdapterDayjs}><FixTimeRequest onDateTimeChange={setDateTime} /></LocalizationProvider>

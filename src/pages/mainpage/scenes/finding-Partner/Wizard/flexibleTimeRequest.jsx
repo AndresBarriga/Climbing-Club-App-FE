@@ -115,7 +115,7 @@ const [isCompletelyFlexible, setIsCompletelyFlexible] = useState(false);
  return (
   <Box >
     <Typography className="text-green-900 "variant="h6">Flexi-Time Request</Typography>
-    <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2">Flexi time requests will remain active until you choose to delete it. You just define times that normally suits you</h4>
+    <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2">Flexi time requests <span className="text-green-700 font-bold">will remain active</span> until you choose to delete it. </h4>
     <Typography variant="body1" style={{ fontWeight: 500}} className="text-sm sm:text-lg text-green-800 sm:mx-4 mb-2 sm:py-2">
   I can climb any time: 
   <Checkbox checked={isCompletelyFlexible} onChange={() => setIsCompletelyFlexible(!isCompletelyFlexible)} />

@@ -33,6 +33,7 @@ const RequestDetails = () => {
     setSelectedRequest(request);
     setShowModal(true);
   }
+  
 
   function handleConfirmDelete() {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/deleteRequest/${selectedRequest.uid}`, {
@@ -246,57 +247,64 @@ const RequestDetails = () => {
           </Box>
           <Divider />
           <Box sx={{ marginTop: 2 }}>
-            {Object.values(requestInfo.material).some(value => value) && (
-              <>
-
-                <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}>🛠️ 🧰 The climbing equipment I bring </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
-                  {Object.entries(requestInfo.material).map(([item, value]) => (
-                    item !== 'Belay Device' && (
-                      <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
-                        <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
-                          • {item}: {value.amount && `x${value.amount}`}
-                          {value.size && ` / Size - ${value.size}`}
-                        </Typography>
-                      </Box>
-                    )
-                  ))}
-                  {requestInfo.material['Belay Device'] && (
-                    <Box sx={{ width: '33.33%', padding: 1 }}>
-                      <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" >• Belay Device: {requestInfo.material['Belay Device']}</Typography>
-                    </Box>)}
-                </Box>
-                <Divider />
-              </>
-            )}
+ {requestInfo.material && Object.keys(requestInfo.material).length > 0 ? (
+    <>
+      <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}>🛠️ 🧰 The climbing equipment I bring </Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
+        {Object.entries(requestInfo.material).map(([item, value]) => (
+          item !== 'Belay Device' && (
+            <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
+              <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
+                • {item}: {value.amount && `x${value.amount}`}
+                {value.size && ` / Size - ${value.size}`}
+              </Typography>
+            </Box>
+          )
+        ))}
+        {requestInfo.material['Belay Device'] && (
+          <Box sx={{ width: '33.33%', padding: 1 }}>
+            <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" >• Belay Device: {requestInfo.material['Belay Device']}</Typography>
           </Box>
+        )}
+      </Box>
+      <Divider />
+    </>
+ ) : (
+    <Typography variant="body1" className="text-gray-700" sx={{ marginTop: 2 }}>
+      No climbing equipment will be brought.
+    </Typography>
+ )}
+</Box>
 
           <Box sx={{ marginTop: 2 }}>
-            {Object.values(requestInfo.needed_material).some(value => value) && (
-              <>
-                <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}> 🛠️ ♻️ The material I need you to bring</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
-                  {Object.entries(requestInfo.needed_material).map(([item, value]) => (
-                    item !== 'Belay Device' && (
-                      <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
-                        <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
-                          • {item}: {value.amount && `x${value.amount}`}
-                          {value.size && `, Size - ${value.size}`}
-                        </Typography>
-                      </Box>
-                    )
-                  ))}
-                  {requestInfo.needed_material['Belay Device'] && (
-                    <Box sx={{ width: '33.33%', padding: 1 }}>
-                      <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" > • Belay Device: {requestInfo.needed_material['Belay Device']}</Typography>
-                    </Box>
-                  )}
-                </Box>
-                <Divider />
-              </>
-            )}
+ {requestInfo.needed_material && Object.keys(requestInfo.needed_material).length > 0 ? (
+    <>
+      <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}> 🛠️ ♻️ The material I need you to bring</Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
+        {Object.entries(requestInfo.needed_material).map(([item, value]) => (
+          item !== 'Belay Device' && (
+            <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
+              <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
+                • {item}: {value.amount && `x${value.amount}`}
+                {value.size && `, Size - ${value.size}`}
+              </Typography>
+            </Box>
+          )
+        ))}
+        {requestInfo.needed_material['Belay Device'] && (
+          <Box sx={{ width: '33.33%', padding: 1 }}>
+            <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" > • Belay Device: {requestInfo.needed_material['Belay Device']}</Typography>
           </Box>
-
+        )}
+      </Box>
+      <Divider />
+    </>
+ ) : (
+    <Typography variant="body1" className="text-gray-700" sx={{ marginTop: 2 }}>
+      No additional material is needed for this request.
+    </Typography>
+ )}
+</Box>
 
 
 

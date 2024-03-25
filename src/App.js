@@ -27,6 +27,7 @@ import RestorePassword from "./pages/Website/Auth/recoverPassword";
 import RecoverPasswordCreation from "./pages/Website/Auth/recoverPasswordCreation";
 import NotificationSettingsIndex from "./pages/mainpage/scenes/notifications/notificationSettingsIndex";
 import RequestDetailsIndex from "./pages/mainpage/scenes/requestDetails/requestDetailsIndex";
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
 

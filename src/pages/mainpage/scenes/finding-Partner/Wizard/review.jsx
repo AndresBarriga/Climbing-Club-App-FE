@@ -117,12 +117,12 @@ const handleBack = () => {
         </Box>
         <Divider />
         <Box sx={{ marginTop: 2 }}>
-        {Object.values(formData.material).some(value => value) && (
+        {Object.values(formData.availableGear).some(value => value) && (
     <>
 
           <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}>🛠️ 🧰 The climbing equipment I bring </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
-            {Object.entries(formData.material).map(([item, value]) => (
+            {Object.entries(formData.availableGear).map(([item, value]) => (
               item !== 'Belay Device' && (
                 <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
                   <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
@@ -132,9 +132,9 @@ const handleBack = () => {
                 </Box>
               )
             ))}
-            {formData.material['Belay Device'] && (
+            {formData.availableGear['Belay Device'] && (
               <Box sx={{ width: '33.33%', padding: 1 }}>
-                <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" >• Belay Device: {formData.material['Belay Device']}</Typography>
+                <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" >• Belay Device: {formData.availableGear['Belay Device']}</Typography>
               </Box>)}
           </Box>
           <Divider />
