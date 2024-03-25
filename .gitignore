@@ -5,6 +5,7 @@
 build/
 /.pnp
 .pnp.js
+sendgrid.env
 
 # testing
 /coverage
