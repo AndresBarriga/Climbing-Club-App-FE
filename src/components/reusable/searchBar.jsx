@@ -25,7 +25,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div>
+    <div style={{ zIndex: 1001}}>
       <TextField
         label="Search"
         value={searchTerm}
@@ -39,7 +39,7 @@ const SearchBar = () => {
       />
       <SearchIcon />
       {searchResults.length > 0 && (
-        <Card>
+        <Card style={{ zIndex: 1001, position: 'relative' }}>
           <List>
             {searchResults.map((result, index) => (
               <ListItem

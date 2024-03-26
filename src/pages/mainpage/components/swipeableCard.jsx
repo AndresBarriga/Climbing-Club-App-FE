@@ -11,6 +11,7 @@ const SwipeableCard = ({ children }) => {
 
   return (
     <animated.div
+    
       {...bind()}
       style={{
         transform: x.to((x) => `translate3d(${x}px,${y}px,0)`),

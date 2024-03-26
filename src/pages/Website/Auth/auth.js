@@ -24,7 +24,7 @@ export const useCheckAuthentication = () => {
         }
       })
       .catch((error) => {
-        // Log any errors
+        
         console.error(error);
       });
   }, []);

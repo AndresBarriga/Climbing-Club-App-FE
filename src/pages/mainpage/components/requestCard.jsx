@@ -41,7 +41,7 @@ const RequestCard = ({ request }) => {
     };
 
     return (
-        <>
+        
             <Paper sx={{ width: '50%', padding: 2, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, position: 'relative', '&:hover': { transform: 'scale(1.05)' } }} elevation={3}>
 
                 <IconButton
@@ -109,7 +109,7 @@ const RequestCard = ({ request }) => {
                                 right: 8,
                                 top: 8,
                                 '&:hover': {
-                                    transform: 'scale(1.1)', // Slightly increase the size on hover
+                                    transform: 'scale(1.1)', 
                                 },
                             }}
                         >
@@ -269,7 +269,7 @@ const RequestCard = ({ request }) => {
                 </Box>
             </Paper>
 
-        </>
+        
     );
 
 };

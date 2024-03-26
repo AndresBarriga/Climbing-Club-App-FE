@@ -115,9 +115,9 @@ const [isCompletelyFlexible, setIsCompletelyFlexible] = useState(false);
  return (
   <Box >
     <Typography className="text-green-900 "variant="h6">Flexi-Time Request</Typography>
-    <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2">Craft a climbing request for the specific days and hours you have in mind. Once created, your request will remain active until you choose to delete it. Your climbing agenda, your way.</h4>
+    <h4 className="text-sm sm:text-base text-gray-600 font-medium  sm:mx-4 mb-2 sm:py-2">Flexi time request <span className="text-green-700 font-bold">will remain active</span> until you choose to delete it. </h4>
     <Typography variant="body1" style={{ fontWeight: 500}} className="text-sm sm:text-lg text-green-800 sm:mx-4 mb-2 sm:py-2">
-  Completely Flexible: 
+  I can climb any time: 
   <Checkbox checked={isCompletelyFlexible} onChange={() => setIsCompletelyFlexible(!isCompletelyFlexible)} />
 </Typography>
 {!isCompletelyFlexible && (
@@ -138,11 +138,11 @@ const [isCompletelyFlexible, setIsCompletelyFlexible] = useState(false);
         <TableBody>
           <TableRow>
           <TableCell>
-  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.600', marginTop: '10px' }}>Early Morning</Typography>
-  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Morning</Typography>
-  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Midday</Typography>
-  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Afternoon</Typography>
-  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Late Afternoon</Typography>
+  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.600', marginTop: '10px' }}>Early Morning (6-7am)</Typography>
+  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Morning (9-10 am)</Typography>
+  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Midday (12pm)</Typography>
+  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Afternoon (15pm)</Typography>
+  <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Late Afternoon(18pm)</Typography>
   <Typography variant="body2" style={{ fontWeight: 500, fontSize: '14px', color: 'grey.800', marginTop: '10px' }}>Whole Day</Typography>
 </TableCell>
             <TableCell>
@@ -204,6 +204,7 @@ const [isCompletelyFlexible, setIsCompletelyFlexible] = useState(false);
          </TableRow>
        </TableBody>
      </Table>
+     
    </TableContainer>
     )}
   </Box>

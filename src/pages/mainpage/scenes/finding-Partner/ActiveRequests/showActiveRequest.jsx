@@ -33,6 +33,7 @@ const RequestDetails = () => {
     setSelectedRequest(request);
     setShowModal(true);
   }
+  
 
   function handleConfirmDelete() {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/deleteRequest/${selectedRequest.uid}`, {
@@ -165,7 +166,7 @@ const RequestDetails = () => {
           {user.name} {user.last_name}
         </Typography>
         <Box sx={{ marginTop: 2 }}>
-          <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" >📌 Wants to climb in: <span className="text-gray-700">{requestInfo.area}, {requestInfo.region} </span></Typography>
+          <Typography className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginY: 2 }} variant="h5" >📌 Wants to climb in : <span className="text-gray-700">{requestInfo.area}, {requestInfo.region} </span></Typography>
           {requestInfo.selected_routes && requestInfo.selected_routes.length > 0 ? (
     <>
       <Typography variant="h6" sx={{ fontWeight: 'fontWeightBold' }}>Selected Routes:</Typography>
@@ -183,7 +184,7 @@ const RequestDetails = () => {
             );
           } catch (error) {
             console.error('Error parsing JSON string:', error);
-            return null; // Return null or some fallback UI if parsing fails
+            return null;
           }
         })}
       </ul>
@@ -246,57 +247,64 @@ const RequestDetails = () => {
           </Box>
           <Divider />
           <Box sx={{ marginTop: 2 }}>
-            {Object.values(requestInfo.material).some(value => value) && (
-              <>
-
-                <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}>🛠️ 🧰 The climbing equipment I bring </Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
-                  {Object.entries(requestInfo.material).map(([item, value]) => (
-                    item !== 'Belay Device' && (
-                      <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
-                        <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
-                          • {item}: {value.amount && `x${value.amount}`}
-                          {value.size && ` / Size - ${value.size}`}
-                        </Typography>
-                      </Box>
-                    )
-                  ))}
-                  {requestInfo.material['Belay Device'] && (
-                    <Box sx={{ width: '33.33%', padding: 1 }}>
-                      <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" >• Belay Device: {requestInfo.material['Belay Device']}</Typography>
-                    </Box>)}
-                </Box>
-                <Divider />
-              </>
-            )}
+ {requestInfo.material && Object.keys(requestInfo.material).length > 0 ? (
+    <>
+      <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}>🛠️ 🧰 The climbing equipment I bring </Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
+        {Object.entries(requestInfo.material).map(([item, value]) => (
+          item !== 'Belay Device' && (
+            <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
+              <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
+                • {item}: {value.amount && `x${value.amount}`}
+                {value.size && ` / Size - ${value.size}`}
+              </Typography>
+            </Box>
+          )
+        ))}
+        {requestInfo.material['Belay Device'] && (
+          <Box sx={{ width: '33.33%', padding: 1 }}>
+            <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" >• Belay Device: {requestInfo.material['Belay Device']}</Typography>
           </Box>
+        )}
+      </Box>
+      <Divider />
+    </>
+ ) : (
+    <Typography variant="body1" className="text-gray-700" sx={{ marginTop: 2 }}>
+      No climbing equipment will be brought.
+    </Typography>
+ )}
+</Box>
 
           <Box sx={{ marginTop: 2 }}>
-            {Object.values(requestInfo.needed_material).some(value => value) && (
-              <>
-                <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}> 🛠️ ♻️ The material I need you to bring</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
-                  {Object.entries(requestInfo.needed_material).map(([item, value]) => (
-                    item !== 'Belay Device' && (
-                      <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
-                        <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
-                          • {item}: {value.amount && `x${value.amount}`}
-                          {value.size && `, Size - ${value.size}`}
-                        </Typography>
-                      </Box>
-                    )
-                  ))}
-                  {requestInfo.needed_material['Belay Device'] && (
-                    <Box sx={{ width: '33.33%', padding: 1 }}>
-                      <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" > • Belay Device: {requestInfo.needed_material['Belay Device']}</Typography>
-                    </Box>
-                  )}
-                </Box>
-                <Divider />
-              </>
-            )}
+ {requestInfo.needed_material && Object.keys(requestInfo.needed_material).length > 0 ? (
+    <>
+      <Typography variant="h5" className="text-green-900 " sx={{ fontWeight: 'fontWeightBold', marginTop: 2 }}> 🛠️ ♻️ The material I need you to bring</Typography>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', marginLeft: 2, marginBottom: 2 }}>
+        {Object.entries(requestInfo.needed_material).map(([item, value]) => (
+          item !== 'Belay Device' && (
+            <Box key={item} sx={{ width: '33.33%', padding: 1 }}>
+              <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" key={item}>
+                • {item}: {value.amount && `x${value.amount}`}
+                {value.size && `, Size - ${value.size}`}
+              </Typography>
+            </Box>
+          )
+        ))}
+        {requestInfo.needed_material['Belay Device'] && (
+          <Box sx={{ width: '33.33%', padding: 1 }}>
+            <Typography sx={{ fontWeight: 'fontWeightMedium' }} className="text-gray-700" > • Belay Device: {requestInfo.needed_material['Belay Device']}</Typography>
           </Box>
-
+        )}
+      </Box>
+      <Divider />
+    </>
+ ) : (
+    <Typography variant="body1" className="text-gray-700" sx={{ marginTop: 2 }}>
+      No additional material is needed for this request.
+    </Typography>
+ )}
+</Box>
 
 
 
@@ -315,26 +323,26 @@ const RequestDetails = () => {
         </Box>
       </Paper>
       <Dialog
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Delete Request"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+    open={showModal}
+    onClose={() => setShowModal(false)}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+>
+    <DialogTitle id="alert-dialog-title">{"Delete Request"}</DialogTitle>
+    <DialogContent>
+        <DialogContentText id="alert-dialog-description">
             Are you sure you want to delete this request?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setShowModal(false)} color="primary">
+        </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+        <Button onClick={() => setShowModal(false)} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+        </Button>
+        <Button onClick={handleConfirmDelete} color="primary" variant="contained" autoFocus>
             Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </Button>
+    </DialogActions>
+</Dialog>
       <Dialog
         open={showSuccessDialog}
         onClose={() => setShowSuccessDialog(false)}

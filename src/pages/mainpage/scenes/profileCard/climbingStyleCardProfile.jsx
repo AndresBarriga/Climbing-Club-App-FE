@@ -20,7 +20,7 @@ const climbingStyleImages = {
 function ClimbingStyleCardProfile({ climbingStyle }) {
   // Get the image for the climbing style
     const image = climbingStyleImages[climbingStyle];
-     // Render the climbing style card
+  
     return (
       image && (
         <Card sx={{ maxWidth: 90, margin: '10px auto' }}>

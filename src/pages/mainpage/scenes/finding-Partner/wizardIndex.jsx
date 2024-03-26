@@ -7,18 +7,28 @@ import { CommentsStep } from './Wizard/comments.jsx';
 import { LocationStep } from './Wizard/place.jsx';
 import ReviewStep from './Wizard/review.jsx';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 
 
 // THIS COMPONENT IS THE PARENT OF THE WIZARD; will render the different pages and put together all info into a formulary that will be sent to DB
 
 // ProfileWizard component
-export function FindPartnerWizard() {
+export function FindPartnerWizard({ initialData }) {
+
+  // Inside your FindPartnerWizard component
+const location = useLocation();
+const stateInitialData  = location.state?.initialData;
+
+ // Use the initialData from the prop if it's provided, otherwise use the stateInitialData from the location state
+ const effectiveInitialData = initialData || stateInitialData;
+
+
   // Steps for the profile wizard
   const steps = ['Location', 'Date and Time', 'Climbing Style and Equipment', 'Other comments', "Review"];
   // State for changing between pages
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(effectiveInitialData ? 1 : 0);
   // State for gathering info from formulary
-  const [formData, setFormData] = React.useState({});
+  const [formData, setFormData] = React.useState(effectiveInitialData || {});
   // State for the success message after DB entry is created
   const [successMessage, setSuccessMessage] = useState(null);
 

@@ -8,7 +8,8 @@ import PropTypes from "prop-types";
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import AppHeader from "../../../components/reusable/HeaderWebsite";
+import GoogleButton from 'react-google-button';
+
 
 // Function to validate form fields
 async function validate(refs, form) {
@@ -28,8 +29,12 @@ async function validate(refs, form) {
   return true;
 }
 
+
+
 export default function Login(props) {
-  
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  console.log(googleClientId)
+
   // State for form fields and other variables
   const [form, setForm] = useState({
     email: "",
@@ -42,6 +47,11 @@ export default function Login(props) {
 
   // Refs for form fields
   const refs = useRef({});
+
+  const handleGoogleSignIn = () => {
+    window.location.href = `${process.env.REACT_APP_BACKEND_URL}/auth/google`;
+    
+  };
 
   // Function to update form state
   const updateForm = (attribute, value) => {
@@ -75,9 +85,7 @@ export default function Login(props) {
       .then(data => {
           // If the user is authorized, redirect them to the dashboard or initial preferences page
           if (data.message === "Authorized") {
-              console.log("User is authorized");
               localStorage.setItem('token', data.token);
-              console.log("this is data token", data.token)
               if (data.initial_preferences) {
                 window.location.href = "/dashboard";
               } else {
@@ -92,7 +100,7 @@ export default function Login(props) {
       })
       .catch(err => console.error("Error:", err));
   };
-
+  
   // Render the login form
   return (
     <div>
@@ -158,9 +166,15 @@ export default function Login(props) {
                   </Button>
                 </div>
               </form>
+              <div  style={{ display: "flex", justifyContent: "center", marginTop: "14px" }}>
+     <GoogleButton onClick={handleGoogleSignIn} />
+   </div>
+
+
+
               <div style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}>
+              <Link to="/recover-password">
                 <Button
-                  onClick={() => console.log("Forgot Password")}
                   style={{
                     textTransform: "initial",
                     color: indigo[500],
@@ -168,6 +182,7 @@ export default function Login(props) {
                 >
                   Forgot Password?
                 </Button>
+                </Link>
               </div>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Link to="/registration">
@@ -180,6 +195,7 @@ export default function Login(props) {
                     Don't have an account?
                   </Button>
                 </Link>
+              
               </div>
             </div>
           </div>

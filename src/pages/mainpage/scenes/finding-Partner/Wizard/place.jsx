@@ -24,7 +24,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
   const { isAuthenticated, loginMessage } = useCheckAuthentication();
   const [areaError, setAreaError] = useState(false);
 
- 
+
 
   // Populates user country´s in Country Field as pre-defined Value
   useEffect(() => {
@@ -199,27 +199,26 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
       return;
     }
     setActiveStep((prevStep) => prevStep + 1);
-   };
-   
+  };
+
 
 
   return (
     <div>
-      <h1 className=" text-base sm:text-lg text-green-900 font-extrabold  sm:mx-4 mb-2 sm:py-2">Step 1: Where do you want you climbing adventure to be? <span style={{ fontSize: 30 }}>🧗‍♂️</span> </h1>
-      <h2 className=" text-base sm:text-lg  font-semibold text-gray-700  sm:mx-4 mb-2 sm:py-2"> Ready to embark on a new climbing journey? Let's kick things off by finding <span className="text-green-700 font-bold"> the perfect spot for your next ascent.</span> </h2>
+      <h1 className=" text-base sm:text-lg text-green-900 font-extrabold  sm:mx-4 mb-2 sm:py-2">Step 1: Choose your climbing location <span style={{ fontSize: 30 }}>🧗‍♂️</span> </h1>
+      <h2 className=" text-base sm:text-lg  font-semibold text-gray-700  sm:mx-4 mb-2 sm:py-2"> Let's kick things off by finding <span className="text-green-700 font-bold"> the perfect spot for your next ascent. 🌍✨</span> </h2>
 
       <div style={{ display: 'flex', justifyContent: 'center', margin: 30 }}>
         <img
           src={multilocations}
           alt="Multilocations"
           style={{ height: "200px" }} />
-        <p className=" text-sm sm:text-base text-gray-700  sm:mx-4 mb-2 sm:py-2">Tell us, where do you want to climb? Whether you are flexible for climbing in the whole region or you wanna visit a local crag, or your favorite indoor gym, share your climbing dreams, and we'll help you find the ideal partner.
-
-          <span className="text-green-700 font-bold"> Let the adventure begin! 🌍✨ </span> </p>
+        <p className=" text-sm sm:text-base text-gray-700  sm:mx-4 mb-2 sm:py-2">Share your perfect location, and <span className="text-green-700 font-bold">  we'll help you find the ideal partner.
+ </span> </p>
 
       </div>
 
-      <p className=" text-sm sm:text-base text-gray-700 italic font-light sm:mx-4 mb-2 sm:py-2">Start selecting the location you want to climb:</p>
+      <p className=" text-sm sm:text-base text-gray-700 italic font-light sm:mx-4 mb-2 sm:py-2">Select your desired climbing location(s):</p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem", justifyContent: "center" }}>
 
@@ -267,7 +266,7 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
                 setAreaChecked(event.target.checked);
                 onFormDataChange('areaChecked', event.target.checked);
                 setSelectedRoutes([]);
-              }}/>}
+              }} />}
               label={<Typography variant="body2">* Make request for entire Area</Typography>}
               style={{ alignSelf: 'flex-start', marginTop: '-5px' }}
             />
@@ -293,21 +292,21 @@ export function LocationStep({ setActiveStep, formData, onFormDataChange }) {
             renderOption={(props, option, { selected }) => (
               <li {...props}>
                 <Checkbox
- checked={selectedRoutes.some(route => route.name === option.name && route.route_style === option.route_style)}
- onChange={(event) => {
-  if (event.target.checked) {
-    setSelectedRoutes(prev => {
-      if (!prev.some(route => route.name === option.name && route.route_style === option.route_style)) {
-        return [...prev, option];
-      } else {
-        return prev;
-      }
-    });
-  } else {
-    setSelectedRoutes(prev => prev.filter(route => route.name !== option.name || route.route_style !== option.route_style));
-  }
- }}
-/>
+                  checked={selectedRoutes.some(route => route.name === option.name && route.route_style === option.route_style)}
+                  onChange={(event) => {
+                    if (event.target.checked) {
+                      setSelectedRoutes(prev => {
+                        if (!prev.some(route => route.name === option.name && route.route_style === option.route_style)) {
+                          return [...prev, option];
+                        } else {
+                          return prev;
+                        }
+                      });
+                    } else {
+                      setSelectedRoutes(prev => prev.filter(route => route.name !== option.name || route.route_style !== option.route_style));
+                    }
+                  }}
+                />
                 {`${option.name} - ${option.route_style}`}
               </li>
             )}
